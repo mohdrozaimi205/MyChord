@@ -157,7 +157,7 @@
     <string name="acc_expired">Session expired. Please sign in again in Settings → Accounts.</string>
     <string name="login_yt">Sign in to YouTube Music</string>
     <string name="login_sp">Sign in to Spotify</string>
-    <string name="login_yt_note">Sign in on Google's official page. MyChord only keeps the session on this phone. A secondary Google account is recommended.</string>
+    <string name="login_yt_note">Sign in on Google\'s official page. MyChord only keeps the session on this phone. A secondary Google account is recommended.</string>
     <string name="login_sp_note">Sign in with email &amp; password (Google/Facebook buttons may not work here). The session stays on this phone only.</string>
     <string name="login_ok">Signed in: %s</string>
 </resources>
