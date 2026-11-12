@@ -46,8 +46,25 @@ public class MainActivity extends BaseActivity {
             else show(3);
             return true;
         });
-        int start = savedInstanceState != null ? savedInstanceState.getInt("tab", 0) : 0;
-        show(start);
+        int start = savedInstanceState != null ? savedInstanceState.getInt("tab", 0)
+                : getIntent().getIntExtra("tab", 0);
+        int[] navIds = {R.id.tab_home, R.id.tab_search, R.id.tab_library, R.id.tab_settings};
+        show(Math.max(0, Math.min(3, start)));
+        nav.setSelectedItemId(navIds[Math.max(0, Math.min(3, start))]);
+
+        // Ujian automatik: main lagu pertama dari carian
+        String testQuery = getIntent().getStringExtra("testQuery");
+        if (testQuery != null) {
+            App.IO.execute(() -> {
+                try {
+                    java.util.List<Track> r = YtMusic.search(testQuery);
+                    android.util.Log.i("MyChordTest", "carian=" + r.size());
+                    App.MAIN.post(() -> PlayerHub.playList(this, r, 0, false));
+                } catch (Exception e) {
+                    android.util.Log.e("MyChordTest", "carian gagal", e);
+                }
+            });
+        }
 
         if (Build.VERSION.SDK_INT >= 33 && ContextCompat.checkSelfPermission(this,
                 Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
