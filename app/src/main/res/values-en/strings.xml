@@ -170,7 +170,15 @@
     <string name="addon_add_btn">Add</string>
     <string name="addon_add_help">You can paste: a YouTube / YouTube Music playlist link, a Spotify playlist link, a radio stream link (.mp3 / .m3u8), or an addon .json link. The addon appears on Home.</string>
     <string name="addon_added">Addon added: %s</string>
-    <string name="addon_add_fail">Couldn't add addon. Check the link and try again.</string>
+    <string name="addon_add_fail">Couldn\'t add addon. Check the link and try again.</string>
     <string name="addon_custom">Your addon</string>
     <string name="set_share">Share MyChord with friends</string>
+    <string name="theme_laut">Deep Sea</string>
+    <string name="theme_kopi">Coffee</string>
+    <string name="theme_emas">Gold</string>
+    <string name="theme_salji">Snow</string>
+    <string name="icon_neon">Neon</string>
+    <string name="icon_emas">Gold</string>
+    <string name="icon_matcha">Matcha</string>
+    <string name="icon_sakura">Sakura</string>
 </resources>

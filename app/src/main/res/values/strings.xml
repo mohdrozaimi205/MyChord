@@ -173,4 +173,12 @@
     <string name="addon_add_fail">Gagal tambah addon. Semak pautan dan cuba lagi.</string>
     <string name="addon_custom">Addon sendiri</string>
     <string name="set_share">Kongsi MyChord dengan kawan</string>
+    <string name="theme_laut">Laut Dalam</string>
+    <string name="theme_kopi">Kopi</string>
+    <string name="theme_emas">Emas</string>
+    <string name="theme_salji">Salji</string>
+    <string name="icon_neon">Neon</string>
+    <string name="icon_emas">Emas</string>
+    <string name="icon_matcha">Matcha</string>
+    <string name="icon_sakura">Sakura</string>
 </resources>
