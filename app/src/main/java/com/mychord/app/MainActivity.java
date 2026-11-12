@@ -27,6 +27,15 @@ public class MainActivity extends BaseActivity {
         String testTheme = getIntent().getStringExtra("testTheme");
         if (testTheme != null) Prefs.putS("theme", testTheme);
         super.onCreate(savedInstanceState);
+        String testLang = getIntent().getStringExtra("testLang");
+        if (testLang != null && !testLang.equals(Prefs.lang())) {
+            Prefs.putS("lang", testLang);
+            Prefs.putB("langSet", true);
+            AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(testLang));
+        }
+        if (getIntent().getBooleanExtra("testTogether", false)) {
+            App.MAIN.postDelayed(() -> TogetherDialog.show(this, null), 1500);
+        }
         if (getIntent().getBooleanExtra("testPodcast", false)) {
             App.IO.execute(() -> {
                 try {
