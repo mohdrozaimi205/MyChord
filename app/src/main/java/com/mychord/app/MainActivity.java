@@ -84,6 +84,16 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onNewIntent(@androidx.annotation.NonNull android.content.Intent intent) {
+        super.onNewIntent(intent);
+        if (intent.hasExtra("tab")) {
+            int t = Math.max(0, Math.min(3, intent.getIntExtra("tab", 0)));
+            int[] navIds = {R.id.tab_home, R.id.tab_search, R.id.tab_library, R.id.tab_settings};
+            ((BottomNavigationView) findViewById(R.id.nav)).setSelectedItemId(navIds[t]);
+        }
+    }
+
     public void show(int i) {
         if (i == current) return;
         FragmentManager fm = getSupportFragmentManager();
