@@ -157,7 +157,10 @@ public class ListActivity extends BaseActivity {
             empty.setText(emptyRes);
             empty.setVisibility(View.VISIBLE);
         } else empty.setVisibility(View.GONE);
-        if (!MODE_RADIO.equals(mode)) sub.setText(getString(R.string.songs_count, list.size()));
+        boolean counts = !MODE_RADIO.equals(mode) && !MODE_PODCASTS.equals(mode)
+                && !MODE_YTM_LISTS.equals(mode) && !MODE_SP_LISTS.equals(mode);
+        sub.setVisibility(counts ? View.VISIBLE : View.GONE);
+        if (counts) sub.setText(getString(R.string.songs_count, list.size()));
     }
 
     private void load() {
