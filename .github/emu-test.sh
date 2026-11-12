@@ -36,6 +36,13 @@ grep -A40 "FATAL EXCEPTION" shots/logcat.txt | head -120
 echo "=====TEST====="
 grep -E "MyChordTest|ExoPlayerImpl|PlaybackException|MediaCodec.*audio" shots/logcat.txt | head -40
 grep -iE "Caused by" shots/logcat.txt | grep -v gms | head -20
+echo "=====KACA====="
+adb shell am force-stop $P
+adb shell am start -n $P/.MainActivity --es testTheme kaca --ez testPodcast true; shot 19-kaca 20
+adb shell am start -n $P/.MainActivity --ei tab 3; shot 20-kaca-tetapan 4
+adb shell am start -n $P/.ListActivity --es mode podcasts; shot 21-kaca-podcast 8
+adb logcat -d | grep -E "MyChordTest" | tail -6
+adb logcat -d | grep -A12 "FATAL EXCEPTION" | head -40
 echo "=====SWIPE====="
 adb shell am start -n $P/.PlayerActivity; sleep 5
 adb shell dumpsys activity activities | grep -m1 -E "topResumedActivity" 

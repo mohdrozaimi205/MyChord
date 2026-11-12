@@ -24,7 +24,26 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        String testTheme = getIntent().getStringExtra("testTheme");
+        if (testTheme != null) Prefs.putS("theme", testTheme);
         super.onCreate(savedInstanceState);
+        if (getIntent().getBooleanExtra("testPodcast", false)) {
+            App.IO.execute(() -> {
+                try {
+                    java.util.List<Track> top = PodcastApi.top("my", "MY");
+                    android.util.Log.i("MyChordTest", "podcast=" + top.size());
+                    java.util.List<Track> eps = PodcastApi.episodes(top.get(0).mediaId.substring(4));
+                    android.util.Log.i("MyChordTest", "episod=" + eps.size() + " " + (eps.isEmpty() ? "" : eps.get(0).mediaId));
+                    Signature sig = new Signature();
+                    short[] buf = new short[16000];
+                    for (int i = 0; i < buf.length; i++) buf[i] = (short) (Math.sin(i * 0.2) * 8000 + Math.sin(i * 0.05) * 6000);
+                    for (int k = 0; k < 5; k++) sig.add(buf, buf.length);
+                    android.util.Log.i("MyChordTest", "sig=" + sig.encode().length + " shazam=" + (Shazam.lookup(sig.encode(), sig.durationMs()) == null ? "tiada padanan (dijangka)" : "padan"));
+                } catch (Throwable e) {
+                    android.util.Log.e("MyChordTest", "ujian gagal", e);
+                }
+            });
+        }
         if (!Prefs.getB("langSet", false)) {
             Prefs.putB("langSet", true);
             Prefs.putS("lang", "ms");
