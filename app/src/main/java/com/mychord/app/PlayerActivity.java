@@ -127,7 +127,8 @@ public class PlayerActivity extends BaseActivity implements Player.Listener {
         likeBtn.setOnClickListener(v -> {
             MediaController c = PlayerHub.get();
             if (c == null || c.getCurrentMediaItem() == null) return;
-            Store.toggleLike(Track.fromMediaItem(c.getCurrentMediaItem()));
+            Track cur = Track.fromMediaItem(c.getCurrentMediaItem());
+            YtmAccount.syncLike(cur, Store.toggleLike(cur));
             refreshLike();
         });
         seek.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {

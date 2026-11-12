@@ -51,6 +51,7 @@ public class HomeFragment extends Fragment {
         recentList.setAdapter(recentAdapter);
         shelves.addView(recentShelf);
 
+        if (YtmAccount.loggedIn()) addAccountShelf(inf, shelves);
         for (int i = 0; i < SHELF_TITLES.length; i++) addShelf(inf, shelves, SHELF_TITLES[i], SHELF_QUERIES[i]);
         return root;
     }
@@ -59,12 +60,36 @@ public class HomeFragment extends Fragment {
         final TrackAdapter[] ref = new TrackAdapter[1];
         ref[0] = new TrackAdapter(new TrackAdapter.Listener() {
             @Override
-            public void onClick(int pos) { PlayerHub.playList(requireActivity(), ref[0].items, pos, false); }
+            public void onClick(int pos) { Nav.open(requireActivity(), ref[0].items, pos); }
 
             @Override
             public void onMore(View anchor, int pos) { TrackMenu.show(requireActivity(), anchor, ref[0].items.get(pos), null); }
         }, true);
         return ref[0];
+    }
+
+    private void addAccountShelf(LayoutInflater inf, LinearLayout parent) {
+        View shelf = inf.inflate(R.layout.view_shelf, parent, false);
+        ((TextView) shelf.findViewById(R.id.shelfTitle)).setText(R.string.acc_for_you);
+        ProgressBar pb = shelf.findViewById(R.id.shelfProgress);
+        RecyclerView rv = shelf.findViewById(R.id.shelfList);
+        rv.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+        TrackAdapter ad = cardAdapter();
+        rv.setAdapter(ad);
+        parent.addView(shelf);
+        App.IO.execute(() -> {
+            try {
+                List<Track> r = YtmAccount.home();
+                App.MAIN.post(() -> {
+                    if (!isAdded()) return;
+                    pb.setVisibility(View.GONE);
+                    ad.set(r.size() > 24 ? r.subList(0, 24) : r);
+                    if (r.isEmpty()) shelf.setVisibility(View.GONE);
+                });
+            } catch (Exception e) {
+                App.MAIN.post(() -> { if (isAdded()) shelf.setVisibility(View.GONE); });
+            }
+        });
     }
 
     private void addShelf(LayoutInflater inf, LinearLayout parent, int title, String query) {

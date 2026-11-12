@@ -83,7 +83,38 @@ public class LibraryFragment extends Fragment {
                 .show();
     }
 
+    private void refreshAccounts() {
+        View v = getView();
+        if (v == null) return;
+        LinearLayout box = v.findViewById(R.id.libAccounts);
+        box.removeAllViews();
+        LayoutInflater inf = LayoutInflater.from(getContext());
+        if (YtmAccount.loggedIn()) {
+            String n = YtmAccount.name();
+            box.addView(row(inf, box, R.drawable.ic_remote, getString(R.string.acc_for_you), "YouTube Music" + (n.isEmpty() ? "" : " • " + n),
+                    x -> open(ListActivity.MODE_YTM_HOME, null)));
+            box.addView(row(inf, box, R.drawable.ic_heart_fill, getString(R.string.tile_liked), "YouTube Music",
+                    x -> open(ListActivity.MODE_YTM_LIKED, null)));
+            box.addView(row(inf, box, R.drawable.ic_queue, getString(R.string.acc_my_playlists), "YouTube Music",
+                    x -> open(ListActivity.MODE_YTM_LISTS, null)));
+        } else {
+            box.addView(row(inf, box, R.drawable.ic_remote, getString(R.string.login_yt), getString(R.string.acc_login_sub),
+                    x -> startActivity(new Intent(getContext(), LoginActivity.class).putExtra("service", LoginActivity.YT))));
+        }
+        if (SpotifyAccount.loggedIn()) {
+            String n = SpotifyAccount.name();
+            box.addView(row(inf, box, R.drawable.ic_heart_fill, getString(R.string.tile_liked), "Spotify" + (n.isEmpty() ? "" : " • " + n),
+                    x -> open(ListActivity.MODE_SP_LIKED, null)));
+            box.addView(row(inf, box, R.drawable.ic_queue, getString(R.string.acc_my_playlists), "Spotify",
+                    x -> open(ListActivity.MODE_SP_LISTS, null)));
+        } else {
+            box.addView(row(inf, box, R.drawable.ic_link, getString(R.string.login_sp), getString(R.string.acc_login_sub),
+                    x -> startActivity(new Intent(getContext(), LoginActivity.class).putExtra("service", LoginActivity.SP))));
+        }
+    }
+
     private void refresh() {
+        refreshAccounts();
         if (playlistsBox == null) return;
         playlistsBox.removeAllViews();
         LayoutInflater inf = LayoutInflater.from(getContext());

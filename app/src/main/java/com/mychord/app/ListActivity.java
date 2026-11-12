@@ -26,6 +26,15 @@ public class ListActivity extends BaseActivity {
     public static final String MODE_LOCAL = "local";
     public static final String MODE_PLAYLIST = "playlist";
     public static final String MODE_RADIO = "radio";
+    public static final String MODE_YTM_HOME = "ytm_home";
+    public static final String MODE_YTM_LIKED = "ytm_liked";
+    public static final String MODE_YTM_LISTS = "ytm_lists";
+    public static final String MODE_YTM_PL = "ytm_pl";
+    public static final String MODE_SP_LIKED = "sp_liked";
+    public static final String MODE_SP_LISTS = "sp_lists";
+    public static final String MODE_SP_PL = "sp_pl";
+
+    private boolean isAccount() { return mode.startsWith("ytm_") || mode.startsWith("sp_"); }
 
     private String mode, playlistId;
     private TrackAdapter adapter;
@@ -52,11 +61,12 @@ public class ListActivity extends BaseActivity {
         rv.setLayoutManager(new LinearLayoutManager(this));
         adapter = new TrackAdapter(new TrackAdapter.Listener() {
             @Override
-            public void onClick(int pos) { PlayerHub.playList(ListActivity.this, adapter.items, pos, false); }
+            public void onClick(int pos) { Nav.open(ListActivity.this, adapter.items, pos); }
 
             @Override
             public void onMore(View anchor, int pos) {
                 Track t = adapter.items.get(pos);
+                if (Nav.isContainer(t)) { Nav.open(ListActivity.this, adapter.items, pos); return; }
                 Runnable remove = null;
                 if (MODE_PLAYLIST.equals(mode)) remove = () -> { Store.removeFromPlaylist(playlistId, pos); load(); };
                 else if (MODE_LIKED.equals(mode)) remove = () -> { Store.toggleLike(t); load(); };
@@ -65,8 +75,8 @@ public class ListActivity extends BaseActivity {
         });
         rv.setAdapter(adapter);
 
-        findViewById(R.id.btnPlayAll).setOnClickListener(v -> PlayerHub.playList(this, adapter.items, 0, false));
-        findViewById(R.id.btnShuffle).setOnClickListener(v -> PlayerHub.playList(this, adapter.items, 0, true));
+        findViewById(R.id.btnPlayAll).setOnClickListener(v -> PlayerHub.playList(this, Nav.playable(adapter.items), 0, false));
+        findViewById(R.id.btnShuffle).setOnClickListener(v -> PlayerHub.playList(this, Nav.playable(adapter.items), 0, true));
 
         String title;
         switch (mode) {
@@ -77,9 +87,32 @@ public class ListActivity extends BaseActivity {
                 Store.Playlist p = Store.getPlaylist(playlistId);
                 title = p != null ? p.name : getString(R.string.lib_playlists);
                 break;
+            case MODE_YTM_HOME: title = getString(R.string.acc_for_you); break;
+            case MODE_YTM_LIKED: title = "YouTube Music • " + getString(R.string.tile_liked); break;
+            case MODE_YTM_LISTS: title = "YouTube Music • " + getString(R.string.acc_my_playlists); break;
+            case MODE_SP_LIKED: title = "Spotify • " + getString(R.string.tile_liked); break;
+            case MODE_SP_LISTS: title = "Spotify • " + getString(R.string.acc_my_playlists); break;
+            case MODE_YTM_PL:
+            case MODE_SP_PL:
+                title = getIntent().getStringExtra("title");
+                if (title == null) title = getString(R.string.lib_playlists);
+                break;
             default: title = getString(R.string.tile_liked);
         }
         setupTop(title);
+        final String listTitle = title;
+        if (isAccount() && !MODE_YTM_LISTS.equals(mode) && !MODE_SP_LISTS.equals(mode)) {
+            android.widget.ImageButton act = findViewById(R.id.top).findViewById(R.id.topAction);
+            act.setImageResource(R.drawable.ic_add);
+            act.setVisibility(View.VISIBLE);
+            act.setOnClickListener(v -> {
+                List<Track> songs = Nav.playable(adapter.items);
+                if (songs.isEmpty()) return;
+                Store.createPlaylist(listTitle, songs);
+                android.widget.Toast.makeText(this, R.string.acc_saved, android.widget.Toast.LENGTH_SHORT).show();
+            });
+        }
+        if (MODE_YTM_LISTS.equals(mode) || MODE_SP_LISTS.equals(mode)) findViewById(R.id.listButtons).setVisibility(View.GONE);
 
         if (MODE_RADIO.equals(mode)) {
             findViewById(R.id.listButtons).setVisibility(View.GONE);
@@ -118,8 +151,38 @@ public class ListActivity extends BaseActivity {
             }
             case MODE_LOCAL: loadLocal(); break;
             case MODE_RADIO: loadRadio(""); break;
+            case MODE_YTM_HOME: loadAccount(YtmAccount::home); break;
+            case MODE_YTM_LIKED: loadAccount(YtmAccount::liked); break;
+            case MODE_YTM_LISTS: loadAccount(YtmAccount::playlists); break;
+            case MODE_YTM_PL: loadAccount(() -> YtmAccount.playlist(playlistId)); break;
+            case MODE_SP_LIKED: loadAccount(SpotifyAccount::liked); break;
+            case MODE_SP_LISTS: loadAccount(SpotifyAccount::playlists); break;
+            case MODE_SP_PL: loadAccount(() -> SpotifyAccount.playlist(playlistId)); break;
             default: showList(Store.liked(), R.string.liked_empty);
         }
+    }
+
+    interface Loader { List<Track> load() throws Exception; }
+
+    private void loadAccount(Loader l) {
+        progress.setVisibility(View.VISIBLE);
+        empty.setVisibility(View.GONE);
+        App.IO.execute(() -> {
+            List<Track> list;
+            String err = null;
+            try { list = l.load(); }
+            catch (YtmAccount.AuthException e) { list = null; err = getString(R.string.acc_expired); }
+            catch (Exception e) { list = null; err = getString(R.string.error_net) + "\n" + e.getMessage(); }
+            final List<Track> res = list;
+            final String msg = err;
+            App.MAIN.post(() -> {
+                if (isFinishing()) return;
+                if (res == null) {
+                    showList(new ArrayList<>(), R.string.list_empty);
+                    empty.setText(msg);
+                } else showList(res, R.string.list_empty);
+            });
+        });
     }
 
     private void loadLocal() {

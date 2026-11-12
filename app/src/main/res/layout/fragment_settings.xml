@@ -19,6 +19,9 @@
             android:layout_marginTop="22dp"
             android:text="@string/tab_settings" />
 
+        <TextView style="@style/Txt.Overline" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="22dp" android:text="@string/acc_title" />
+        <LinearLayout android:id="@+id/accountRows" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:orientation="vertical" />
+
         <TextView style="@style/Txt.Overline" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="22dp" android:text="@string/set_theme" />
         <HorizontalScrollView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:scrollbars="none">
             <LinearLayout android:id="@+id/themeRow" android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" />

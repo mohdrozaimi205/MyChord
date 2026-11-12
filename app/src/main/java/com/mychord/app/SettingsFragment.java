@@ -42,6 +42,7 @@ public class SettingsFragment extends Fragment {
         setupQuality(root.findViewById(R.id.qWifi), new int[]{R.id.qWifi0, R.id.qWifi1, R.id.qWifi2}, "qWifi", Prefs.qWifi());
         setupQuality(root.findViewById(R.id.qData), new int[]{R.id.qData0, R.id.qData1, R.id.qData2}, "qData", Prefs.qData());
 
+        buildAccounts();
         LinearLayout more = root.findViewById(R.id.moreRows);
         addRow(inf, more, R.drawable.ic_eq, R.string.set_effects, EffectsActivity.class);
         addRow(inf, more, R.drawable.ic_addon, R.string.set_addons, AddonsActivity.class);
@@ -70,6 +71,47 @@ public class SettingsFragment extends Fragment {
         ((TextView) r.findViewById(R.id.rowTitle)).setText(title);
         r.setOnClickListener(v -> startActivity(new Intent(getContext(), cls)));
         parent.addView(r);
+    }
+
+    private void buildAccounts() {
+        LinearLayout box = root.findViewById(R.id.accountRows);
+        box.removeAllViews();
+        LayoutInflater inf = LayoutInflater.from(getContext());
+        accountRow(inf, box, R.drawable.ic_remote, "YouTube Music", YtmAccount.loggedIn(), YtmAccount.name(), LoginActivity.YT);
+        accountRow(inf, box, R.drawable.ic_link, "Spotify", SpotifyAccount.loggedIn(), SpotifyAccount.name(), LoginActivity.SP);
+    }
+
+    private void accountRow(LayoutInflater inf, LinearLayout parent, int icon, String title, boolean on, String name, String service) {
+        View r = inf.inflate(R.layout.item_row, parent, false);
+        r.setPadding(0, 0, 0, 0);
+        ImageView iv = r.findViewById(R.id.rowIcon);
+        iv.setImageResource(icon);
+        Ui.tint(iv, Ui.attr(requireContext(), R.attr.mcAccent));
+        ((TextView) r.findViewById(R.id.rowTitle)).setText(title);
+        TextView sub = r.findViewById(R.id.rowSub);
+        sub.setVisibility(View.VISIBLE);
+        sub.setText(on ? getString(R.string.acc_logged_as, name.isEmpty() ? "✓" : name) : getString(R.string.acc_not_logged));
+        r.setOnClickListener(v -> {
+            if (on) {
+                new com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
+                        .setTitle(title)
+                        .setMessage(R.string.acc_logout_q)
+                        .setPositiveButton(R.string.acc_logout, (d, w) -> {
+                            if (LoginActivity.YT.equals(service)) YtmAccount.logout(); else SpotifyAccount.logout();
+                            buildAccounts();
+                        })
+                        .setNegativeButton(R.string.cancel, null).show();
+            } else {
+                startActivity(new Intent(getContext(), LoginActivity.class).putExtra("service", service));
+            }
+        });
+        parent.addView(r);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (root != null) buildAccounts();
     }
 
     private void buildThemes() {

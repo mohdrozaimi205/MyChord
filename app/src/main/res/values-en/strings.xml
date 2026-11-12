@@ -145,4 +145,19 @@
     <string name="lang_en">English</string>
     <string name="open_failed">Couldn\'t open</string>
     <string name="nothing_playing">Nothing playing</string>
+    <string name="acc_title">Accounts</string>
+    <string name="acc_for_you">For you</string>
+    <string name="acc_my_playlists">My playlists</string>
+    <string name="acc_login_sub">See your playlists &amp; liked songs</string>
+    <string name="acc_logged_as">Signed in as %s</string>
+    <string name="acc_not_logged">Not signed in — tap to sign in</string>
+    <string name="acc_logout">Sign out</string>
+    <string name="acc_logout_q">Sign out of this account in MyChord?</string>
+    <string name="acc_saved">Saved to Library</string>
+    <string name="acc_expired">Session expired. Please sign in again in Settings → Accounts.</string>
+    <string name="login_yt">Sign in to YouTube Music</string>
+    <string name="login_sp">Sign in to Spotify</string>
+    <string name="login_yt_note">Sign in on Google's official page. MyChord only keeps the session on this phone. A secondary Google account is recommended.</string>
+    <string name="login_sp_note">Sign in with email &amp; password (Google/Facebook buttons may not work here). The session stays on this phone only.</string>
+    <string name="login_ok">Signed in: %s</string>
 </resources>

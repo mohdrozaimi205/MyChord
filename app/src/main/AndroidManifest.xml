@@ -94,6 +94,7 @@
         <activity android:name=".ListActivity" android:exported="false" />
         <activity android:name=".EffectsActivity" android:exported="false" />
         <activity android:name=".AddonsActivity" android:exported="false" />
+        <activity android:name=".LoginActivity" android:exported="false" />
         <activity
             android:name=".SpotifyActivity"
             android:exported="true">

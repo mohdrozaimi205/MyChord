@@ -43,7 +43,7 @@ public class SearchFragment extends Fragment {
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new TrackAdapter(new TrackAdapter.Listener() {
             @Override
-            public void onClick(int pos) { PlayerHub.playList(requireActivity(), adapter.items, pos, false); }
+            public void onClick(int pos) { Nav.open(requireActivity(), adapter.items, pos); }
 
             @Override
             public void onMore(View anchor, int pos) { TrackMenu.show(requireActivity(), anchor, adapter.items.get(pos), null); }

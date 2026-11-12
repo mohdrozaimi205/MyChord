@@ -31,7 +31,7 @@ public class TrackMenu {
                     Toast.makeText(a, R.string.added_queue, Toast.LENGTH_SHORT).show();
                     return true;
                 case 3:
-                    Store.toggleLike(t);
+                    YtmAccount.syncLike(t, Store.toggleLike(t));
                     return true;
                 case 4:
                     pickPlaylist(a, t);

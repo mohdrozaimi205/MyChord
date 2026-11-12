@@ -145,4 +145,19 @@
     <string name="lang_en">English</string>
     <string name="open_failed">Tidak dapat dibuka</string>
     <string name="nothing_playing">Tiada lagu dimainkan</string>
+    <string name="acc_title">Akaun</string>
+    <string name="acc_for_you">Untuk anda</string>
+    <string name="acc_my_playlists">Playlist saya</string>
+    <string name="acc_login_sub">Lihat playlist &amp; lagu disukai anda</string>
+    <string name="acc_logged_as">Log masuk sebagai %s</string>
+    <string name="acc_not_logged">Belum log masuk — tekan untuk log masuk</string>
+    <string name="acc_logout">Log keluar</string>
+    <string name="acc_logout_q">Log keluar dari akaun ini dalam MyChord?</string>
+    <string name="acc_saved">Disimpan ke Pustaka</string>
+    <string name="acc_expired">Sesi tamat. Sila log masuk semula di Tetapan → Akaun.</string>
+    <string name="login_yt">Log masuk YouTube Music</string>
+    <string name="login_sp">Log masuk Spotify</string>
+    <string name="login_yt_note">Log masuk di halaman rasmi Google. MyChord hanya simpan sesi dalam telefon ini. Disyorkan guna akaun Google kedua.</string>
+    <string name="login_sp_note">Log masuk dengan e-mel &amp; kata laluan (butang Google/Facebook mungkin tidak berfungsi di sini). Sesi disimpan dalam telefon ini sahaja.</string>
+    <string name="login_ok">Berjaya log masuk: %s</string>
 </resources>
