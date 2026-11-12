@@ -255,6 +255,138 @@
         <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
     </style>
+    <style name="Theme.MyChord.Laut" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="mcBg">@color/t_laut_mcbg</item>
+        <item name="mcSurface">@color/t_laut_mcsurface</item>
+        <item name="mcSurface2">@color/t_laut_mcsurface2</item>
+        <item name="mcText">@color/t_laut_mctext</item>
+        <item name="mcTextDim">@color/t_laut_mctextdim</item>
+        <item name="mcAccent">@color/t_laut_mcaccent</item>
+        <item name="mcOnAccent">@color/t_laut_mconaccent</item>
+        <item name="colorPrimary">@color/t_laut_colorprimary</item>
+        <item name="colorOnPrimary">@color/t_laut_coloronprimary</item>
+        <item name="colorSecondary">@color/t_laut_colorsecondary</item>
+        <item name="colorPrimaryContainer">@color/t_laut_colorprimarycontainer</item>
+        <item name="colorOnPrimaryContainer">@color/t_laut_coloronprimarycontainer</item>
+        <item name="colorSecondaryContainer">@color/t_laut_colorsecondarycontainer</item>
+        <item name="colorOnSecondaryContainer">@color/t_laut_coloronsecondarycontainer</item>
+        <item name="colorSurface">@color/t_laut_colorsurface</item>
+        <item name="colorSurfaceContainer">@color/t_laut_colorsurfacecontainer</item>
+        <item name="colorSurfaceContainerHigh">@color/t_laut_colorsurfacecontainerhigh</item>
+        <item name="colorOnSurface">@color/t_laut_coloronsurface</item>
+        <item name="colorOnSurfaceVariant">@color/t_laut_coloronsurfacevariant</item>
+        <item name="colorOutline">@color/t_laut_coloroutline</item>
+        <item name="android:colorBackground">@color/t_laut_colorbackground</item>
+        <item name="android:windowBackground">@color/t_laut_windowbackground</item>
+        <item name="android:textColorPrimary">@color/t_laut_textcolorprimary</item>
+        <item name="android:textColorSecondary">@color/t_laut_textcolorsecondary</item>
+        <item name="android:statusBarColor">@color/t_laut_statusbarcolor</item>
+        <item name="android:navigationBarColor">@color/t_laut_navigationbarcolor</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
+    </style>
+    <style name="Theme.MyChord.Kopi" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="mcBg">@color/t_kopi_mcbg</item>
+        <item name="mcSurface">@color/t_kopi_mcsurface</item>
+        <item name="mcSurface2">@color/t_kopi_mcsurface2</item>
+        <item name="mcText">@color/t_kopi_mctext</item>
+        <item name="mcTextDim">@color/t_kopi_mctextdim</item>
+        <item name="mcAccent">@color/t_kopi_mcaccent</item>
+        <item name="mcOnAccent">@color/t_kopi_mconaccent</item>
+        <item name="colorPrimary">@color/t_kopi_colorprimary</item>
+        <item name="colorOnPrimary">@color/t_kopi_coloronprimary</item>
+        <item name="colorSecondary">@color/t_kopi_colorsecondary</item>
+        <item name="colorPrimaryContainer">@color/t_kopi_colorprimarycontainer</item>
+        <item name="colorOnPrimaryContainer">@color/t_kopi_coloronprimarycontainer</item>
+        <item name="colorSecondaryContainer">@color/t_kopi_colorsecondarycontainer</item>
+        <item name="colorOnSecondaryContainer">@color/t_kopi_coloronsecondarycontainer</item>
+        <item name="colorSurface">@color/t_kopi_colorsurface</item>
+        <item name="colorSurfaceContainer">@color/t_kopi_colorsurfacecontainer</item>
+        <item name="colorSurfaceContainerHigh">@color/t_kopi_colorsurfacecontainerhigh</item>
+        <item name="colorOnSurface">@color/t_kopi_coloronsurface</item>
+        <item name="colorOnSurfaceVariant">@color/t_kopi_coloronsurfacevariant</item>
+        <item name="colorOutline">@color/t_kopi_coloroutline</item>
+        <item name="android:colorBackground">@color/t_kopi_colorbackground</item>
+        <item name="android:windowBackground">@color/t_kopi_windowbackground</item>
+        <item name="android:textColorPrimary">@color/t_kopi_textcolorprimary</item>
+        <item name="android:textColorSecondary">@color/t_kopi_textcolorsecondary</item>
+        <item name="android:statusBarColor">@color/t_kopi_statusbarcolor</item>
+        <item name="android:navigationBarColor">@color/t_kopi_navigationbarcolor</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
+    </style>
+    <style name="Theme.MyChord.Emas" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="mcBg">@color/t_emas_mcbg</item>
+        <item name="mcSurface">@color/t_emas_mcsurface</item>
+        <item name="mcSurface2">@color/t_emas_mcsurface2</item>
+        <item name="mcText">@color/t_emas_mctext</item>
+        <item name="mcTextDim">@color/t_emas_mctextdim</item>
+        <item name="mcAccent">@color/t_emas_mcaccent</item>
+        <item name="mcOnAccent">@color/t_emas_mconaccent</item>
+        <item name="colorPrimary">@color/t_emas_colorprimary</item>
+        <item name="colorOnPrimary">@color/t_emas_coloronprimary</item>
+        <item name="colorSecondary">@color/t_emas_colorsecondary</item>
+        <item name="colorPrimaryContainer">@color/t_emas_colorprimarycontainer</item>
+        <item name="colorOnPrimaryContainer">@color/t_emas_coloronprimarycontainer</item>
+        <item name="colorSecondaryContainer">@color/t_emas_colorsecondarycontainer</item>
+        <item name="colorOnSecondaryContainer">@color/t_emas_coloronsecondarycontainer</item>
+        <item name="colorSurface">@color/t_emas_colorsurface</item>
+        <item name="colorSurfaceContainer">@color/t_emas_colorsurfacecontainer</item>
+        <item name="colorSurfaceContainerHigh">@color/t_emas_colorsurfacecontainerhigh</item>
+        <item name="colorOnSurface">@color/t_emas_coloronsurface</item>
+        <item name="colorOnSurfaceVariant">@color/t_emas_coloronsurfacevariant</item>
+        <item name="colorOutline">@color/t_emas_coloroutline</item>
+        <item name="android:colorBackground">@color/t_emas_colorbackground</item>
+        <item name="android:windowBackground">@color/t_emas_windowbackground</item>
+        <item name="android:textColorPrimary">@color/t_emas_textcolorprimary</item>
+        <item name="android:textColorSecondary">@color/t_emas_textcolorsecondary</item>
+        <item name="android:statusBarColor">@color/t_emas_statusbarcolor</item>
+        <item name="android:navigationBarColor">@color/t_emas_navigationbarcolor</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
+    </style>
+    <style name="Theme.MyChord.Salji" parent="Theme.Material3.Light.NoActionBar">
+        <item name="mcBg">@color/t_salji_mcbg</item>
+        <item name="mcSurface">@color/t_salji_mcsurface</item>
+        <item name="mcSurface2">@color/t_salji_mcsurface2</item>
+        <item name="mcText">@color/t_salji_mctext</item>
+        <item name="mcTextDim">@color/t_salji_mctextdim</item>
+        <item name="mcAccent">@color/t_salji_mcaccent</item>
+        <item name="mcOnAccent">@color/t_salji_mconaccent</item>
+        <item name="colorPrimary">@color/t_salji_colorprimary</item>
+        <item name="colorOnPrimary">@color/t_salji_coloronprimary</item>
+        <item name="colorSecondary">@color/t_salji_colorsecondary</item>
+        <item name="colorPrimaryContainer">@color/t_salji_colorprimarycontainer</item>
+        <item name="colorOnPrimaryContainer">@color/t_salji_coloronprimarycontainer</item>
+        <item name="colorSecondaryContainer">@color/t_salji_colorsecondarycontainer</item>
+        <item name="colorOnSecondaryContainer">@color/t_salji_coloronsecondarycontainer</item>
+        <item name="colorSurface">@color/t_salji_colorsurface</item>
+        <item name="colorSurfaceContainer">@color/t_salji_colorsurfacecontainer</item>
+        <item name="colorSurfaceContainerHigh">@color/t_salji_colorsurfacecontainerhigh</item>
+        <item name="colorOnSurface">@color/t_salji_coloronsurface</item>
+        <item name="colorOnSurfaceVariant">@color/t_salji_coloronsurfacevariant</item>
+        <item name="colorOutline">@color/t_salji_coloroutline</item>
+        <item name="android:colorBackground">@color/t_salji_colorbackground</item>
+        <item name="android:windowBackground">@color/t_salji_windowbackground</item>
+        <item name="android:textColorPrimary">@color/t_salji_textcolorprimary</item>
+        <item name="android:textColorSecondary">@color/t_salji_textcolorsecondary</item>
+        <item name="android:statusBarColor">@color/t_salji_statusbarcolor</item>
+        <item name="android:navigationBarColor">@color/t_salji_navigationbarcolor</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
+    </style>
+    <style name="Theme.MyChord.Player" parent="Theme.MyChord.Ember">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
     <style name="ThemeOverlay.MyChord.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
         <item name="colorSurface">?attr/mcSurface</item>
         <item name="colorSurfaceContainerHigh">?attr/mcSurface</item>

@@ -5,11 +5,13 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 
 public class IconSwitcher {
-    public static final String[] IDS = {"ember", "lagun", "malam", "kertas"};
-    public static final String[] ALIASES = {".IconEmber", ".IconLagun", ".IconMalam", ".IconKertas"};
+    public static final String[] IDS = {"ember", "lagun", "malam", "kertas", "neon", "emas", "matcha", "sakura"};
+    public static final String[] ALIASES = {".IconEmber", ".IconLagun", ".IconMalam", ".IconKertas", ".IconNeon", ".IconEmas", ".IconMatcha", ".IconSakura"};
     public static final int[] PREVIEWS = {R.drawable.icon_preview_ember, R.drawable.icon_preview_lagun,
-            R.drawable.icon_preview_malam, R.drawable.icon_preview_kertas};
-    public static final int[] NAMES = {R.string.icon_ember, R.string.icon_lagun, R.string.icon_malam, R.string.icon_kertas};
+            R.drawable.icon_preview_malam, R.drawable.icon_preview_kertas,
+            R.drawable.icon_preview_neon, R.drawable.icon_preview_emas, R.drawable.icon_preview_matcha, R.drawable.icon_preview_sakura};
+    public static final int[] NAMES = {R.string.icon_ember, R.string.icon_lagun, R.string.icon_malam, R.string.icon_kertas,
+            R.string.icon_neon, R.string.icon_emas, R.string.icon_matcha, R.string.icon_sakura};
 
     public static void apply(Context ctx, String id) {
         PackageManager pm = ctx.getPackageManager();

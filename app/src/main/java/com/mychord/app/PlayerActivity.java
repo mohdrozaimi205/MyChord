@@ -7,6 +7,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.VelocityTracker;
+import android.view.ViewConfiguration;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -46,6 +49,13 @@ public class PlayerActivity extends BaseActivity implements Player.Listener {
     private int lyricIndex = -1;
     private TextView sleepChipText;
 
+    // Leret ke bawah untuk tutup
+    private View sheet;
+    private float downX, downY;
+    private boolean swipeAllowed, swiping, closing;
+    private VelocityTracker vt;
+    private int slop;
+
     private final Runnable tick = new Runnable() {
         @Override
         public void run() {
@@ -58,6 +68,9 @@ public class PlayerActivity extends BaseActivity implements Player.Listener {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
+        getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(0x00000000));
+        sheet = ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
+        slop = ViewConfiguration.get(this).getScaledTouchSlop();
         getWindow().setStatusBarColor(0xFF000000);
         getWindow().setNavigationBarColor(0xFF000000);
         bg = findViewById(R.id.pBg);
@@ -398,9 +411,81 @@ public class PlayerActivity extends BaseActivity implements Player.Listener {
         super.onStop();
     }
 
+    private boolean inside(View v, MotionEvent e) {
+        if (v == null || v.getVisibility() != View.VISIBLE) return false;
+        int[] loc = new int[2];
+        v.getLocationOnScreen(loc);
+        float x = e.getRawX(), y = e.getRawY();
+        return x >= loc[0] && x <= loc[0] + v.getWidth() && y >= loc[1] && y <= loc[1] + v.getHeight();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent e) {
+        if (closing) return true;
+        switch (e.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                downX = e.getRawX();
+                downY = e.getRawY();
+                swiping = false;
+                // Jangan ganggu bar masa lagu, atau lirik yang sedang ditatal
+                swipeAllowed = !inside(seek, e) && !(lyricsOn && inside(lyricsScroll, e) && lyricsScroll.getScrollY() > 0);
+                if (vt != null) vt.recycle();
+                vt = VelocityTracker.obtain();
+                vt.addMovement(e);
+                break;
+            case MotionEvent.ACTION_MOVE: {
+                if (vt != null) vt.addMovement(e);
+                float dy = e.getRawY() - downY, dx = e.getRawX() - downX;
+                if (!swiping && swipeAllowed && dy > slop * 2 && dy > Math.abs(dx) * 1.4f) {
+                    swiping = true;
+                    MotionEvent cancel = MotionEvent.obtain(e);
+                    cancel.setAction(MotionEvent.ACTION_CANCEL);
+                    super.dispatchTouchEvent(cancel);
+                    cancel.recycle();
+                }
+                if (swiping) {
+                    float t = Math.max(0, dy);
+                    sheet.setTranslationY(t);
+                    float r = 1f - Math.min(1f, t / (float) sheet.getHeight());
+                    sheet.setAlpha(0.4f + 0.6f * r);
+                    float sc = 1f - 0.06f * (1f - r);
+                    sheet.setScaleX(sc);
+                    sheet.setScaleY(sc);
+                    return true;
+                }
+                break;
+            }
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                if (swiping) {
+                    swiping = false;
+                    float dy = e.getRawY() - downY;
+                    float vy = 0;
+                    if (vt != null) {
+                        vt.addMovement(e);
+                        vt.computeCurrentVelocity(1000);
+                        vy = vt.getYVelocity();
+                    }
+                    if (dy > sheet.getHeight() * 0.22f || vy > 1400) {
+                        closing = true;
+                        sheet.animate().translationY(sheet.getHeight()).alpha(0.3f).setDuration(180)
+                                .withEndAction(() -> {
+                                    super.finish();
+                                    overridePendingTransition(0, 0);
+                                }).start();
+                    } else {
+                        sheet.animate().translationY(0).alpha(1f).scaleX(1f).scaleY(1f).setDuration(200).start();
+                    }
+                    return true;
+                }
+                break;
+        }
+        return super.dispatchTouchEvent(e);
+    }
+
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.stay, R.anim.slide_down);
+        if (!closing) overridePendingTransition(R.anim.stay, R.anim.slide_down);
     }
 }

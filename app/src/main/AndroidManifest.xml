@@ -87,10 +87,59 @@
             </intent-filter>
         </activity-alias>
 
+        <activity-alias
+            android:name=".IconNeon"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_neon"
+            android:roundIcon="@mipmap/ic_launcher_neon"
+            android:targetActivity=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".IconEmas"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_emas"
+            android:roundIcon="@mipmap/ic_launcher_emas"
+            android:targetActivity=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".IconMatcha"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_matcha"
+            android:roundIcon="@mipmap/ic_launcher_matcha"
+            android:targetActivity=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".IconSakura"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_sakura"
+            android:roundIcon="@mipmap/ic_launcher_sakura"
+            android:targetActivity=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
         <activity
             android:name=".PlayerActivity"
             android:exported="false"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.MyChord.Player" />
         <activity android:name=".ListActivity" android:exported="false" />
         <activity android:name=".EffectsActivity" android:exported="false" />
         <activity android:name=".AddonsActivity" android:exported="false" />
