@@ -429,6 +429,7 @@ public class PlayerActivity extends BaseActivity implements Player.Listener {
                 swiping = false;
                 // Jangan ganggu bar masa lagu, atau lirik yang sedang ditatal
                 swipeAllowed = !inside(seek, e) && !(lyricsOn && inside(lyricsScroll, e) && lyricsScroll.getScrollY() > 0);
+                android.util.Log.d("MyChordSwipe", "down y=" + downY + " allowed=" + swipeAllowed);
                 if (vt != null) vt.recycle();
                 vt = VelocityTracker.obtain();
                 vt.addMovement(e);
@@ -438,6 +439,7 @@ public class PlayerActivity extends BaseActivity implements Player.Listener {
                 float dy = e.getRawY() - downY, dx = e.getRawX() - downX;
                 if (!swiping && swipeAllowed && dy > slop * 2 && dy > Math.abs(dx) * 1.4f) {
                     swiping = true;
+                    android.util.Log.d("MyChordSwipe", "mula leret dy=" + dy);
                     MotionEvent cancel = MotionEvent.obtain(e);
                     cancel.setAction(MotionEvent.ACTION_CANCEL);
                     super.dispatchTouchEvent(cancel);
@@ -466,6 +468,7 @@ public class PlayerActivity extends BaseActivity implements Player.Listener {
                         vt.computeCurrentVelocity(1000);
                         vy = vt.getYVelocity();
                     }
+                    android.util.Log.d("MyChordSwipe", "lepas dy=" + dy + " vy=" + vy + " h=" + sheet.getHeight());
                     if (dy > sheet.getHeight() * 0.22f || vy > 1400) {
                         closing = true;
                         sheet.animate().translationY(sheet.getHeight()).alpha(0.3f).setDuration(180)
