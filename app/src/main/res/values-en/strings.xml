@@ -14,7 +14,7 @@
     <string name="tile_local">On this device</string>
     <string name="tile_local_sub">FLAC • Lossless</string>
     <string name="tile_spotify">Spotify</string>
-    <string name="tile_spotify_sub">Import & control</string>
+    <string name="tile_spotify_sub">Import &amp; control</string>
     <string name="tile_radio">Radio</string>
     <string name="tile_radio_sub">Malaysian stations</string>
     <string name="shelf_recent">Recently played</string>

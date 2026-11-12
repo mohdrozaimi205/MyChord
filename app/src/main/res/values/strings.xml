@@ -14,7 +14,7 @@
     <string name="tile_local">Lagu peranti</string>
     <string name="tile_local_sub">FLAC • Lossless</string>
     <string name="tile_spotify">Spotify</string>
-    <string name="tile_spotify_sub">Import & kawal</string>
+    <string name="tile_spotify_sub">Import &amp; kawal</string>
     <string name="tile_radio">Radio</string>
     <string name="tile_radio_sub">Stesen Malaysia</string>
     <string name="shelf_recent">Baru dimainkan</string>
