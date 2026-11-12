@@ -94,6 +94,11 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    public void selectTab(int t) {
+        int[] navIds = {R.id.tab_home, R.id.tab_search, R.id.tab_library, R.id.tab_settings};
+        ((BottomNavigationView) findViewById(R.id.nav)).setSelectedItemId(navIds[Math.max(0, Math.min(3, t))]);
+    }
+
     public void show(int i) {
         if (i == current) return;
         FragmentManager fm = getSupportFragmentManager();

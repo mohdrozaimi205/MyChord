@@ -41,6 +41,29 @@ public class AddonsActivity extends BaseActivity {
             });
         }));
 
+        android.widget.EditText url = findViewById(R.id.addonUrl);
+        View prog = findViewById(R.id.addonProgress);
+        findViewById(R.id.addonAdd).setOnClickListener(v -> {
+            String in = url.getText().toString().trim();
+            if (in.isEmpty()) return;
+            prog.setVisibility(View.VISIBLE);
+            App.IO.execute(() -> {
+                String name = null;
+                try { name = CustomAddons.add(in); } catch (Throwable ignored) { }
+                final String n = name;
+                App.MAIN.post(() -> {
+                    prog.setVisibility(View.GONE);
+                    if (n != null) {
+                        url.setText("");
+                        Toast.makeText(this, getString(R.string.addon_added, n), Toast.LENGTH_LONG).show();
+                        load();
+                    } else Toast.makeText(this, R.string.addon_add_fail, Toast.LENGTH_LONG).show();
+                });
+            });
+        });
+        String shared = getIntent().getStringExtra(android.content.Intent.EXTRA_TEXT);
+        if (shared != null) url.setText(shared);
+
         RecyclerView rv = findViewById(R.id.addonList);
         rv.setLayoutManager(new LinearLayoutManager(this));
         adapter = new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -59,6 +82,14 @@ public class AddonsActivity extends BaseActivity {
                 ((TextView) v.findViewById(R.id.addonName)).setText(a.title());
                 ((TextView) v.findViewById(R.id.addonDesc)).setText(a.about());
                 MaterialButton btn = v.findViewById(R.id.addonBtn);
+                if (a.custom) {
+                    btn.setText(R.string.addon_remove);
+                    btn.setOnClickListener(x -> {
+                        CustomAddons.remove(a.id);
+                        load();
+                    });
+                    return;
+                }
                 boolean on = AddonManager.installed(a.id);
                 btn.setText(on ? R.string.addon_remove : R.string.addon_install);
                 btn.setOnClickListener(x -> {
@@ -76,7 +107,16 @@ public class AddonsActivity extends BaseActivity {
 
     private void load() {
         App.IO.execute(() -> {
-            List<AddonManager.Addon> list = AddonManager.catalog();
+            List<AddonManager.Addon> list = new ArrayList<>();
+            for (org.json.JSONObject o : CustomAddons.all()) {
+                AddonManager.Addon a = new AddonManager.Addon();
+                a.id = o.optString("id");
+                a.name = a.nameEn = o.optString("name");
+                a.desc = a.descEn = getString(R.string.addon_custom) + " • " + o.optString("desc");
+                a.custom = true;
+                list.add(a);
+            }
+            list.addAll(AddonManager.catalog());
             App.MAIN.post(() -> {
                 items.clear();
                 items.addAll(list);

@@ -24,6 +24,7 @@ public class AddonManager {
     public static class Addon {
         public String id, name, nameEn, desc, descEn, version;
         public boolean auto;
+        public boolean custom;
 
         public String title() { return isEn() ? nameEn : name; }
         public String about() { return isEn() ? descEn : desc; }

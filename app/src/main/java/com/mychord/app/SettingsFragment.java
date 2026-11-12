@@ -47,6 +47,14 @@ public class SettingsFragment extends Fragment {
         addRow(inf, more, R.drawable.ic_eq, R.string.set_effects, EffectsActivity.class);
         addRow(inf, more, R.drawable.ic_addon, R.string.set_addons, AddonsActivity.class);
         addRow(inf, more, R.drawable.ic_link, R.string.set_spotify, SpotifyActivity.class);
+        View share = inf.inflate(R.layout.item_row, more, false);
+        share.setPadding(0, 0, 0, 0);
+        ImageView si = share.findViewById(R.id.rowIcon);
+        si.setImageResource(R.drawable.ic_share);
+        Ui.tint(si, Ui.attr(requireContext(), R.attr.mcAccent));
+        ((TextView) share.findViewById(R.id.rowTitle)).setText(R.string.set_share);
+        share.setOnClickListener(v -> ShareUtil.shareApp(requireActivity()));
+        more.addView(share);
 
         ((TextView) root.findViewById(R.id.aboutText)).setText(getString(R.string.about_text, BuildConfigInfo.version(requireContext())));
         return root;

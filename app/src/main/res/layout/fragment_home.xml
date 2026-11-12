@@ -9,21 +9,45 @@
         android:orientation="vertical"
         android:paddingBottom="16dp">
 
-        <TextView
-            android:id="@+id/greet"
-            style="@style/Txt.Overline"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="22dp" />
+            android:layout_marginTop="22dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="12dp">
 
-        <TextView
-            style="@style/Txt.Huge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="2dp"
-            android:text="@string/home_title" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/greet"
+                    style="@style/Txt.Overline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    style="@style/Txt.Huge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/home_title" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/homeShare"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:background="@drawable/bg_pill"
+                android:contentDescription="@string/share_app"
+                android:padding="11dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_share" />
+        </LinearLayout>
 
         <GridLayout
             android:id="@+id/tiles"

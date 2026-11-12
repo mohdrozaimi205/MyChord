@@ -20,6 +20,8 @@ adb shell am start -n $P/.LoginActivity --es service yt; shot 12-login-yt 10
 adb shell am start -n $P/.LoginActivity --es service sp; shot 13-login-sp 10
 adb shell am start -n $P/.ListActivity --es mode ytm_liked; shot 14-ytm-liked 6
 adb shell am start -n $P/.ListActivity --es mode sp_lists; shot 15-sp-lists 6
+adb shell am start -n $P/.AddonsActivity --es android.intent.extra.TEXT "https://www.youtube.com/playlist?list=PLFgquLnL59alCl_2TQvOiD5Vgm1hCaGSI"; shot 16-addon-tambah 4
+adb shell input keyevent 4
 adb shell am force-stop $P
 adb shell am start -n $P/.MainActivity --es testQuery "siti nurhaliza"; shot 10-main 30
 adb shell am start -n $P/.PlayerActivity; shot 11-pemain 8

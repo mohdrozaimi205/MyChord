@@ -160,4 +160,17 @@
     <string name="login_yt_note">Log masuk di halaman rasmi Google. MyChord hanya simpan sesi dalam telefon ini. Disyorkan guna akaun Google kedua.</string>
     <string name="login_sp_note">Log masuk dengan e-mel &amp; kata laluan (butang Google/Facebook mungkin tidak berfungsi di sini). Sesi disimpan dalam telefon ini sahaja.</string>
     <string name="login_ok">Berjaya log masuk: %s</string>
+    <string name="home_login_title">Sync lagu YouTube Music &amp; Spotify</string>
+    <string name="home_login_sub">Log masuk di Tetapan → Akaun untuk lihat lagu anda di sini</string>
+    <string name="share_app">Kongsi MyChord</string>
+    <string name="share_preparing">Menyediakan fail…</string>
+    <string name="share_text">Cuba MyChord — app muzik YouTube Music tanpa iklan, import Spotify, FLAC, tema &amp; addon. Pasang fail APK yang dilampirkan.</string>
+    <string name="addon_add_title">Tambah addon baharu</string>
+    <string name="addon_add_hint">Tampal pautan addon…</string>
+    <string name="addon_add_btn">Tambah</string>
+    <string name="addon_add_help">Boleh tampal: pautan playlist YouTube / YouTube Music, pautan playlist Spotify, pautan strim radio (.mp3 / .m3u8), atau pautan fail addon .json. Addon akan muncul di muka Utama.</string>
+    <string name="addon_added">Addon ditambah: %s</string>
+    <string name="addon_add_fail">Gagal tambah addon. Semak pautan dan cuba lagi.</string>
+    <string name="addon_custom">Addon sendiri</string>
+    <string name="set_share">Kongsi MyChord dengan kawan</string>
 </resources>

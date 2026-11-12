@@ -160,4 +160,17 @@
     <string name="login_yt_note">Sign in on Google\'s official page. MyChord only keeps the session on this phone. A secondary Google account is recommended.</string>
     <string name="login_sp_note">Sign in with email &amp; password (Google/Facebook buttons may not work here). The session stays on this phone only.</string>
     <string name="login_ok">Signed in: %s</string>
+    <string name="home_login_title">Sync YouTube Music &amp; Spotify songs</string>
+    <string name="home_login_sub">Sign in at Settings → Accounts to see your music here</string>
+    <string name="share_app">Share MyChord</string>
+    <string name="share_preparing">Preparing file…</string>
+    <string name="share_text">Try MyChord — ad-free YouTube Music player with Spotify import, FLAC, themes &amp; addons. Install the attached APK.</string>
+    <string name="addon_add_title">Add a new addon</string>
+    <string name="addon_add_hint">Paste an addon link…</string>
+    <string name="addon_add_btn">Add</string>
+    <string name="addon_add_help">You can paste: a YouTube / YouTube Music playlist link, a Spotify playlist link, a radio stream link (.mp3 / .m3u8), or an addon .json link. The addon appears on Home.</string>
+    <string name="addon_added">Addon added: %s</string>
+    <string name="addon_add_fail">Couldn't add addon. Check the link and try again.</string>
+    <string name="addon_custom">Your addon</string>
+    <string name="set_share">Share MyChord with friends</string>
 </resources>
