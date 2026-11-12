@@ -93,12 +93,12 @@ public class PlaybackService extends MediaSessionService {
     @Override
     public void onCreate() {
         super.onCreate();
-        DataSource.Factory http = new DefaultHttpDataSource.Factory()
+        DefaultHttpDataSource.Factory http = new DefaultHttpDataSource.Factory()
                 .setUserAgent(OkDownloader.UA)
                 .setAllowCrossProtocolRedirects(true)
                 .setConnectTimeoutMs(15000)
                 .setReadTimeoutMs(20000);
-        DataSource.Factory base = new DefaultDataSource.Factory(this, http);
+        DataSource.Factory base = new DefaultDataSource.Factory(this, new ChunkedDataSource.Factory(http));
         DataSource.Factory resolving = new ResolvingDataSource.Factory(base, Resolver::resolve);
 
         AudioAttributes attrs = new AudioAttributes.Builder()
@@ -111,6 +111,10 @@ public class PlaybackService extends MediaSessionService {
                 .setAudioAttributes(attrs, true)
                 .setHandleAudioBecomingNoisy(true)
                 .setWakeMode(C.WAKE_MODE_NETWORK)
+                .setLoadControl(new androidx.media3.exoplayer.DefaultLoadControl.Builder()
+                        // simpan sehingga 2 minit lagu ke depan; mula main selepas 2 s, sambung selepas 4 s
+                        .setBufferDurationsMs(30_000, 120_000, 2_000, 4_000)
+                        .build())
                 .build();
 
         Effects.attach(this, player.getAudioSessionId());
