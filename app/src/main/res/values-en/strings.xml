@@ -235,4 +235,13 @@
     <string name="preset_acoustic">Acoustic</string>
     <string name="preset_electronic">Electronic</string>
     <string name="preset_classical">Classical</string>
+    <string name="upd_check">Check for updates</string>
+    <string name="upd_checking">Checking for a new version…</string>
+    <string name="upd_latest">You have the latest version (v%s)</string>
+    <string name="upd_title">New version available: v%s</string>
+    <string name="upd_msg">Update MyChord now? Your settings, likes &amp; sign-ins are kept.</string>
+    <string name="upd_now">Update</string>
+    <string name="upd_later">Later</string>
+    <string name="upd_downloading">Downloading v%s…</string>
+    <string name="upd_allow">Allow MyChord to install apps, then tap Update again.</string>
 </resources>

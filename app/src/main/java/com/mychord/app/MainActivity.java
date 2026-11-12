@@ -96,6 +96,9 @@ public class MainActivity extends BaseActivity {
             requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 7);
         }
 
+        // Semak versi baharu MyChord
+        if (savedInstanceState == null) Updater.check(this, false);
+
         // Semak addon baharu (auto-pasang)
         App.IO.execute(() -> {
             List<String> added = AddonManager.sync();

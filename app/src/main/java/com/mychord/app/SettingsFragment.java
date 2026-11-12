@@ -55,6 +55,17 @@ public class SettingsFragment extends Fragment {
         ((TextView) share.findViewById(R.id.rowTitle)).setText(R.string.set_share);
         share.setOnClickListener(v -> ShareUtil.shareApp(requireActivity()));
         more.addView(share);
+        View upd = inf.inflate(R.layout.item_row, more, false);
+        upd.setPadding(0, 0, 0, 0);
+        ImageView ui = upd.findViewById(R.id.rowIcon);
+        ui.setImageResource(R.drawable.ic_history);
+        Ui.tint(ui, Ui.attr(requireContext(), R.attr.mcAccent));
+        ((TextView) upd.findViewById(R.id.rowTitle)).setText(R.string.upd_check);
+        TextView us = upd.findViewById(R.id.rowSub);
+        us.setVisibility(View.VISIBLE);
+        us.setText("v" + BuildConfigInfo.version(requireContext()));
+        upd.setOnClickListener(v -> Updater.check(requireActivity(), true));
+        more.addView(upd);
 
         ((TextView) root.findViewById(R.id.aboutText)).setText(getString(R.string.about_text, BuildConfigInfo.version(requireContext())));
         return root;
