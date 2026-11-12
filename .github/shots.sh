@@ -2,6 +2,9 @@
 mkdir -p out
 P=com.mychord.app
 adb root || true; sleep 3
+adb shell settings put global hide_error_dialogs 1
+adb shell settings put secure anr_show_background 0
+sleep 20
 adb install -r app/build/outputs/apk/release/app-release.apk
 for p in POST_NOTIFICATIONS RECORD_AUDIO; do adb shell pm grant $P android.permission.$p || true; done
 adb shell settings put global sysui_demo_allowed 1
@@ -10,7 +13,7 @@ adb shell am broadcast -a com.android.systemui.demo -e command clock -e hhmm 094
 adb shell am broadcast -a com.android.systemui.demo -e command battery -e level 92 -e plugged false
 adb shell am broadcast -a com.android.systemui.demo -e command network -e wifi show -e level 4
 adb shell am broadcast -a com.android.systemui.demo -e command notifications -e visible false
-cap() { sleep "$2"; adb exec-out screencap -p > "out/$1.png"; echo "shot $1"; }
+cap() { sleep "$2"; adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS >/dev/null; sleep 1; adb exec-out screencap -p > "out/$1.png"; echo "shot $1"; }
 start() { adb shell am force-stop $P; sleep 1; adb shell am start -n $P/.MainActivity --es testLang en --es testTheme "$1" $2 >/dev/null; }
 # warm-up (bahasa)
 start ember; sleep 8
