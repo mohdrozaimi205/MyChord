@@ -32,3 +32,10 @@ grep -A40 "FATAL EXCEPTION" shots/logcat.txt | head -120
 echo "=====TEST====="
 grep -E "MyChordTest|ExoPlayerImpl|PlaybackException|MediaCodec.*audio" shots/logcat.txt | head -40
 grep -iE "Caused by" shots/logcat.txt | grep -v gms | head -20
+echo "=====SWIPE====="
+adb shell am start -n $P/.PlayerActivity; sleep 5
+adb shell dumpsys activity activities | grep -m1 -E "topResumedActivity" 
+adb shell input swipe 540 500 540 1900 300; sleep 3
+adb shell dumpsys activity activities | grep -m1 -E "topResumedActivity"
+adb shell pidof $P >/dev/null && echo "OK selepas-leret" || echo "MATI selepas-leret"
+adb logcat -d | grep -A30 "FATAL EXCEPTION" | head -60
