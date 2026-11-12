@@ -28,7 +28,9 @@
         </HorizontalScrollView>
 
         <TextView style="@style/Txt.Overline" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="22dp" android:text="@string/set_icon" />
-        <LinearLayout android:id="@+id/iconRow" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:orientation="horizontal" />
+        <HorizontalScrollView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:scrollbars="none">
+            <LinearLayout android:id="@+id/iconRow" android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" />
+        </HorizontalScrollView>
 
         <TextView style="@style/Txt.Overline" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="22dp" android:text="@string/set_lang" />
         <com.google.android.material.chip.ChipGroup
