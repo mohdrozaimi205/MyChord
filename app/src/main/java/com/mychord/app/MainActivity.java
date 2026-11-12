@@ -27,6 +27,12 @@ public class MainActivity extends BaseActivity {
         String testTheme = getIntent().getStringExtra("testTheme");
         if (testTheme != null) Prefs.putS("theme", testTheme);
         super.onCreate(savedInstanceState);
+        if (getIntent().getBooleanExtra("testAddons", false)) {
+            for (String id : new String[]{"autoeq", "normalize", "autoquality", "crossfade", "eqpack"}) AddonManager.setInstalled(id, true);
+            Prefs.putS("autoeqModel", "Samsung Galaxy Buds2 Pro");
+            App.MAIN.postDelayed(() -> android.util.Log.i("MyChordTest", "profil=" + Effects.profiles().size()
+                    + " dp=" + (Effects.dp != null) + " eq=" + (Effects.eq != null) + " kualiti=" + Prefs.currentQuality()), 12000);
+        }
         if (getIntent().getBooleanExtra("testPodcast", false)) {
             App.IO.execute(() -> {
                 try {
