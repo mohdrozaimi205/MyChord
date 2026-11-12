@@ -43,6 +43,13 @@ adb shell am start -n $P/.MainActivity --ei tab 3; shot 20-kaca-tetapan 4
 adb shell am start -n $P/.ListActivity --es mode podcasts; shot 21-kaca-podcast 8
 adb logcat -d | grep -E "MyChordTest" | tail -6
 adb logcat -d | grep -A12 "FATAL EXCEPTION" | head -40
+echo "=====ADDON====="
+adb shell am force-stop $P
+adb shell am start -n $P/.MainActivity --ez testAddons true --es testQuery "hindia"; sleep 25
+adb shell am start -n $P/.EffectsActivity; shot 22-addon-kualiti 6
+adb shell am start -n $P/.AddonsActivity; shot 23-senarai-addon 6
+adb logcat -d | grep -E "MyChordTest" | tail -4
+adb logcat -d | grep -A15 "FATAL EXCEPTION" | head -40
 echo "=====SWIPE====="
 adb shell am start -n $P/.PlayerActivity; sleep 5
 adb shell dumpsys activity activities | grep -m1 -E "topResumedActivity" 
