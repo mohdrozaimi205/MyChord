@@ -1,21 +1,86 @@
 {
   "version": 1,
   "addons": [
-    {"id": "lyrics", "version": "1", "auto": true,
-     "name": "Lirik Segerak", "name_en": "Synced Lyrics",
-     "desc": "Lirik bergerak ikut lagu (dari LRCLIB). Butang Lirik di skrin pemain.",
-     "desc_en": "Lyrics that follow the song (from LRCLIB). Lyrics button on the player."},
-    {"id": "radio", "version": "1", "auto": true,
-     "name": "Radio Malaysia & Dunia", "name_en": "Malaysia & World Radio",
-     "desc": "Ratusan stesen radio internet. Muncul di skrin Utama.",
-     "desc_en": "Hundreds of internet radio stations. Appears on Home."},
-    {"id": "themes", "version": "1", "auto": true,
-     "name": "Pek Tema", "name_en": "Theme Pack",
-     "desc": "Buka tema Neon dan Sakura di Tetapan.",
-     "desc_en": "Unlocks the Neon and Sakura themes in Settings."},
-    {"id": "sleep", "version": "1", "auto": true,
-     "name": "Pemasa Tidur", "name_en": "Sleep Timer",
-     "desc": "Henti muzik sendiri selepas 15–90 minit.",
-     "desc_en": "Stops the music after 15–90 minutes."}
+    {
+      "id": "lyrics",
+      "version": "1",
+      "auto": true,
+      "name": "Lirik Segerak",
+      "name_en": "Synced Lyrics",
+      "desc": "Lirik bergerak ikut lagu (dari LRCLIB). Butang Lirik di skrin pemain.",
+      "desc_en": "Lyrics that follow the song (from LRCLIB). Lyrics button on the player."
+    },
+    {
+      "id": "radio",
+      "version": "1",
+      "auto": true,
+      "name": "Radio Malaysia & Dunia",
+      "name_en": "Malaysia & World Radio",
+      "desc": "Ratusan stesen radio internet. Muncul di skrin Utama.",
+      "desc_en": "Hundreds of internet radio stations. Appears on Home."
+    },
+    {
+      "id": "themes",
+      "version": "1",
+      "auto": true,
+      "name": "Pek Tema",
+      "name_en": "Theme Pack",
+      "desc": "Buka tema Neon dan Sakura di Tetapan.",
+      "desc_en": "Unlocks the Neon and Sakura themes in Settings."
+    },
+    {
+      "id": "sleep",
+      "version": "1",
+      "auto": true,
+      "name": "Pemasa Tidur",
+      "name_en": "Sleep Timer",
+      "desc": "Henti muzik sendiri selepas 15–90 minit.",
+      "desc_en": "Stops the music after 15–90 minutes."
+    },
+    {
+      "id": "autoeq",
+      "version": "1",
+      "auto": false,
+      "name": "Pembetul Bunyi Earphone (AutoEq)",
+      "name_en": "Earphone Sound Correction (AutoEq)",
+      "desc": "Pilih model earphone/headphone anda — bunyi diseimbangkan ikut ukuran makmal (45 model). Kesan Bunyi → Addon kualiti.",
+      "desc_en": "Pick your earphone/headphone model — sound is corrected using lab measurements (45 models). Sound effects → Quality add-ons."
+    },
+    {
+      "id": "normalize",
+      "version": "1",
+      "auto": false,
+      "name": "Kelantangan Seimbang",
+      "name_en": "Volume Leveler",
+      "desc": "Semua lagu pada kekuatan yang sama — tiada lagu tiba-tiba terlalu kuat atau perlahan.",
+      "desc_en": "Keeps every song at a similar loudness — no sudden loud or quiet tracks."
+    },
+    {
+      "id": "autoquality",
+      "version": "1",
+      "auto": false,
+      "name": "Kualiti Auto Pintar",
+      "name_en": "Smart Auto Quality",
+      "desc": "Ukur kelajuan internet dan pilih kualiti tertinggi yang tidak tersekat-sekat.",
+      "desc_en": "Checks your connection speed and picks the highest quality that won't stutter."
+    },
+    {
+      "id": "crossfade",
+      "version": "1",
+      "auto": false,
+      "name": "Crossfade & Tanpa Jeda",
+      "name_en": "Crossfade & Gapless",
+      "desc": "Lagu pudar keluar dan masuk dengan lancar (2–10 saat). Album live dimainkan tanpa jeda.",
+      "desc_en": "Songs fade out and in smoothly (2–10 s). Live albums play without gaps."
+    },
+    {
+      "id": "eqpack",
+      "version": "1",
+      "auto": false,
+      "name": "Pek Pratetap EQ",
+      "name_en": "EQ Preset Pack",
+      "desc": "8 pratetap baharu: Dangdut, Rock Kapak, Nasyid, Vokal Jelas, Bass Kereta, Akustik, Elektronik, Klasik.",
+      "desc_en": "8 new presets: Dangdut, Rock Kapak, Nasyid, Clear Vocals, Car Bass, Acoustic, Electronic, Classical."
+    }
   ]
 }
