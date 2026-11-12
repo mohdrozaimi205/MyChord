@@ -40,13 +40,48 @@
 
             <ImageButton
                 android:id="@+id/homeShare"
-                android:layout_width="46dp"
-                android:layout_height="46dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:background="@drawable/bg_pill"
                 android:contentDescription="@string/share_app"
-                android:padding="11dp"
+                android:padding="10dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_share" />
+
+            <ImageButton
+                android:id="@+id/homeRecognize"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/icon_preview_ember"
+                android:contentDescription="@string/rec_title"
+                android:elevation="4dp" />
+
+            <FrameLayout
+                android:id="@+id/homeProfile"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_accent_circle"
+                android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                <ImageView
+                    android:id="@+id/homeProfileIcon"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_person" />
+
+                <TextView
+                    android:id="@+id/homeProfileLetter"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="?attr/mcOnAccent"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+            </FrameLayout>
         </LinearLayout>
 
         <GridLayout

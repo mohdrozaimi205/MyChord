@@ -13,6 +13,7 @@
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <queries>
         <package android:name="com.spotify.music" />
@@ -144,6 +145,7 @@
         <activity android:name=".EffectsActivity" android:exported="false" />
         <activity android:name=".AddonsActivity" android:exported="false" />
         <activity android:name=".LoginActivity" android:exported="false" />
+        <activity android:name=".RecognizeActivity" android:exported="false" />
         <activity
             android:name=".SpotifyActivity"
             android:exported="true">

@@ -45,6 +45,11 @@ public class HomeFragment extends Fragment {
         ((TextView) root.findViewById(R.id.greet)).setText(
                 h < 12 ? R.string.greet_morning : h < 19 ? R.string.greet_afternoon : R.string.greet_evening);
         root.findViewById(R.id.homeShare).setOnClickListener(v -> ShareUtil.shareApp(requireActivity()));
+        root.findViewById(R.id.homeRecognize).setOnClickListener(v -> startActivity(new Intent(getContext(), RecognizeActivity.class)));
+        root.findViewById(R.id.homeProfile).setOnClickListener(v -> {
+            if (getActivity() instanceof MainActivity) ((MainActivity) getActivity()).selectTab(3);
+        });
+        refreshHeader();
         buildTiles();
         buildShelves();
         return root;
@@ -86,6 +91,8 @@ public class HomeFragment extends Fragment {
         for (JSONObject a : CustomAddons.all()) {
             addShelf(shelves, a.optString("name"), () -> CustomAddons.tracks(a), null);
         }
+
+        addShelf(shelves, getString(R.string.pod_shelf), () -> PodcastApi.top("my", "MALAYSIA"), ListActivity.MODE_PODCASTS);
 
         for (int i = 0; i < SHELF_TITLES.length; i++) {
             String q = SHELF_QUERIES[i];
@@ -167,6 +174,9 @@ public class HomeFragment extends Fragment {
             addTile(g, R.drawable.ic_radio, R.string.tile_radio, R.string.tile_radio_sub, ListActivity.MODE_RADIO);
         else
             addTile(g, R.drawable.ic_history, R.string.lib_history, R.string.shelf_recent, ListActivity.MODE_HISTORY);
+        addTile(g, R.drawable.ic_podcast, R.string.pod_title, R.string.pod_sub, ListActivity.MODE_PODCASTS);
+        addTile(g, R.drawable.ic_together, R.string.tg_title,
+                ListenTogether.mode() == ListenTogether.OFF ? R.string.tg_sub : R.string.tg_sub_on, "together");
     }
 
     private void addTile(GridLayout g, int icon, int title, int sub, String mode) {
@@ -185,13 +195,32 @@ public class HomeFragment extends Fragment {
         v.setLayoutParams(lp);
         v.setOnClickListener(x -> {
             if ("spotify".equals(mode)) startActivity(new Intent(getContext(), SpotifyActivity.class));
+            else if ("together".equals(mode)) TogetherDialog.show(requireActivity(), this::buildTiles);
             else startActivity(new Intent(getContext(), ListActivity.class).putExtra("mode", mode));
         });
         g.addView(v);
     }
 
+    private void refreshHeader() {
+        if (root == null) return;
+        root.findViewById(R.id.homeRecognize).setBackgroundResource(IconSwitcher.preview());
+        String name = YtmAccount.loggedIn() ? YtmAccount.name() : SpotifyAccount.loggedIn() ? SpotifyAccount.name() : "";
+        TextView letter = root.findViewById(R.id.homeProfileLetter);
+        ImageView icon = root.findViewById(R.id.homeProfileIcon);
+        Ui.tint(icon, Ui.attr(requireContext(), R.attr.mcOnAccent));
+        if (name != null && !name.isEmpty()) {
+            letter.setText(name.substring(0, 1).toUpperCase());
+            letter.setVisibility(View.VISIBLE);
+            icon.setVisibility(View.GONE);
+        } else {
+            letter.setVisibility(View.GONE);
+            icon.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void checkRebuild() {
         if (root == null) return;
+        refreshHeader();
         if (!state().equals(builtFor)) {
             buildTiles();
             buildShelves();

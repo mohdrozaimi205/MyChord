@@ -9,12 +9,19 @@ import java.util.List;
 /** Tekan item: playlist/album → buka senarai; lagu → main (abaikan item playlist dalam barisan). */
 public class Nav {
     public static boolean isContainer(Track t) {
-        return t.mediaId.startsWith("ytpl:") || t.mediaId.startsWith("sppl:");
+        return t.mediaId.startsWith("ytpl:") || t.mediaId.startsWith("sppl:") || t.mediaId.startsWith("pod:");
     }
 
     public static void open(Activity a, List<Track> list, int pos) {
         if (pos < 0 || pos >= list.size()) return;
         Track t = list.get(pos);
+        if (t.mediaId.startsWith("pod:")) {
+            a.startActivity(new Intent(a, ListActivity.class)
+                    .putExtra("mode", ListActivity.MODE_POD_EPS)
+                    .putExtra("id", t.mediaId.substring(4))
+                    .putExtra("title", t.title));
+            return;
+        }
         if (isContainer(t)) {
             boolean yt = t.mediaId.startsWith("ytpl:");
             a.startActivity(new Intent(a, ListActivity.class)

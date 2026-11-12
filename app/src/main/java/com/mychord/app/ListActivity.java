@@ -33,8 +33,10 @@ public class ListActivity extends BaseActivity {
     public static final String MODE_SP_LIKED = "sp_liked";
     public static final String MODE_SP_LISTS = "sp_lists";
     public static final String MODE_SP_PL = "sp_pl";
+    public static final String MODE_PODCASTS = "podcasts";
+    public static final String MODE_POD_EPS = "pod_eps";
 
-    private boolean isAccount() { return mode.startsWith("ytm_") || mode.startsWith("sp_"); }
+    private boolean isAccount() { return mode.startsWith("ytm_") || mode.startsWith("sp_") || mode.equals(MODE_POD_EPS); }
 
     private String mode, playlistId;
     private TrackAdapter adapter;
@@ -92,8 +94,10 @@ public class ListActivity extends BaseActivity {
             case MODE_YTM_LISTS: title = "YouTube Music • " + getString(R.string.acc_my_playlists); break;
             case MODE_SP_LIKED: title = "Spotify • " + getString(R.string.tile_liked); break;
             case MODE_SP_LISTS: title = "Spotify • " + getString(R.string.acc_my_playlists); break;
+            case MODE_PODCASTS: title = getString(R.string.pod_title); break;
             case MODE_YTM_PL:
             case MODE_SP_PL:
+            case MODE_POD_EPS:
                 title = getIntent().getStringExtra("title");
                 if (title == null) title = getString(R.string.lib_playlists);
                 break;
@@ -114,6 +118,21 @@ public class ListActivity extends BaseActivity {
         }
         if (MODE_YTM_LISTS.equals(mode) || MODE_SP_LISTS.equals(mode)) findViewById(R.id.listButtons).setVisibility(View.GONE);
 
+        if (MODE_PODCASTS.equals(mode)) {
+            findViewById(R.id.listButtons).setVisibility(View.GONE);
+            findViewById(R.id.listSearchBox).setVisibility(View.VISIBLE);
+            EditText et = findViewById(R.id.listSearch);
+            et.setHint(R.string.pod_hint);
+            et.setOnEditorActionListener((tv, id, ev) -> {
+                if (id == EditorInfo.IME_ACTION_SEARCH || (ev != null && ev.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                    String q = tv.getText().toString().trim();
+                    if (q.isEmpty()) loadAccount(ListActivity::podcastsDefault);
+                    else loadAccount(() -> PodcastApi.search(q));
+                    return true;
+                }
+                return false;
+            });
+        }
         if (MODE_RADIO.equals(mode)) {
             findViewById(R.id.listButtons).setVisibility(View.GONE);
             findViewById(R.id.listSearchBox).setVisibility(View.VISIBLE);
@@ -158,11 +177,21 @@ public class ListActivity extends BaseActivity {
             case MODE_SP_LIKED: loadAccount(SpotifyAccount::liked); break;
             case MODE_SP_LISTS: loadAccount(SpotifyAccount::playlists); break;
             case MODE_SP_PL: loadAccount(() -> SpotifyAccount.playlist(playlistId)); break;
+            case MODE_PODCASTS: loadAccount(ListActivity::podcastsDefault); break;
+            case MODE_POD_EPS: loadAccount(() -> PodcastApi.episodes(playlistId)); break;
             default: showList(Store.liked(), R.string.liked_empty);
         }
     }
 
     interface Loader { List<Track> load() throws Exception; }
+
+    static List<Track> podcastsDefault() throws Exception {
+        List<Track> l = new ArrayList<>();
+        try { l.addAll(PodcastApi.top("my", "MALAYSIA")); } catch (Exception ignored) { }
+        try { l.addAll(PodcastApi.top("us", "ANTARABANGSA")); } catch (Exception ignored) { }
+        if (l.isEmpty()) throw new Exception("tiada");
+        return l;
+    }
 
     private void loadAccount(Loader l) {
         progress.setVisibility(View.VISIBLE);

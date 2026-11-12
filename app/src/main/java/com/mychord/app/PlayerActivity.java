@@ -172,7 +172,65 @@ public class PlayerActivity extends BaseActivity implements Player.Listener {
             sleepChipText = c.findViewById(R.id.chipText);
             updateSleepChip();
         }
+        addChip(chips, R.drawable.ic_hq, getString(R.string.q_chip), v -> qualityDialog());
+        View tg = addChip(chips, R.drawable.ic_together, ListenTogether.mode() == ListenTogether.OFF
+                ? getString(R.string.tg_title) : getString(R.string.tg_chip_on, ListenTogether.code()), v -> TogetherDialog.show(this, this::buildChips));
+        addChip(chips, R.drawable.ic_share, getString(R.string.share_song), v -> shareSong());
         addChip(chips, R.drawable.ic_queue, getString(R.string.queue), v -> showQueue());
+    }
+
+    private void qualityDialog() {
+        boolean metered = false;
+        try {
+            android.net.ConnectivityManager cm = (android.net.ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+            metered = cm != null && cm.isActiveNetworkMetered();
+        } catch (Exception ignored) { }
+        final String key = metered ? "qData" : "qWifi";
+        String[] opts = {getString(R.string.q_low) + "  •  ~50–70 kbps", getString(R.string.q_normal) + "  •  ~128 kbps",
+                getString(R.string.q_high) + "  •  ~160–256 kbps"};
+        int cur = Prefs.currentQuality();
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(getString(R.string.q_chip) + " (" + getString(metered ? R.string.q_data : R.string.q_wifi) + ")")
+                .setSingleChoiceItems(opts, cur, (d, w) -> {
+                    d.dismiss();
+                    if (w == cur) return;
+                    Prefs.putI(key, w);
+                    Resolver.clear();
+                    reloadCurrent();
+                    Toast.makeText(this, getString(R.string.q_switched, opts[w].split("  •")[0]), Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton(R.string.cancel, null).show();
+    }
+
+    /** Muat semula lagu semasa pada kedudukan yang sama dengan kualiti baharu */
+    private void reloadCurrent() {
+        MediaController c = PlayerHub.get();
+        if (c == null || c.getCurrentMediaItem() == null) return;
+        MediaItem it = c.getCurrentMediaItem();
+        if (!it.mediaId.startsWith("yt:") && !it.mediaId.startsWith("q:")) return;
+        int idx = c.getCurrentMediaItemIndex();
+        long pos = c.getCurrentPosition();
+        boolean play = c.getPlayWhenReady();
+        Resolver.INFO.remove(it.mediaId);
+        c.removeMediaItem(idx);
+        c.addMediaItem(idx, Track.fromMediaItem(it).toMediaItem());
+        c.seekTo(idx, pos);
+        c.prepare();
+        if (play) c.play();
+        badge.setVisibility(View.INVISIBLE);
+    }
+
+    private void shareSong() {
+        MediaController c = PlayerHub.get();
+        if (c == null || c.getCurrentMediaItem() == null) return;
+        Track t = Track.fromMediaItem(c.getCurrentMediaItem());
+        String link;
+        if (t.mediaId.startsWith("yt:")) link = "https://music.youtube.com/watch?v=" + t.mediaId.substring(3);
+        else link = "https://music.youtube.com/search?q=" + android.net.Uri.encode(t.title + " " + t.artist);
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("text/plain");
+        i.putExtra(Intent.EXTRA_TEXT, "🎵 " + t.title + (t.artist.isEmpty() ? "" : " — " + t.artist) + "\n" + link);
+        startActivity(Intent.createChooser(i, getString(R.string.share_song)));
     }
 
     private View addChip(LinearLayout parent, int icon, String text, View.OnClickListener l) {
@@ -354,8 +412,56 @@ public class PlayerActivity extends BaseActivity implements Player.Listener {
             b = ex != null ? ex.getString("badge", "") : "";
         }
         if (b.isEmpty() && item.mediaId.startsWith("radio:")) b = "LIVE";
+        if (item.mediaId.startsWith("local:") && !Resolver.INFO.containsKey(item.mediaId)) {
+            String id = item.mediaId;
+            Resolver.INFO.put(id, b);
+            App.IO.execute(() -> {
+                String q = localQuality(id.substring(6));
+                if (q != null) {
+                    Resolver.INFO.put(id, q);
+                    App.MAIN.post(() -> { if (!isFinishing()) refreshBadgeFor(id); });
+                }
+            });
+        }
         badge.setVisibility(b.isEmpty() ? View.INVISIBLE : View.VISIBLE);
         badge.setText(b);
+    }
+
+    private void refreshBadgeFor(String id) {
+        MediaController c = PlayerHub.get();
+        if (c != null && c.getCurrentMediaItem() != null && c.getCurrentMediaItem().mediaId.equals(id))
+            refreshBadge(c.getCurrentMediaItem());
+    }
+
+    /** Kualiti sebenar fail dalam telefon, contoh "FLAC • 24-bit / 96 kHz • HI-RES" */
+    private String localQuality(String uri) {
+        android.media.MediaMetadataRetriever r = new android.media.MediaMetadataRetriever();
+        try {
+            r.setDataSource(this, android.net.Uri.parse(uri));
+            String mime = r.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_MIMETYPE);
+            String fmt = mime == null ? "AUDIO" : mime.replace("audio/", "").replace("x-", "").toUpperCase(java.util.Locale.ROOT);
+            int bits = 0, rate = 0;
+            if (Build.VERSION.SDK_INT >= 31) {
+                String b = r.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_BITS_PER_SAMPLE);
+                String sr = r.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_SAMPLERATE);
+                if (b != null) bits = Integer.parseInt(b);
+                if (sr != null) rate = Integer.parseInt(sr);
+            }
+            String br = r.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_BITRATE);
+            boolean lossless = fmt.contains("FLAC") || fmt.contains("WAV") || fmt.contains("ALAC") || fmt.contains("APE");
+            StringBuilder sb = new StringBuilder(fmt);
+            if (bits > 0 && rate > 0) {
+                sb.append(" • ").append(bits).append("-bit / ").append(rate % 1000 == 0 ? (rate / 1000) + "" : String.format(java.util.Locale.US, "%.1f", rate / 1000f)).append(" kHz");
+            } else if (br != null && !lossless) {
+                sb.append(" • ").append(Integer.parseInt(br) / 1000).append(" kbps");
+            }
+            if (lossless) sb.append(bits > 16 || rate > 48000 ? " • HI-RES" : " • LOSSLESS");
+            return sb.toString();
+        } catch (Exception e) {
+            return null;
+        } finally {
+            try { r.release(); } catch (Exception ignored) { }
+        }
     }
 
     private void refreshLike() {

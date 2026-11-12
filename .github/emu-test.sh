@@ -22,6 +22,10 @@ adb shell am start -n $P/.ListActivity --es mode ytm_liked; shot 14-ytm-liked 6
 adb shell am start -n $P/.ListActivity --es mode sp_lists; shot 15-sp-lists 6
 adb shell am start -n $P/.AddonsActivity --es android.intent.extra.TEXT "https://www.youtube.com/playlist?list=PLFgquLnL59alCl_2TQvOiD5Vgm1hCaGSI"; shot 16-addon-tambah 4
 adb shell input keyevent 4
+adb shell pm grant $P android.permission.RECORD_AUDIO || true
+adb shell am start -n $P/.RecognizeActivity; shot 17-kenal 16
+adb shell am start -n $P/.ListActivity --es mode podcasts; shot 18-podcast 10
+adb logcat -d | grep -iE "pod|ListActivity" | grep -iE "exception|error" | head -5
 adb shell am force-stop $P
 adb shell am start -n $P/.MainActivity --es testQuery "siti nurhaliza"; shot 10-main 30
 adb shell am start -n $P/.PlayerActivity; shot 11-pemain 8

@@ -45,6 +45,10 @@ public class PlaybackService extends MediaSessionService {
                     .appendQueryParameter("s", mediaId.substring(2)).build();
         } else if (mediaId.startsWith("local:")) {
             uri = Uri.parse(mediaId.substring(6));
+        } else if (mediaId.startsWith("url:")) {
+            String u = mediaId.substring(4);
+            uri = Uri.parse(u);
+            if (u.contains(".m3u8")) mime = MimeTypes.APPLICATION_M3U8;
         } else if (mediaId.startsWith("radio:")) {
             String u = mediaId.substring(6);
             uri = Uri.parse(u);

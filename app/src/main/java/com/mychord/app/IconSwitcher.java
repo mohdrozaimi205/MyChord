@@ -13,6 +13,12 @@ public class IconSwitcher {
     public static final int[] NAMES = {R.string.icon_ember, R.string.icon_lagun, R.string.icon_malam, R.string.icon_kertas,
             R.string.icon_neon, R.string.icon_emas, R.string.icon_matcha, R.string.icon_sakura};
 
+    public static int preview() {
+        String cur = Prefs.icon();
+        for (int i = 0; i < IDS.length; i++) if (IDS[i].equals(cur)) return PREVIEWS[i];
+        return PREVIEWS[0];
+    }
+
     public static void apply(Context ctx, String id) {
         PackageManager pm = ctx.getPackageManager();
         String pkg = ctx.getPackageName();

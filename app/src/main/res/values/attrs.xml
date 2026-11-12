@@ -6,4 +6,5 @@
     <attr name="mcTextDim" format="color" />
     <attr name="mcAccent" format="color" />
     <attr name="mcOnAccent" format="color" />
+    <attr name="mcStroke" format="color" />
 </resources>
