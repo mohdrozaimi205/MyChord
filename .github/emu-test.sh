@@ -35,7 +35,7 @@ grep -iE "Caused by" shots/logcat.txt | grep -v gms | head -20
 echo "=====SWIPE====="
 adb shell am start -n $P/.PlayerActivity; sleep 5
 adb shell dumpsys activity activities | grep -m1 -E "topResumedActivity" 
-adb shell wm size; adb shell input swipe 540 500 540 1900 300; sleep 3
+adb shell wm size; adb shell input swipe 160 150 160 600 300; sleep 3
 adb logcat -d | grep MyChordSwipe | tail -10
 adb shell dumpsys activity activities | grep -m1 -E "topResumedActivity"
 adb shell pidof $P >/dev/null && echo "OK selepas-leret" || echo "MATI selepas-leret"
