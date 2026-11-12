@@ -30,11 +30,23 @@ public class Prefs {
     public static int qWifi() { return getI("qWifi", 2); }
     public static int qData() { return getI("qData", 1); }
 
+    public static boolean autoQualityOn() { return AddonManager.installed("autoquality") && getB("autoQ", true); }
+
     public static int currentQuality() {
+        boolean metered = false;
+        int kbps = -1;
         try {
             ConnectivityManager cm = (ConnectivityManager) App.get().getSystemService(Context.CONNECTIVITY_SERVICE);
-            if (cm != null && cm.isActiveNetworkMetered()) return qData();
+            if (cm != null) {
+                metered = cm.isActiveNetworkMetered();
+                android.net.NetworkCapabilities nc = cm.getNetworkCapabilities(cm.getActiveNetwork());
+                if (nc != null) kbps = nc.getLinkDownstreamBandwidthKbps();
+            }
         } catch (Exception ignored) { }
-        return qWifi();
+        int user = metered ? qData() : qWifi();
+        if (!autoQualityOn() || kbps <= 0) return user;
+        // Kualiti Auto Pintar: ikut kelajuan rangkaian (data mudah alih tidak melebihi pilihan pengguna)
+        int auto = kbps >= 2500 ? 2 : kbps >= 700 ? 1 : 0;
+        return metered ? Math.min(auto, user) : auto;
     }
 }

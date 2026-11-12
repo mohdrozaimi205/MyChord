@@ -216,4 +216,23 @@
     <string name="share_song">Kongsi lagu</string>
     <string name="theme_kaca">Kaca</string>
     <string name="theme_kacacerah">Kaca Cerah</string>
+    <string name="qa_title">Addon kualiti</string>
+    <string name="qa_autoeq">Pembetul bunyi earphone</string>
+    <string name="qa_autoeq_pick">Tekan untuk pilih model earphone / headphone anda</string>
+    <string name="qa_autoeq_off">Tiada (matikan)</string>
+    <string name="qa_normalize">Kelantangan seimbang</string>
+    <string name="qa_normalize_sub">Semua lagu pada kekuatan yang hampir sama</string>
+    <string name="qa_autoq">Kualiti auto pintar</string>
+    <string name="qa_autoq_sub">Pilih kualiti ikut kelajuan internet. Data mudah alih tidak melebihi tetapan anda.</string>
+    <string name="qa_crossfade">Crossfade</string>
+    <string name="qa_crossfade_sub">Lagu pudar keluar &amp; masuk dengan lancar. Pilih tempoh:</string>
+    <string name="qa_old_android">Pembetul earphone (10 jalur) &amp; kelantangan seimbang penuh perlukan Android 9 ke atas. Pada telefon ini ia guna equalizer biasa.</string>
+    <string name="preset_dangdut">Dangdut</string>
+    <string name="preset_rockkapak">Rock Kapak</string>
+    <string name="preset_nasyid">Nasyid</string>
+    <string name="preset_clearvocal">Vokal Jelas</string>
+    <string name="preset_carbass">Bass Kereta</string>
+    <string name="preset_acoustic">Akustik</string>
+    <string name="preset_electronic">Elektronik</string>
+    <string name="preset_classical">Klasik</string>
 </resources>

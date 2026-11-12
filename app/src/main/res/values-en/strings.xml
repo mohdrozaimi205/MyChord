@@ -216,4 +216,23 @@
     <string name="share_song">Share song</string>
     <string name="theme_kaca">Glass</string>
     <string name="theme_kacacerah">Glass Light</string>
+    <string name="qa_title">Quality add-ons</string>
+    <string name="qa_autoeq">Earphone sound correction</string>
+    <string name="qa_autoeq_pick">Tap to pick your earphone / headphone model</string>
+    <string name="qa_autoeq_off">None (off)</string>
+    <string name="qa_normalize">Volume leveler</string>
+    <string name="qa_normalize_sub">Keeps every song at a similar loudness</string>
+    <string name="qa_autoq">Smart auto quality</string>
+    <string name="qa_autoq_sub">Picks quality by connection speed. Mobile data never exceeds your setting.</string>
+    <string name="qa_crossfade">Crossfade</string>
+    <string name="qa_crossfade_sub">Songs fade out &amp; in smoothly. Pick the length:</string>
+    <string name="qa_old_android">Full 10-band correction &amp; leveler need Android 9+. On this phone the regular equalizer is used.</string>
+    <string name="preset_dangdut">Dangdut</string>
+    <string name="preset_rockkapak">Rock Kapak</string>
+    <string name="preset_nasyid">Nasyid</string>
+    <string name="preset_clearvocal">Clear Vocals</string>
+    <string name="preset_carbass">Car Bass</string>
+    <string name="preset_acoustic">Acoustic</string>
+    <string name="preset_electronic">Electronic</string>
+    <string name="preset_classical">Classical</string>
 </resources>

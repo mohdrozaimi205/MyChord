@@ -44,6 +44,31 @@
                     android:textSize="12sp" />
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/qaTitle"
+                style="@style/Txt.Overline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/qa_title"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/qaBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="vertical" />
+
+            <TextView
+                android:id="@+id/qaNote"
+                style="@style/Txt.Dim"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/qa_old_android"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
             <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/eqSwitch"
                 android:layout_width="match_parent"

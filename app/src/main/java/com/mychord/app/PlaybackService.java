@@ -33,6 +33,27 @@ public class PlaybackService extends MediaSessionService {
     private ExoPlayer player;
     private MediaSession session;
     private int errorStreak = 0;
+    private final android.os.Handler fader = new android.os.Handler(android.os.Looper.getMainLooper());
+    private long fadeInStart = 0;
+    private final Runnable fadeTick = new Runnable() {
+        @Override
+        public void run() {
+            if (player != null) {
+                float vol = 1f;
+                if (AddonManager.installed("crossfade") && Prefs.getB("crossfade", true)) {
+                    long fadeMs = Prefs.getI("crossfadeSec", 4) * 1000L;
+                    long dur = player.getDuration(), pos = player.getCurrentPosition();
+                    if (player.isPlaying() && dur > fadeMs * 2 && player.hasNextMediaItem() && dur - pos < fadeMs) {
+                        vol = Math.max(0.05f, (dur - pos) / (float) fadeMs);
+                    }
+                    long since = System.currentTimeMillis() - fadeInStart;
+                    if (since < fadeMs / 2) vol = Math.min(vol, Math.max(0.1f, since / (fadeMs / 2f)));
+                }
+                if (Math.abs(player.getVolume() - vol) > 0.01f) player.setVolume(vol);
+            }
+            fader.postDelayed(this, 120);
+        }
+    };
     private boolean retried = false;
 
     public static MediaItem buildItem(String mediaId, String title, String artist, String art, String badge) {
@@ -103,6 +124,7 @@ public class PlaybackService extends MediaSessionService {
             @Override
             public void onMediaItemTransition(@Nullable MediaItem item, int reason) {
                 retried = false;
+                if (reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO) fadeInStart = System.currentTimeMillis();
                 if (item != null) Store.addHistory(Track.fromMediaItem(item));
             }
 
@@ -130,6 +152,8 @@ public class PlaybackService extends MediaSessionService {
                 }
             }
         });
+
+        fader.post(fadeTick);
 
         Intent open = new Intent(this, PlayerActivity.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, open,
@@ -174,6 +198,7 @@ public class PlaybackService extends MediaSessionService {
 
     @Override
     public void onDestroy() {
+        fader.removeCallbacksAndMessages(null);
         Effects.release();
         if (session != null) {
             session.release();
