@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/mcBg"
+    android:orientation="vertical">
+
+    <include android:id="@+id/top" layout="@layout/view_topbar" />
+
+    <TextView
+        android:id="@+id/listSub"
+        style="@style/Txt.Dim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp" />
+
+    <LinearLayout
+        android:id="@+id/listSearchBox"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_pill"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:visibility="gone">
+
+        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:alpha="0.7" android:src="@drawable/ic_search" />
+
+        <EditText
+            android:id="@+id/listSearch"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="?attr/mcText"
+            android:textColorHint="?attr/mcTextDim"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/listButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPlayAll"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:text="@string/play_all"
+            android:textColor="?attr/mcOnAccent"
+            app:backgroundTint="?attr/mcAccent"
+            app:icon="@drawable/ic_play"
+            app:iconTint="?attr/mcOnAccent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnShuffle"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginStart="6dp"
+            android:layout_weight="1"
+            android:text="@string/shuffle"
+            android:textColor="?attr/mcText"
+            app:backgroundTint="?attr/mcSurface2"
+            app:icon="@drawable/ic_shuffle"
+            app:iconTint="?attr/mcText" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/listPerm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@drawable/bg_surface"
+        android:orientation="vertical"
+        android:padding="18dp"
+        android:visibility="gone">
+
+        <TextView style="@style/Txt.Body" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/local_perm" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPerm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/local_grant" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/listProgress"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:indeterminateTint="?attr/mcAccent"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/listEmpty"
+        style="@style/Txt.Dim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1" />
+
+    <include
+        android:id="@+id/mini"
+        layout="@layout/view_mini_player"
+        android:visibility="gone" />
+
+    <Space android:layout_width="match_parent" android:layout_height="8dp" />
+</LinearLayout>

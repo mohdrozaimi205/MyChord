@@ -1,0 +1,9 @@
+<resources>
+    <attr name="mcBg" format="color" />
+    <attr name="mcSurface" format="color" />
+    <attr name="mcSurface2" format="color" />
+    <attr name="mcText" format="color" />
+    <attr name="mcTextDim" format="color" />
+    <attr name="mcAccent" format="color" />
+    <attr name="mcOnAccent" format="color" />
+</resources>

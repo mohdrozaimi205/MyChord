@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "addons": [
+    {"id": "lyrics", "version": "1", "auto": true,
+     "name": "Lirik Segerak", "name_en": "Synced Lyrics",
+     "desc": "Lirik bergerak ikut lagu (dari LRCLIB). Butang Lirik di skrin pemain.",
+     "desc_en": "Lyrics that follow the song (from LRCLIB). Lyrics button on the player."},
+    {"id": "radio", "version": "1", "auto": true,
+     "name": "Radio Malaysia & Dunia", "name_en": "Malaysia & World Radio",
+     "desc": "Ratusan stesen radio internet. Muncul di skrin Utama.",
+     "desc_en": "Hundreds of internet radio stations. Appears on Home."},
+    {"id": "themes", "version": "1", "auto": true,
+     "name": "Pek Tema", "name_en": "Theme Pack",
+     "desc": "Buka tema Neon dan Sakura di Tetapan.",
+     "desc_en": "Unlocks the Neon and Sakura themes in Settings."},
+    {"id": "sleep", "version": "1", "auto": true,
+     "name": "Pemasa Tidur", "name_en": "Sleep Timer",
+     "desc": "Henti muzik sendiri selepas 15–90 minit.",
+     "desc_en": "Stops the music after 15–90 minutes."}
+  ]
+}

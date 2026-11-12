@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/mcBg"
+    android:orientation="vertical">
+
+    <include android:id="@+id/top" layout="@layout/view_topbar" />
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/addonAuto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/addons_auto"
+        android:textColor="?attr/mcText"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        style="@style/Txt.Dim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="@string/addons_auto_sub"
+        android:textSize="12sp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addonCheck"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/addons_check" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/addonList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:clipToPadding="false" />
+</LinearLayout>

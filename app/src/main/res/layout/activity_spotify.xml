@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/mcBg"
+    android:orientation="vertical">
+
+    <include android:id="@+id/top" layout="@layout/view_topbar" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="24dp">
+
+            <TextView style="@style/Txt.Overline" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sp_control" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_surface"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/spArt"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/art_placeholder"
+                        app:shapeAppearanceOverlay="@style/Shape.Round12" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView android:id="@+id/spTitle" style="@style/Txt.Body" android:layout_width="match_parent" android:layout_height="wrap_content" android:maxLines="1" android:textStyle="bold" />
+                        <TextView android:id="@+id/spArtist" style="@style/Txt.Dim" android:layout_width="match_parent" android:layout_height="wrap_content" android:maxLines="1" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageButton android:id="@+id/spPrev" android:layout_width="52dp" android:layout_height="52dp" android:background="?attr/selectableItemBackgroundBorderless" android:src="@drawable/ic_prev" />
+                    <ImageButton android:id="@+id/spPlay" android:layout_width="60dp" android:layout_height="60dp" android:layout_marginStart="24dp" android:layout_marginEnd="24dp" android:background="@drawable/bg_accent_circle" android:padding="16dp" android:scaleType="fitCenter" android:src="@drawable/ic_play" />
+                    <ImageButton android:id="@+id/spNext" android:layout_width="52dp" android:layout_height="52dp" android:background="?attr/selectableItemBackgroundBorderless" android:src="@drawable/ic_next" />
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/spOpen"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sp_open" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/spGrant"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sp_grant" />
+            </LinearLayout>
+
+            <TextView style="@style/Txt.Overline" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:text="@string/sp_import" />
+
+            <EditText
+                android:id="@+id/spLink"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_pill"
+                android:hint="@string/sp_import_hint"
+                android:inputType="textUri"
+                android:maxLines="1"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:textColor="?attr/mcText"
+                android:textColorHint="?attr/mcTextDim"
+                android:textSize="14sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/spImport"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/sp_import_btn"
+                android:textColor="?attr/mcOnAccent"
+                app:backgroundTint="?attr/mcAccent" />
+
+            <EditText
+                android:id="@+id/spText"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_surface"
+                android:gravity="top"
+                android:hint="@string/sp_text_hint"
+                android:inputType="textMultiLine"
+                android:padding="16dp"
+                android:textColor="?attr/mcText"
+                android:textColorHint="?attr/mcTextDim"
+                android:textSize="14sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/spTextImport"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/sp_text_btn" />
+
+            <ProgressBar
+                android:id="@+id/spProgress"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="14dp"
+                android:indeterminateTint="?attr/mcAccent"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/spResult"
+                style="@style/Txt.Body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>
