@@ -461,6 +461,138 @@
         <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
     </style>
+    <style name="Theme.MyChord.Flix" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="mcStroke">@android:color/transparent</item>
+        <item name="mcBg">@color/t_flix_mcbg</item>
+        <item name="mcSurface">@color/t_flix_mcsurface</item>
+        <item name="mcSurface2">@color/t_flix_mcsurface2</item>
+        <item name="mcText">@color/t_flix_mctext</item>
+        <item name="mcTextDim">@color/t_flix_mctextdim</item>
+        <item name="mcAccent">@color/t_flix_mcaccent</item>
+        <item name="mcOnAccent">@color/t_flix_mconaccent</item>
+        <item name="colorPrimary">@color/t_flix_colorprimary</item>
+        <item name="colorOnPrimary">@color/t_flix_coloronprimary</item>
+        <item name="colorSecondary">@color/t_flix_colorsecondary</item>
+        <item name="colorPrimaryContainer">@color/t_flix_colorprimarycontainer</item>
+        <item name="colorOnPrimaryContainer">@color/t_flix_coloronprimarycontainer</item>
+        <item name="colorSecondaryContainer">@color/t_flix_colorsecondarycontainer</item>
+        <item name="colorOnSecondaryContainer">@color/t_flix_coloronsecondarycontainer</item>
+        <item name="colorSurface">@color/t_flix_colorsurface</item>
+        <item name="colorSurfaceContainer">@color/t_flix_colorsurfacecontainer</item>
+        <item name="colorSurfaceContainerHigh">@color/t_flix_colorsurfacecontainerhigh</item>
+        <item name="colorOnSurface">@color/t_flix_coloronsurface</item>
+        <item name="colorOnSurfaceVariant">@color/t_flix_coloronsurfacevariant</item>
+        <item name="colorOutline">@color/t_flix_coloroutline</item>
+        <item name="android:colorBackground">@color/t_flix_colorbackground</item>
+        <item name="android:windowBackground">@color/t_flix_windowbackground</item>
+        <item name="android:textColorPrimary">@color/t_flix_textcolorprimary</item>
+        <item name="android:textColorSecondary">@color/t_flix_textcolorsecondary</item>
+        <item name="android:statusBarColor">@color/t_flix_statusbarcolor</item>
+        <item name="android:navigationBarColor">@color/t_flix_navigationbarcolor</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
+    </style>
+    <style name="Theme.MyChord.Ytm" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="mcStroke">@android:color/transparent</item>
+        <item name="mcBg">@color/t_ytm_mcbg</item>
+        <item name="mcSurface">@color/t_ytm_mcsurface</item>
+        <item name="mcSurface2">@color/t_ytm_mcsurface2</item>
+        <item name="mcText">@color/t_ytm_mctext</item>
+        <item name="mcTextDim">@color/t_ytm_mctextdim</item>
+        <item name="mcAccent">@color/t_ytm_mcaccent</item>
+        <item name="mcOnAccent">@color/t_ytm_mconaccent</item>
+        <item name="colorPrimary">@color/t_ytm_colorprimary</item>
+        <item name="colorOnPrimary">@color/t_ytm_coloronprimary</item>
+        <item name="colorSecondary">@color/t_ytm_colorsecondary</item>
+        <item name="colorPrimaryContainer">@color/t_ytm_colorprimarycontainer</item>
+        <item name="colorOnPrimaryContainer">@color/t_ytm_coloronprimarycontainer</item>
+        <item name="colorSecondaryContainer">@color/t_ytm_colorsecondarycontainer</item>
+        <item name="colorOnSecondaryContainer">@color/t_ytm_coloronsecondarycontainer</item>
+        <item name="colorSurface">@color/t_ytm_colorsurface</item>
+        <item name="colorSurfaceContainer">@color/t_ytm_colorsurfacecontainer</item>
+        <item name="colorSurfaceContainerHigh">@color/t_ytm_colorsurfacecontainerhigh</item>
+        <item name="colorOnSurface">@color/t_ytm_coloronsurface</item>
+        <item name="colorOnSurfaceVariant">@color/t_ytm_coloronsurfacevariant</item>
+        <item name="colorOutline">@color/t_ytm_coloroutline</item>
+        <item name="android:colorBackground">@color/t_ytm_colorbackground</item>
+        <item name="android:windowBackground">@color/t_ytm_windowbackground</item>
+        <item name="android:textColorPrimary">@color/t_ytm_textcolorprimary</item>
+        <item name="android:textColorSecondary">@color/t_ytm_textcolorsecondary</item>
+        <item name="android:statusBarColor">@color/t_ytm_statusbarcolor</item>
+        <item name="android:navigationBarColor">@color/t_ytm_navigationbarcolor</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
+    </style>
+    <style name="Theme.MyChord.Disney" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="mcStroke">@android:color/transparent</item>
+        <item name="mcBg">@color/t_disney_mcbg</item>
+        <item name="mcSurface">@color/t_disney_mcsurface</item>
+        <item name="mcSurface2">@color/t_disney_mcsurface2</item>
+        <item name="mcText">@color/t_disney_mctext</item>
+        <item name="mcTextDim">@color/t_disney_mctextdim</item>
+        <item name="mcAccent">@color/t_disney_mcaccent</item>
+        <item name="mcOnAccent">@color/t_disney_mconaccent</item>
+        <item name="colorPrimary">@color/t_disney_colorprimary</item>
+        <item name="colorOnPrimary">@color/t_disney_coloronprimary</item>
+        <item name="colorSecondary">@color/t_disney_colorsecondary</item>
+        <item name="colorPrimaryContainer">@color/t_disney_colorprimarycontainer</item>
+        <item name="colorOnPrimaryContainer">@color/t_disney_coloronprimarycontainer</item>
+        <item name="colorSecondaryContainer">@color/t_disney_colorsecondarycontainer</item>
+        <item name="colorOnSecondaryContainer">@color/t_disney_coloronsecondarycontainer</item>
+        <item name="colorSurface">@color/t_disney_colorsurface</item>
+        <item name="colorSurfaceContainer">@color/t_disney_colorsurfacecontainer</item>
+        <item name="colorSurfaceContainerHigh">@color/t_disney_colorsurfacecontainerhigh</item>
+        <item name="colorOnSurface">@color/t_disney_coloronsurface</item>
+        <item name="colorOnSurfaceVariant">@color/t_disney_coloronsurfacevariant</item>
+        <item name="colorOutline">@color/t_disney_coloroutline</item>
+        <item name="android:colorBackground">@color/t_disney_colorbackground</item>
+        <item name="android:windowBackground">@color/t_disney_windowbackground</item>
+        <item name="android:textColorPrimary">@color/t_disney_textcolorprimary</item>
+        <item name="android:textColorSecondary">@color/t_disney_textcolorsecondary</item>
+        <item name="android:statusBarColor">@color/t_disney_statusbarcolor</item>
+        <item name="android:navigationBarColor">@color/t_disney_navigationbarcolor</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
+    </style>
+    <style name="Theme.MyChord.Prime" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="mcStroke">@android:color/transparent</item>
+        <item name="mcBg">@color/t_prime_mcbg</item>
+        <item name="mcSurface">@color/t_prime_mcsurface</item>
+        <item name="mcSurface2">@color/t_prime_mcsurface2</item>
+        <item name="mcText">@color/t_prime_mctext</item>
+        <item name="mcTextDim">@color/t_prime_mctextdim</item>
+        <item name="mcAccent">@color/t_prime_mcaccent</item>
+        <item name="mcOnAccent">@color/t_prime_mconaccent</item>
+        <item name="colorPrimary">@color/t_prime_colorprimary</item>
+        <item name="colorOnPrimary">@color/t_prime_coloronprimary</item>
+        <item name="colorSecondary">@color/t_prime_colorsecondary</item>
+        <item name="colorPrimaryContainer">@color/t_prime_colorprimarycontainer</item>
+        <item name="colorOnPrimaryContainer">@color/t_prime_coloronprimarycontainer</item>
+        <item name="colorSecondaryContainer">@color/t_prime_colorsecondarycontainer</item>
+        <item name="colorOnSecondaryContainer">@color/t_prime_coloronsecondarycontainer</item>
+        <item name="colorSurface">@color/t_prime_colorsurface</item>
+        <item name="colorSurfaceContainer">@color/t_prime_colorsurfacecontainer</item>
+        <item name="colorSurfaceContainerHigh">@color/t_prime_colorsurfacecontainerhigh</item>
+        <item name="colorOnSurface">@color/t_prime_coloronsurface</item>
+        <item name="colorOnSurfaceVariant">@color/t_prime_coloronsurfacevariant</item>
+        <item name="colorOutline">@color/t_prime_coloroutline</item>
+        <item name="android:colorBackground">@color/t_prime_colorbackground</item>
+        <item name="android:windowBackground">@color/t_prime_windowbackground</item>
+        <item name="android:textColorPrimary">@color/t_prime_textcolorprimary</item>
+        <item name="android:textColorSecondary">@color/t_prime_textcolorsecondary</item>
+        <item name="android:statusBarColor">@color/t_prime_statusbarcolor</item>
+        <item name="android:navigationBarColor">@color/t_prime_navigationbarcolor</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
+    </style>
     <style name="Theme.MyChord.Player" parent="Theme.MyChord.Ember">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>

@@ -87,6 +87,10 @@
     <string name="theme_kertas">Kertas</string>
     <string name="theme_neon">Neon</string>
     <string name="theme_sakura">Sakura</string>
+    <string name="theme_flix">Merah Flix</string>
+    <string name="theme_ytm">Muzik Merah</string>
+    <string name="theme_disney">Biru Ajaib</string>
+    <string name="theme_prime">Sian Prima</string>
     <string name="theme_locked">Pasang addon \"Pek Tema\" untuk buka tema ini</string>
     <string name="icon_ember">Bara</string>
     <string name="icon_lagun">Lagun</string>

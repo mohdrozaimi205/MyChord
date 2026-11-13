@@ -87,6 +87,10 @@
     <string name="theme_kertas">Paper</string>
     <string name="theme_neon">Neon</string>
     <string name="theme_sakura">Sakura</string>
+    <string name="theme_flix">Flix Red</string>
+    <string name="theme_ytm">Music Red</string>
+    <string name="theme_disney">Magic Blue</string>
+    <string name="theme_prime">Prime Cyan</string>
     <string name="theme_locked">Install the \"Theme Pack\" addon to unlock this theme</string>
     <string name="icon_ember">Ember</string>
     <string name="icon_lagun">Lagoon</string>
