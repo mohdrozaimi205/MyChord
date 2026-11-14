@@ -153,7 +153,7 @@ public class BackupRestore {
         if (data.has("addons")) {
             JSONArray a = data.getJSONArray("addons");
             for (int i = 0; i < a.length(); i++) {
-                try { CustomAddons.add(a.getJSONObject(i)); } catch (Exception ignored) { }
+                try { CustomAddons.add(a.getJSONObject(i).toString()); } catch (Exception ignored) { }
             }
         }
 
