@@ -275,4 +275,25 @@
     <string name="upd_later">Later</string>
     <string name="upd_downloading">Downloading v%s…</string>
     <string name="upd_allow">Allow MyChord to install apps, then tap Update again.</string>
+
+    <!-- Widget -->
+    <string name="widget_desc">Shows the current song with playback controls</string>
+    <string name="widget_name">Now Playing</string>
+
+    <!-- Moods / Genre -->
+    <string name="moods_title">Moods &amp; Genres</string>
+    <string name="moods_pick">Pick your mood or genre</string>
+    <string name="moods_browse">Browse by mood</string>
+    <string name="set_moods">Moods &amp; Genres</string>
+
+    <!-- Backup / Restore -->
+    <string name="set_backup">Backup &amp; Restore</string>
+    <string name="backup_title">Backup &amp; Restore</string>
+    <string name="backup_export">Export backup</string>
+    <string name="backup_export_sub">Save likes, playlists, history &amp; settings to a file</string>
+    <string name="backup_import">Import backup</string>
+    <string name="backup_import_sub">Restore data from a MyChord backup file</string>
+    <string name="backup_done">Backup saved successfully</string>
+    <string name="backup_restored">Restored: %s</string>
+    <string name="backup_fail">Failed: %s</string>
 </resources>

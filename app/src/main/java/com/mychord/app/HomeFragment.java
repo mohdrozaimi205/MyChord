@@ -220,6 +220,7 @@ public class HomeFragment extends Fragment {
         else
             addTile(g, R.drawable.ic_history, R.string.lib_history, R.string.shelf_recent, ListActivity.MODE_HISTORY);
         addTile(g, R.drawable.ic_podcast, R.string.pod_title, R.string.pod_sub, ListActivity.MODE_PODCASTS);
+        addTile(g, R.drawable.ic_tune, R.string.moods_title, R.string.moods_pick, "moods");
         addTile(g, R.drawable.ic_together, R.string.tg_title,
                 ListenTogether.mode() == ListenTogether.OFF ? R.string.tg_sub : R.string.tg_sub_on, "together");
     }
@@ -241,6 +242,7 @@ public class HomeFragment extends Fragment {
         v.setOnClickListener(x -> {
             if ("spotify".equals(mode)) startActivity(new Intent(getContext(), SpotifyActivity.class));
             else if ("together".equals(mode)) TogetherDialog.show(requireActivity(), this::buildTiles);
+            else if ("moods".equals(mode)) startActivity(new Intent(getContext(), MoodsActivity.class));
             else startActivity(new Intent(getContext(), ListActivity.class).putExtra("mode", mode));
         });
         g.addView(v);

@@ -275,4 +275,25 @@
     <string name="upd_later">Nanti</string>
     <string name="upd_downloading">Memuat turun v%s…</string>
     <string name="upd_allow">Benarkan MyChord memasang app, kemudian tekan Kemas kini sekali lagi.</string>
+
+    <!-- Widget -->
+    <string name="widget_desc">Tunjuk lagu sedang dimainkan dengan butang kawalan</string>
+    <string name="widget_name">Sedang Dimainkan</string>
+
+    <!-- Moods / Genre -->
+    <string name="moods_title">Mood &amp; Genre</string>
+    <string name="moods_pick">Pilih mood atau genre anda</string>
+    <string name="moods_browse">Jelajah mengikut mood</string>
+    <string name="set_moods">Mood &amp; Genre</string>
+
+    <!-- Backup / Restore -->
+    <string name="set_backup">Sandaran &amp; Pulih</string>
+    <string name="backup_title">Sandaran &amp; Pulih</string>
+    <string name="backup_export">Eksport sandaran</string>
+    <string name="backup_export_sub">Simpan kegemaran, senarai main, sejarah &amp; tetapan ke fail</string>
+    <string name="backup_import">Import sandaran</string>
+    <string name="backup_import_sub">Pulihkan data dari fail sandaran MyChord</string>
+    <string name="backup_done">Sandaran berjaya disimpan</string>
+    <string name="backup_restored">Berjaya dipulihkan: %s</string>
+    <string name="backup_fail">Gagal: %s</string>
 </resources>

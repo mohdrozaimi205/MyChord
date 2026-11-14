@@ -1,7 +1,9 @@
 package com.mychord.app;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -21,6 +25,34 @@ import com.google.android.material.chip.ChipGroup;
 
 public class SettingsFragment extends Fragment {
     private View root;
+
+    private final ActivityResultLauncher<Intent> backupLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                    Uri uri = result.getData().getData();
+                    if (uri == null) return;
+                    try {
+                        BackupRestore.writeTo(requireContext(), uri);
+                        Toast.makeText(getContext(), R.string.backup_done, Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(), getString(R.string.backup_fail, e.getMessage()), Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+    private final ActivityResultLauncher<Intent> restoreLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                    Uri uri = result.getData().getData();
+                    if (uri == null) return;
+                    try {
+                        String summary = BackupRestore.restoreFrom(requireContext(), uri);
+                        Toast.makeText(getContext(), getString(R.string.backup_restored, summary), Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(), getString(R.string.backup_fail, e.getMessage()), Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
 
     @Nullable
     @Override
@@ -47,6 +79,17 @@ public class SettingsFragment extends Fragment {
         addRow(inf, more, R.drawable.ic_eq, R.string.set_effects, EffectsActivity.class);
         addRow(inf, more, R.drawable.ic_addon, R.string.set_addons, AddonsActivity.class);
         addRow(inf, more, R.drawable.ic_link, R.string.set_spotify, SpotifyActivity.class);
+        addRow(inf, more, R.drawable.ic_note, R.string.set_moods, MoodsActivity.class);
+
+        // Sandaran & Pulih
+        View backupRow = inf.inflate(R.layout.item_row, more, false);
+        backupRow.setPadding(0, 0, 0, 0);
+        ImageView bi = backupRow.findViewById(R.id.rowIcon);
+        bi.setImageResource(R.drawable.ic_history);
+        Ui.tint(bi, Ui.attr(requireContext(), R.attr.mcAccent));
+        ((TextView) backupRow.findViewById(R.id.rowTitle)).setText(R.string.set_backup);
+        backupRow.setOnClickListener(v -> showBackupDialog());
+        more.addView(backupRow);
         View share = inf.inflate(R.layout.item_row, more, false);
         share.setPadding(0, 0, 0, 0);
         ImageView si = share.findViewById(R.id.rowIcon);
@@ -199,6 +242,29 @@ public class SettingsFragment extends Fragment {
             });
             row.addView(v);
         }
+    }
+
+    private void showBackupDialog() {
+        String[] items = {getString(R.string.backup_export), getString(R.string.backup_import)};
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.backup_title)
+                .setItems(items, (d, w) -> {
+                    if (w == 0) {
+                        // Eksport sandaran
+                        Intent i = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                        i.addCategory(Intent.CATEGORY_OPENABLE);
+                        i.setType("application/json");
+                        i.putExtra(Intent.EXTRA_TITLE, "mychord_backup.json");
+                        backupLauncher.launch(i);
+                    } else {
+                        // Import sandaran
+                        Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                        i.addCategory(Intent.CATEGORY_OPENABLE);
+                        i.setType("application/json");
+                        restoreLauncher.launch(i);
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null).show();
     }
 
     @Override

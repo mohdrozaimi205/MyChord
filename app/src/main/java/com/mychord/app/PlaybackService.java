@@ -130,11 +130,13 @@ public class PlaybackService extends MediaSessionService {
                 retried = false;
                 if (reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO) fadeInStart = System.currentTimeMillis();
                 if (item != null) Store.addHistory(Track.fromMediaItem(item));
+                NowPlayingWidget.refreshAll(PlaybackService.this);
             }
 
             @Override
             public void onIsPlayingChanged(boolean isPlaying) {
                 if (isPlaying) errorStreak = 0;
+                NowPlayingWidget.refreshAll(PlaybackService.this);
             }
 
             @Override

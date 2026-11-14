@@ -35,6 +35,7 @@ public class ListActivity extends BaseActivity {
     public static final String MODE_SP_PL = "sp_pl";
     public static final String MODE_PODCASTS = "podcasts";
     public static final String MODE_POD_EPS = "pod_eps";
+    public static final String MODE_SEARCH = "search";
 
     private boolean isAccount() { return mode.startsWith("ytm_") || mode.startsWith("sp_") || mode.equals(MODE_POD_EPS); }
 
@@ -95,6 +96,7 @@ public class ListActivity extends BaseActivity {
             case MODE_SP_LIKED: title = "Spotify • " + getString(R.string.tile_liked); break;
             case MODE_SP_LISTS: title = "Spotify • " + getString(R.string.acc_my_playlists); break;
             case MODE_PODCASTS: title = getString(R.string.pod_title); break;
+            case MODE_SEARCH:
             case MODE_YTM_PL:
             case MODE_SP_PL:
             case MODE_POD_EPS:
@@ -182,6 +184,11 @@ public class ListActivity extends BaseActivity {
             case MODE_SP_PL: loadAccount(() -> SpotifyAccount.playlist(playlistId)); break;
             case MODE_PODCASTS: loadAccount(ListActivity::podcastsDefault); break;
             case MODE_POD_EPS: loadAccount(() -> PodcastApi.episodes(playlistId)); break;
+            case MODE_SEARCH: {
+                String q = getIntent().getStringExtra("query");
+                if (q != null) loadAccount(() -> YtMusic.search(q));
+                break;
+            }
             default: showList(Store.liked(), R.string.liked_empty);
         }
     }
