@@ -23,6 +23,32 @@
     <string name="shelf_indie">Malaysian indie</string>
     <string name="shelf_chill">Chill &amp; calm</string>
     <string name="shelf_nasyid">Nasyid &amp; spiritual</string>
+
+    <!-- Discovery shelves — YTM -->
+    <string name="dis_listen_again">Listen Again</string>
+    <string name="dis_forgotten_fav">Forgotten Favourites</string>
+    <string name="dis_daily_discover">Daily Discover</string>
+    <string name="dis_albums_for_you">Albums For You</string>
+    <string name="dis_ytm_new_releases">New Releases</string>
+    <string name="dis_from_community">From The Community</string>
+    <string name="dis_quick_picks">Quick Picks</string>
+    <string name="dis_similar_to">Similar To…</string>
+    <string name="dis_trending">Trending For You</string>
+    <string name="dis_mix_for_you">Mix For You</string>
+    <string name="dis_fresh_old">Find Fresh, Old Favourites</string>
+    <string name="dis_live_perf">Live Performance</string>
+
+    <!-- Discovery shelves — Spotify -->
+    <string name="dis_popular_radio">Popular Radio</string>
+    <string name="dis_popular_artists">Popular Artists</string>
+    <string name="dis_sp_new_releases">New Releases</string>
+    <string name="dis_new_artists">New Artists</string>
+    <string name="dis_popular_albums">Popular Albums &amp; Singles</string>
+    <string name="dis_listen_before_watch">Listen Before You Watch</string>
+    <string name="dis_coffeehouse">Coffeehouse</string>
+    <string name="dis_ost">OST Soundtrack</string>
+    <string name="dis_other_countries">Other Countries</string>
+
     <string name="search_title">Search</string>
     <string name="search_hint">Songs, artists, albums…</string>
     <string name="searching">Searching…</string>

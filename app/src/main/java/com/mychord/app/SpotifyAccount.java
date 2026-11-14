@@ -49,7 +49,7 @@ public class SpotifyAccount {
     }
 
     /** Dapatkan token baharu secara senyap (Web Player dalam WebView tersembunyi). */
-    private static synchronized String token() throws Exception {
+    static synchronized String token() throws Exception {
         if (token != null && System.currentTimeMillis() - tokenTime < 45 * 60_000L) return token;
         CountDownLatch latch = new CountDownLatch(1);
         final String[] got = new String[1];

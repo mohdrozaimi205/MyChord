@@ -94,6 +94,47 @@ public class HomeFragment extends Fragment {
 
         addShelf(shelves, getString(R.string.pod_shelf), () -> PodcastApi.top("my", "MALAYSIA"), ListActivity.MODE_PODCASTS);
 
+        // ── YouTube Music Discovery ──
+        if (YtmAccount.loggedIn()) {
+            addShelf(shelves, getString(R.string.dis_listen_again), DiscoverShelves::ytmListenAgain, null);
+            addShelf(shelves, getString(R.string.dis_forgotten_fav), DiscoverShelves::ytmForgottenFavourites, null);
+            addShelf(shelves, getString(R.string.dis_daily_discover), DiscoverShelves::ytmDailyDiscover, null);
+            addShelf(shelves, getString(R.string.dis_albums_for_you), DiscoverShelves::ytmAlbumsForYou, null);
+            addShelf(shelves, getString(R.string.dis_ytm_new_releases), DiscoverShelves::ytmNewReleases, null);
+            addShelf(shelves, getString(R.string.dis_from_community), DiscoverShelves::ytmFromCommunity, null);
+            addShelf(shelves, getString(R.string.dis_quick_picks), DiscoverShelves::ytmQuickPicks, null);
+            addShelf(shelves, getString(R.string.dis_similar_to), DiscoverShelves::ytmSimilarTo, null);
+            addShelf(shelves, getString(R.string.dis_trending), DiscoverShelves::ytmTrending, null);
+            addShelf(shelves, getString(R.string.dis_mix_for_you), DiscoverShelves::ytmMixForYou, null);
+            addShelf(shelves, getString(R.string.dis_fresh_old), DiscoverShelves::ytmFreshOldFavs, null);
+            addShelf(shelves, getString(R.string.dis_live_perf), DiscoverShelves::ytmLivePerformance, null);
+        } else {
+            // Versi tanpa akaun YTM
+            addShelf(shelves, getString(R.string.dis_quick_picks), DiscoverShelves::fallbackQuickPicks, null);
+            addShelf(shelves, getString(R.string.dis_ytm_new_releases), DiscoverShelves::fallbackNewReleases, null);
+            addShelf(shelves, getString(R.string.dis_trending), DiscoverShelves::fallbackTrending, null);
+            addShelf(shelves, getString(R.string.dis_live_perf), DiscoverShelves::fallbackLivePerformance, null);
+        }
+
+        // ── Spotify Discovery ──
+        if (SpotifyAccount.loggedIn()) {
+            addShelf(shelves, "Spotify • " + getString(R.string.dis_popular_radio), DiscoverShelves::spPopularRadio, null);
+            addShelf(shelves, "Spotify • " + getString(R.string.dis_popular_artists), DiscoverShelves::spPopularArtists, null);
+            addShelf(shelves, "Spotify • " + getString(R.string.dis_sp_new_releases), DiscoverShelves::spNewReleases, null);
+            addShelf(shelves, "Spotify • " + getString(R.string.dis_new_artists), DiscoverShelves::spNewArtists, null);
+            addShelf(shelves, "Spotify • " + getString(R.string.dis_popular_albums), DiscoverShelves::spPopularAlbums, null);
+            addShelf(shelves, "Spotify • " + getString(R.string.dis_listen_before_watch), DiscoverShelves::spListenBeforeWatch, null);
+            addShelf(shelves, "Spotify • " + getString(R.string.dis_coffeehouse), DiscoverShelves::spCoffeehouse, null);
+            addShelf(shelves, "Spotify • " + getString(R.string.dis_ost), DiscoverShelves::spOstSoundtrack, null);
+            addShelf(shelves, "Spotify • " + getString(R.string.dis_other_countries), DiscoverShelves::spOtherCountries, null);
+        } else {
+            // Versi tanpa akaun Spotify
+            addShelf(shelves, getString(R.string.dis_coffeehouse), DiscoverShelves::fallbackCoffeehouse, null);
+            addShelf(shelves, getString(R.string.dis_ost), DiscoverShelves::fallbackOST, null);
+            addShelf(shelves, getString(R.string.dis_other_countries), DiscoverShelves::fallbackOtherCountries, null);
+        }
+
+        // ── Rak carian asal ──
         for (int i = 0; i < SHELF_TITLES.length; i++) {
             String q = SHELF_QUERIES[i];
             addShelf(shelves, getString(SHELF_TITLES[i]), () -> YtMusic.search(q), null);

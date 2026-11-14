@@ -23,6 +23,32 @@
     <string name="shelf_indie">Indie Malaysia</string>
     <string name="shelf_chill">Santai &amp; tenang</string>
     <string name="shelf_nasyid">Nasyid &amp; ketuhanan</string>
+
+    <!-- Discovery shelves — YTM -->
+    <string name="dis_listen_again">Dengar Semula</string>
+    <string name="dis_forgotten_fav">Kegemaran Terlupa</string>
+    <string name="dis_daily_discover">Penemuan Harian</string>
+    <string name="dis_albums_for_you">Album Untuk Anda</string>
+    <string name="dis_ytm_new_releases">Keluaran Baharu</string>
+    <string name="dis_from_community">Dari Komuniti</string>
+    <string name="dis_quick_picks">Pilihan Pantas</string>
+    <string name="dis_similar_to">Serupa Dengan…</string>
+    <string name="dis_trending">Trending Untuk Anda</string>
+    <string name="dis_mix_for_you">Campuran Untuk Anda</string>
+    <string name="dis_fresh_old">Segar &amp; Kegemaran Lama</string>
+    <string name="dis_live_perf">Persembahan Langsung</string>
+
+    <!-- Discovery shelves — Spotify -->
+    <string name="dis_popular_radio">Radio Popular</string>
+    <string name="dis_popular_artists">Artis Popular</string>
+    <string name="dis_sp_new_releases">Keluaran Baharu</string>
+    <string name="dis_new_artists">Artis Baharu</string>
+    <string name="dis_popular_albums">Album &amp; Single Popular</string>
+    <string name="dis_listen_before_watch">Dengar Sebelum Tonton</string>
+    <string name="dis_coffeehouse">Coffeehouse</string>
+    <string name="dis_ost">OST Soundtrack</string>
+    <string name="dis_other_countries">Negara Lain</string>
+
     <string name="search_title">Cari</string>
     <string name="search_hint">Lagu, artis, album…</string>
     <string name="searching">Mencari…</string>
