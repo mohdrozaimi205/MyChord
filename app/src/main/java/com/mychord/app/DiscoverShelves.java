@@ -146,6 +146,119 @@ public class DiscoverShelves {
         return spSearch("top hits worldwide kpop jpop latin afrobeat", "track");
     }
 
+    // ─── Discovery tambahan (gaya LastWave) ──────────────────────
+
+    /** Sambung Dengar / Jump Back In — 5 lagu terakhir dari sejarah */
+    public static List<Track> jumpBackIn() throws Exception {
+        List<Track> h = Store.history();
+        return h.size() > 8 ? h.subList(0, 8) : h;
+    }
+
+    /** Kerana Anda Dengar / Because You Listen — berdasarkan artis terakhir */
+    public static List<Track> becauseYouListen() throws Exception {
+        List<Track> history = Store.history();
+        if (history.size() >= 3) {
+            // Ambil 3 artis berbeza dari sejarah
+            java.util.LinkedHashSet<String> artists = new java.util.LinkedHashSet<>();
+            for (Track t : history) {
+                if (t.artist != null && !t.artist.isEmpty()) {
+                    String a = t.artist.contains(",") ? t.artist.split(",")[0].trim() : t.artist;
+                    artists.add(a);
+                    if (artists.size() >= 3) break;
+                }
+            }
+            List<Track> out = new ArrayList<>();
+            for (String a : artists) {
+                List<Track> r = YtMusic.search(a + " popular songs");
+                if (r.size() > 5) r = r.subList(0, 5);
+                out.addAll(r);
+            }
+            Collections.shuffle(out);
+            return out.size() > 20 ? out.subList(0, 20) : out;
+        }
+        return YtMusic.search("lagu popular pilihan khas");
+    }
+
+    /** Jelajah Lagu Baharu / Discover New Music */
+    public static List<Track> discoverNewMusic() throws Exception {
+        List<Track> r = YtMusic.search("new music 2026 lagu baru trending");
+        if (r.size() > 25) r = r.subList(0, 25);
+        return r;
+    }
+
+    /** Artis Pilihan / Artists Spotlight — berdasarkan sejarah + trending MY */
+    public static List<Track> artistSpotlight() throws Exception {
+        List<Track> history = Store.history();
+        String q = "popular malaysian artist spotlight 2026";
+        if (!history.isEmpty() && history.get(0).artist != null) {
+            q = history.get(0).artist.split(",")[0].trim() + " similar artists popular";
+        }
+        return YtMusic.search(q);
+    }
+
+    // ─── Algorithm shelves — 80% Malaysia ──────────────────────
+
+    public static List<Track> algMyTerkini() throws Exception {
+        return YtMusic.search("lagu melayu terkini 2026 popular chart malaysia");
+    }
+    public static List<Track> algMyPopular() throws Exception {
+        return YtMusic.search("hits malaysia popular trending lagu melayu");
+    }
+    public static List<Track> algMy90an() throws Exception {
+        return YtMusic.search("lagu melayu 90an klasik nostalgia popular");
+    }
+    public static List<Track> algMyNostalgia() throws Exception {
+        return YtMusic.search("lagu lama melayu 80an 70an nostalgia P Ramlee Sudirman");
+    }
+    public static List<Track> algMyNasyid() throws Exception {
+        return YtMusic.search("nasyid terbaik popular Raihan Maher Zain nasheed malaysia");
+    }
+    public static List<Track> algMyIndie() throws Exception {
+        return YtMusic.search("indie malaysia band lokal underground 2026");
+    }
+    public static List<Track> algMyDangdut() throws Exception {
+        return YtMusic.search("dangdut melayu irama popular Malaysia Siti Nurhaliza Iklim");
+    }
+    public static List<Track> algMyRock() throws Exception {
+        return YtMusic.search("rock kapak malaysia Search Wings Xpdc Exists popular");
+    }
+
+    // ─── Algorithm shelves — 10% English ───────────────────────
+
+    public static List<Track> algEnPopular() throws Exception {
+        return YtMusic.search("english popular hits 2026 chart Billboard trending");
+    }
+    public static List<Track> algEn90s() throws Exception {
+        return YtMusic.search("90s 2000s english classics hits nostalgic throwback");
+    }
+
+    // ─── Algorithm shelves — 5% Soundtrack ─────────────────────
+
+    public static List<Track> algOstMy() throws Exception {
+        return YtMusic.search("soundtrack filem Malaysia OST drama melayu popular");
+    }
+    public static List<Track> algOstKr() throws Exception {
+        return YtMusic.search("K-Drama OST soundtrack Korean drama popular 2026");
+    }
+    public static List<Track> algOstJp() throws Exception {
+        return YtMusic.search("anime OST soundtrack Japanese popular opening ending");
+    }
+    public static List<Track> algOstHw() throws Exception {
+        return YtMusic.search("Hollywood movie soundtrack OST popular epic 2026");
+    }
+    public static List<Track> algOstInd() throws Exception {
+        return YtMusic.search("Bollywood soundtrack OST Hindi popular romantic");
+    }
+
+    // ─── Algorithm shelves — 5% Rileks ─────────────────────────
+
+    public static List<Track> algChillCoffee() throws Exception {
+        return YtMusic.search("coffeehouse acoustic cafe chill relaxing music");
+    }
+    public static List<Track> algChillLofi() throws Exception {
+        return YtMusic.search("lofi chill beats study relax ambient");
+    }
+
     // ─── Versi tanpa akaun (guna YtMusic.search sahaja) ─────────
 
     public static List<Track> fallbackListenAgain() throws Exception {

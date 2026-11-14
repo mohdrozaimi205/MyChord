@@ -280,6 +280,38 @@
     <string name="widget_desc">Tunjuk lagu sedang dimainkan dengan butang kawalan</string>
     <string name="widget_name">Sedang Dimainkan</string>
 
+    <!-- Quick Access & Discovery -->
+    <string name="dis_quick_access">Akses Pantas</string>
+    <string name="dis_jump_back">Sambung Dengar</string>
+    <string name="dis_because_you_listen">Kerana Anda Dengar</string>
+    <string name="dis_discover_new">Jelajah Lagu Baharu</string>
+    <string name="dis_artist_spotlight">Artis Pilihan</string>
+
+    <!-- Algorithm shelves — 80% Malaysia -->
+    <string name="alg_my_terkini">🇲🇾 Lagu Malaysia Terkini</string>
+    <string name="alg_my_popular">🇲🇾 Hits Malaysia Popular</string>
+    <string name="alg_my_90an">🇲🇾 Lagu Melayu 90an &amp; Klasik</string>
+    <string name="alg_my_nostalgia">🇲🇾 Nostalgia Malaysia</string>
+    <string name="alg_my_nasyid">🇲🇾 Nasyid Terbaik</string>
+    <string name="alg_my_indie">🇲🇾 Indie Malaysia</string>
+    <string name="alg_my_dangdut">🇲🇾 Dangdut &amp; Irama</string>
+    <string name="alg_my_rock">🇲🇾 Rock Kapak Malaysia</string>
+
+    <!-- Algorithm shelves — 10% English -->
+    <string name="alg_en_popular">🌍 English Hits Popular</string>
+    <string name="alg_en_90s">🌍 English 90s &amp; 2000s Classics</string>
+
+    <!-- Algorithm shelves — 5% Soundtrack -->
+    <string name="alg_ost_my">🎬 Soundtrack Malaysia</string>
+    <string name="alg_ost_kr">🎬 Soundtrack Korea (K-Drama)</string>
+    <string name="alg_ost_jp">🎬 Soundtrack Jepun (Anime)</string>
+    <string name="alg_ost_hw">🎬 Soundtrack Hollywood</string>
+    <string name="alg_ost_ind">🎬 Soundtrack Bollywood</string>
+
+    <!-- Algorithm shelves — 5% Rileks -->
+    <string name="alg_chill_coffee">☕ Coffeehouse &amp; Santai</string>
+    <string name="alg_chill_lofi">☕ Lofi &amp; Chill Beats</string>
+
     <!-- Moods / Genre -->
     <string name="moods_title">Mood &amp; Genre</string>
     <string name="moods_pick">Pilih mood atau genre anda</string>
