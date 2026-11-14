@@ -94,6 +94,10 @@ public class HomeFragment extends Fragment {
 
         addShelf(shelves, getString(R.string.pod_shelf), () -> PodcastApi.top("my", "MALAYSIA"), ListActivity.MODE_PODCASTS);
 
+        // ── Radio Malaysia Popular ──
+        if (AddonManager.installed("radio"))
+            addShelf(shelves, getString(R.string.radio_shelf), RadioApi::featured, ListActivity.MODE_RADIO);
+
         // ── YouTube Music Discovery ──
         if (YtmAccount.loggedIn()) {
             addShelf(shelves, getString(R.string.dis_listen_again), DiscoverShelves::ytmListenAgain, null);

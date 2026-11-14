@@ -226,6 +226,7 @@
     <string name="pod_sub">Malaysia &amp; worldwide</string>
     <string name="pod_hint">Search podcasts…</string>
     <string name="pod_shelf">Popular in Malaysia</string>
+    <string name="radio_shelf">Popular Malaysian Radio</string>
     <string name="tg_title">Listen together</string>
     <string name="tg_sub">Same song, in sync</string>
     <string name="tg_sub_on">Session active</string>
