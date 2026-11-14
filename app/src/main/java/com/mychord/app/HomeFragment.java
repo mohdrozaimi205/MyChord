@@ -31,10 +31,23 @@ public class HomeFragment extends Fragment {
     private View recentShelf;
     private String builtFor = null;
 
-    private static final int[] SHELF_TITLES = {R.string.shelf_malay, R.string.shelf_top, R.string.shelf_indie,
-            R.string.shelf_chill, R.string.shelf_nasyid};
-    private static final String[] SHELF_QUERIES = {"lagu melayu terkini popular", "top hits global 2026",
-            "indie malaysia", "lofi chill santai", "nasyid terbaik"};
+    /** Mood chips — emoji + label + carian */
+    private static final String[][] MOOD_CHIPS = {
+        {"🎉", "Riang", "upbeat happy party music"},
+        {"😢", "Sedih", "sad emotional ballads"},
+        {"🔥", "Tenaga", "energetic workout pump up"},
+        {"😌", "Tenang", "calm relaxing peaceful"},
+        {"💕", "Romantik", "romantic love songs"},
+        {"🌙", "Malam", "late night chill vibes"},
+        {"🏋️", "Senaman", "gym workout motivation"},
+        {"📚", "Fokus", "focus study concentration"},
+        {"🎸", "Rock", "rock music"},
+        {"🕌", "Nasyid", "nasyid islamic nasheed"},
+        {"🎧", "EDM", "edm electronic dance"},
+        {"🇲🇾", "Melayu", "lagu melayu popular terkini"},
+        {"🌏", "K-Pop", "kpop korean pop"},
+        {"🎵", "Indie", "indie alternative"},
+    };
 
     @Nullable
     @Override
@@ -51,6 +64,7 @@ public class HomeFragment extends Fragment {
         });
         refreshHeader();
         buildTiles();
+        buildMoodChips();
         buildShelves();
         return root;
     }
@@ -60,11 +74,42 @@ public class HomeFragment extends Fragment {
         return YtmAccount.loggedIn() + "|" + SpotifyAccount.loggedIn() + "|" + CustomAddons.signature();
     }
 
+    // ── Mood chips inline ───────────────────────────────────────
+
+    private void buildMoodChips() {
+        LinearLayout chips = root.findViewById(R.id.moodChips);
+        chips.removeAllViews();
+
+        // "Semua" chip — buka MoodsActivity penuh
+        TextView all = (TextView) inflater.inflate(R.layout.item_mood_chip, chips, false);
+        all.setText("🎶 " + getString(R.string.moods_title));
+        all.setOnClickListener(v -> startActivity(new Intent(getContext(), MoodsActivity.class)));
+        chips.addView(all);
+
+        for (String[] mood : MOOD_CHIPS) {
+            TextView chip = (TextView) inflater.inflate(R.layout.item_mood_chip, chips, false);
+            chip.setText(mood[0] + " " + mood[1]);
+            String query = mood[2];
+            String label = mood[1];
+            chip.setOnClickListener(v -> {
+                Intent i = new Intent(getContext(), ListActivity.class);
+                i.putExtra("mode", "search");
+                i.putExtra("query", query);
+                i.putExtra("title", label);
+                startActivity(i);
+            });
+            chips.addView(chip);
+        }
+    }
+
+    // ── Rak utama (shelves) ────────────────────────────────────
+
     private void buildShelves() {
         builtFor = state();
         LinearLayout shelves = root.findViewById(R.id.shelves);
         shelves.removeAllViews();
 
+        // ━━━━ QUICK ACCESS: Baru Dimainkan ━━━━
         recentShelf = inflater.inflate(R.layout.view_shelf, shelves, false);
         ((TextView) recentShelf.findViewById(R.id.shelfTitle)).setText(R.string.shelf_recent);
         recentShelf.findViewById(R.id.shelfProgress).setVisibility(View.GONE);
@@ -75,7 +120,10 @@ public class HomeFragment extends Fragment {
         shelves.addView(recentShelf);
         refreshRecent();
 
-        // Lagu dari akaun (sync terus)
+        // ━━━━ QUICK ACCESS: Sambung Dengar / Jump Back In ━━━━
+        addShelf(shelves, getString(R.string.dis_jump_back), DiscoverShelves::jumpBackIn, null);
+
+        // ━━━━ Lagu dari akaun ━━━━
         if (YtmAccount.loggedIn()) {
             addShelf(shelves, getString(R.string.acc_for_you), YtmAccount::home, ListActivity.MODE_YTM_HOME);
             addShelf(shelves, "YouTube Music • " + getString(R.string.tile_liked), YtmAccount::liked, ListActivity.MODE_YTM_LIKED);
@@ -92,35 +140,92 @@ public class HomeFragment extends Fragment {
             addShelf(shelves, a.optString("name"), () -> CustomAddons.tracks(a), null);
         }
 
-        addShelf(shelves, getString(R.string.pod_shelf), () -> PodcastApi.top("my", "MALAYSIA"), ListActivity.MODE_PODCASTS);
+        // ━━━━ 80% MALAYSIA — Lagu Terkini & Popular ━━━━
+        addShelf(shelves, getString(R.string.alg_my_terkini), DiscoverShelves::algMyTerkini, null);
+        addShelf(shelves, getString(R.string.alg_my_popular), DiscoverShelves::algMyPopular, null);
 
-        // ── Radio Malaysia Popular ──
+        // ━━━━ DISCOVERY: Quick Picks ━━━━
+        if (YtmAccount.loggedIn()) {
+            addShelf(shelves, getString(R.string.dis_quick_picks), DiscoverShelves::ytmQuickPicks, null);
+        } else {
+            addShelf(shelves, getString(R.string.dis_quick_picks), DiscoverShelves::fallbackQuickPicks, null);
+        }
+
+        // ━━━━ DISCOVERY: Because You Listen ━━━━
+        addShelf(shelves, getString(R.string.dis_because_you_listen), DiscoverShelves::becauseYouListen, null);
+
+        // ━━━━ 80% MALAYSIA — 90an & Klasik ━━━━
+        addShelf(shelves, getString(R.string.alg_my_90an), DiscoverShelves::algMy90an, null);
+        addShelf(shelves, getString(R.string.alg_my_nostalgia), DiscoverShelves::algMyNostalgia, null);
+
+        // ━━━━ DISCOVERY: Listen Again ━━━━
+        if (YtmAccount.loggedIn()) {
+            addShelf(shelves, getString(R.string.dis_listen_again), DiscoverShelves::ytmListenAgain, null);
+        } else {
+            addShelf(shelves, getString(R.string.dis_listen_again), DiscoverShelves::fallbackListenAgain, null);
+        }
+
+        // ━━━━ DISCOVERY: Discover New Music ━━━━
+        addShelf(shelves, getString(R.string.dis_discover_new), DiscoverShelves::discoverNewMusic, null);
+
+        // ━━━━ 80% MALAYSIA — Nasyid, Indie, Rock, Dangdut ━━━━
+        addShelf(shelves, getString(R.string.alg_my_nasyid), DiscoverShelves::algMyNasyid, null);
+        addShelf(shelves, getString(R.string.alg_my_indie), DiscoverShelves::algMyIndie, null);
+
+        // ━━━━ DISCOVERY: Forgotten Favourites ━━━━
+        if (YtmAccount.loggedIn()) {
+            addShelf(shelves, getString(R.string.dis_forgotten_fav), DiscoverShelves::ytmForgottenFavourites, null);
+        }
+
+        // ━━━━ 10% ENGLISH — Popular & Classics ━━━━
+        addShelf(shelves, getString(R.string.alg_en_popular), DiscoverShelves::algEnPopular, null);
+        addShelf(shelves, getString(R.string.alg_en_90s), DiscoverShelves::algEn90s, null);
+
+        // ━━━━ DISCOVERY: Albums For You ━━━━
+        if (YtmAccount.loggedIn()) {
+            addShelf(shelves, getString(R.string.dis_albums_for_you), DiscoverShelves::ytmAlbumsForYou, null);
+        }
+
+        // ━━━━ DISCOVERY: Artists Spotlight ━━━━
+        addShelf(shelves, getString(R.string.dis_artist_spotlight), DiscoverShelves::artistSpotlight, null);
+
+        // ━━━━ 80% MALAYSIA — Rock Kapak & Dangdut ━━━━
+        addShelf(shelves, getString(R.string.alg_my_rock), DiscoverShelves::algMyRock, null);
+        addShelf(shelves, getString(R.string.alg_my_dangdut), DiscoverShelves::algMyDangdut, null);
+
+        // ━━━━ 5% SOUNDTRACK — mengikut negara (Malaysia dahulu) ━━━━
+        addShelf(shelves, getString(R.string.alg_ost_my), DiscoverShelves::algOstMy, null);
+        addShelf(shelves, getString(R.string.alg_ost_kr), DiscoverShelves::algOstKr, null);
+        addShelf(shelves, getString(R.string.alg_ost_jp), DiscoverShelves::algOstJp, null);
+        addShelf(shelves, getString(R.string.alg_ost_hw), DiscoverShelves::algOstHw, null);
+        addShelf(shelves, getString(R.string.alg_ost_ind), DiscoverShelves::algOstInd, null);
+
+        // ━━━━ 5% RILEKS — Coffeehouse & Lofi ━━━━
+        addShelf(shelves, getString(R.string.alg_chill_coffee), DiscoverShelves::algChillCoffee, null);
+        addShelf(shelves, getString(R.string.alg_chill_lofi), DiscoverShelves::algChillLofi, null);
+
+        // ━━━━ Podcast & Radio ━━━━
+        addShelf(shelves, getString(R.string.pod_shelf), () -> PodcastApi.top("my", "MALAYSIA"), ListActivity.MODE_PODCASTS);
         if (AddonManager.installed("radio"))
             addShelf(shelves, getString(R.string.radio_shelf), RadioApi::featured, ListActivity.MODE_RADIO);
 
-        // ── YouTube Music Discovery ──
+        // ━━━━ YTM Discovery tambahan ━━━━
         if (YtmAccount.loggedIn()) {
-            addShelf(shelves, getString(R.string.dis_listen_again), DiscoverShelves::ytmListenAgain, null);
-            addShelf(shelves, getString(R.string.dis_forgotten_fav), DiscoverShelves::ytmForgottenFavourites, null);
-            addShelf(shelves, getString(R.string.dis_daily_discover), DiscoverShelves::ytmDailyDiscover, null);
-            addShelf(shelves, getString(R.string.dis_albums_for_you), DiscoverShelves::ytmAlbumsForYou, null);
             addShelf(shelves, getString(R.string.dis_ytm_new_releases), DiscoverShelves::ytmNewReleases, null);
-            addShelf(shelves, getString(R.string.dis_from_community), DiscoverShelves::ytmFromCommunity, null);
-            addShelf(shelves, getString(R.string.dis_quick_picks), DiscoverShelves::ytmQuickPicks, null);
-            addShelf(shelves, getString(R.string.dis_similar_to), DiscoverShelves::ytmSimilarTo, null);
             addShelf(shelves, getString(R.string.dis_trending), DiscoverShelves::ytmTrending, null);
             addShelf(shelves, getString(R.string.dis_mix_for_you), DiscoverShelves::ytmMixForYou, null);
+            addShelf(shelves, getString(R.string.dis_similar_to), DiscoverShelves::ytmSimilarTo, null);
             addShelf(shelves, getString(R.string.dis_fresh_old), DiscoverShelves::ytmFreshOldFavs, null);
+            addShelf(shelves, getString(R.string.dis_from_community), DiscoverShelves::ytmFromCommunity, null);
+            addShelf(shelves, getString(R.string.dis_daily_discover), DiscoverShelves::ytmDailyDiscover, null);
             addShelf(shelves, getString(R.string.dis_live_perf), DiscoverShelves::ytmLivePerformance, null);
         } else {
-            // Versi tanpa akaun YTM
-            addShelf(shelves, getString(R.string.dis_quick_picks), DiscoverShelves::fallbackQuickPicks, null);
             addShelf(shelves, getString(R.string.dis_ytm_new_releases), DiscoverShelves::fallbackNewReleases, null);
             addShelf(shelves, getString(R.string.dis_trending), DiscoverShelves::fallbackTrending, null);
             addShelf(shelves, getString(R.string.dis_live_perf), DiscoverShelves::fallbackLivePerformance, null);
         }
 
-        // ── Spotify Discovery ──
+        // ━━━━ Spotify Discovery tambahan ━━━━
         if (SpotifyAccount.loggedIn()) {
             addShelf(shelves, "Spotify • " + getString(R.string.dis_popular_radio), DiscoverShelves::spPopularRadio, null);
             addShelf(shelves, "Spotify • " + getString(R.string.dis_popular_artists), DiscoverShelves::spPopularArtists, null);
@@ -132,16 +237,9 @@ public class HomeFragment extends Fragment {
             addShelf(shelves, "Spotify • " + getString(R.string.dis_ost), DiscoverShelves::spOstSoundtrack, null);
             addShelf(shelves, "Spotify • " + getString(R.string.dis_other_countries), DiscoverShelves::spOtherCountries, null);
         } else {
-            // Versi tanpa akaun Spotify
             addShelf(shelves, getString(R.string.dis_coffeehouse), DiscoverShelves::fallbackCoffeehouse, null);
             addShelf(shelves, getString(R.string.dis_ost), DiscoverShelves::fallbackOST, null);
             addShelf(shelves, getString(R.string.dis_other_countries), DiscoverShelves::fallbackOtherCountries, null);
-        }
-
-        // ── Rak carian asal ──
-        for (int i = 0; i < SHELF_TITLES.length; i++) {
-            String q = SHELF_QUERIES[i];
-            addShelf(shelves, getString(SHELF_TITLES[i]), () -> YtMusic.search(q), null);
         }
     }
 
@@ -270,6 +368,7 @@ public class HomeFragment extends Fragment {
         refreshHeader();
         if (!state().equals(builtFor)) {
             buildTiles();
+            buildMoodChips();
             buildShelves();
         } else refreshRecent();
     }
