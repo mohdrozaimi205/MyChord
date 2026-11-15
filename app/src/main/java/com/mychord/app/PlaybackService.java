@@ -27,7 +27,9 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class PlaybackService extends MediaSessionService {
     private ExoPlayer player;
@@ -131,6 +133,8 @@ public class PlaybackService extends MediaSessionService {
                 if (reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO) fadeInStart = System.currentTimeMillis();
                 if (item != null) Store.addHistory(Track.fromMediaItem(item));
                 NowPlayingWidget.refreshAll(PlaybackService.this);
+                // Auto-queue: bila hampir habis queue, tambah lagu berkaitan
+                autoQueueIfNeeded();
             }
 
             @Override
@@ -200,6 +204,76 @@ public class PlaybackService extends MediaSessionService {
         if (player == null || !player.getPlayWhenReady() || player.getMediaItemCount() == 0) {
             stopSelf();
         }
+    }
+
+    // ── Auto-queue: cadangkan lagu seterusnya berdasarkan algoritma pengguna ──
+    private boolean autoQueuing = false;
+
+    private void autoQueueIfNeeded() {
+        if (player == null || autoQueuing) return;
+        int count = player.getMediaItemCount();
+        int current = player.getCurrentMediaItemIndex();
+        // Tambah lagu bila tinggal 1-2 lagu dalam queue
+        if (count - current > 2) return;
+        MediaItem cur = player.getCurrentMediaItem();
+        if (cur == null) return;
+        Track t = Track.fromMediaItem(cur);
+        if (t.mediaId == null || !t.mediaId.startsWith("yt:")) return;
+
+        autoQueuing = true;
+        App.IO.execute(() -> {
+            try {
+                // Kumpul ID sedia ada untuk elak duplikasi
+                Set<String> existing = new HashSet<>();
+                for (int i = 0; i < player.getMediaItemCount(); i++) {
+                    existing.add(player.getMediaItem(i).mediaId);
+                }
+                // Juga elak lagu dari sejarah terkini
+                List<Track> hist = Store.history();
+                for (int i = 0; i < Math.min(hist.size(), 20); i++) {
+                    existing.add(hist.get(i).mediaId);
+                }
+
+                // Cari berdasarkan artis + tajuk semasa
+                String query = t.artist + " " + t.title;
+                List<Track> results = YtMusic.search(query);
+                List<Track> filtered = DiscoverShelves.filterHindi(results);
+
+                // Pilih maks 5 lagu baru yang belum dalam queue
+                List<MediaItem> toAdd = new ArrayList<>();
+                for (Track r : filtered) {
+                    if (!existing.contains(r.mediaId) && toAdd.size() < 5) {
+                        toAdd.add(r.toMediaItem());
+                        existing.add(r.mediaId);
+                    }
+                }
+
+                // Jika tak cukup, cari berdasarkan artis sahaja
+                if (toAdd.size() < 3) {
+                    List<Track> more = YtMusic.search(t.artist);
+                    more = DiscoverShelves.filterHindi(more);
+                    for (Track r : more) {
+                        if (!existing.contains(r.mediaId) && toAdd.size() < 5) {
+                            toAdd.add(r.toMediaItem());
+                            existing.add(r.mediaId);
+                        }
+                    }
+                }
+
+                if (!toAdd.isEmpty()) {
+                    App.MAIN.post(() -> {
+                        if (player != null) {
+                            for (MediaItem mi : toAdd) player.addMediaItem(mi);
+                        }
+                        autoQueuing = false;
+                    });
+                } else {
+                    autoQueuing = false;
+                }
+            } catch (Exception e) {
+                autoQueuing = false;
+            }
+        });
     }
 
     @Override

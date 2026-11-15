@@ -66,6 +66,46 @@ public class Store {
         writeList("history", l);
     }
 
+    // ---- Artis terkini (max 10) ----
+    public static class RecentArtist {
+        public String name;
+        public String art;
+        public RecentArtist(String name, String art) { this.name = name; this.art = art; }
+    }
+
+    public static List<RecentArtist> recentArtists() {
+        List<RecentArtist> out = new ArrayList<>();
+        try {
+            JSONArray a = new JSONArray(sp().getString("recent_artists", "[]"));
+            for (int i = 0; i < a.length(); i++) {
+                JSONObject o = a.getJSONObject(i);
+                out.add(new RecentArtist(o.optString("n"), o.optString("a")));
+            }
+        } catch (Exception ignored) { }
+        return out;
+    }
+
+    public static void addRecentArtist(String name, String art) {
+        if (name == null || name.isEmpty()) return;
+        List<RecentArtist> l = recentArtists();
+        // Buang duplikasi
+        for (int i = 0; i < l.size(); i++) {
+            if (l.get(i).name.equalsIgnoreCase(name)) { l.remove(i); break; }
+        }
+        l.add(0, new RecentArtist(name, art));
+        while (l.size() > 10) l.remove(l.size() - 1);
+        JSONArray a = new JSONArray();
+        try {
+            for (RecentArtist ra : l) {
+                JSONObject o = new JSONObject();
+                o.put("n", ra.name);
+                o.put("a", ra.art);
+                a.put(o);
+            }
+        } catch (Exception ignored) { }
+        sp().edit().putString("recent_artists", a.toString()).apply();
+    }
+
     // ---- Senarai main ----
     public static class Playlist {
         public String id;

@@ -90,6 +90,18 @@ public class PlayerActivity extends BaseActivity implements Player.Listener {
         Ui.tint(playBtn, Ui.attr(this, R.attr.mcOnAccent));
         title.setSelected(true);
 
+        // Klik nama artis → buka halaman artis
+        artistTv.setOnClickListener(v -> {
+            MediaController c = PlayerHub.get();
+            if (c == null || c.getCurrentMediaItem() == null) return;
+            Track cur = Track.fromMediaItem(c.getCurrentMediaItem());
+            if (cur.artist == null || cur.artist.isEmpty()) return;
+            Intent ai = new Intent(this, ArtistActivity.class);
+            ai.putExtra(ArtistActivity.EXTRA_ARTIST, cur.artist);
+            ai.putExtra(ArtistActivity.EXTRA_ART, cur.art);
+            startActivity(ai);
+        });
+
         if (Build.VERSION.SDK_INT >= 31) {
             bg.setRenderEffect(RenderEffect.createBlurEffect(80f, 80f, Shader.TileMode.CLAMP));
         }

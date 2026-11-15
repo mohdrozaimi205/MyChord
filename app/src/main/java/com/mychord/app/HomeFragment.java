@@ -25,8 +25,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public class HomeFragment extends Fragment {
     interface Loader { List<Track> load() throws Exception; }
@@ -311,6 +313,15 @@ public class HomeFragment extends Fragment {
         shelves.addView(recentShelf);
         refreshRecent();
 
+        // ━━━━ Recent Artists — artis terkini (rounded besar) ━━━━
+        buildRecentArtists(shelves);
+
+        // ━━━━ Artist Spotlight — artis terkenal (rounded besar) ━━━━
+        buildArtistSpotlight(shelves);
+
+        // ━━━━ Artist For You — bubble artis Melayu terkenal ━━━━
+        buildArtistForYou(shelves);
+
         // ━━━━ 1. Discover New Music (horizontal large cards + badge DISCOVER) ━━━━
         addShelf(shelves, getString(R.string.dis_discover_new), DiscoverShelves::discoverNewMusic, null);
 
@@ -436,6 +447,233 @@ public class HomeFragment extends Fragment {
             addShelf(shelves, getString(R.string.dis_coffeehouse), DiscoverShelves::fallbackCoffeehouse, null);
             addShelf(shelves, getString(R.string.dis_ost), DiscoverShelves::fallbackOST, null);
         }
+    }
+
+    // ── Recent Artists — rounded large cards (max 10) ─────────
+    private void buildRecentArtists(LinearLayout parent) {
+        List<Store.RecentArtist> artists = Store.recentArtists();
+        if (artists.isEmpty()) return;
+
+        View shelf = inflater.inflate(R.layout.view_shelf, parent, false);
+        ((TextView) shelf.findViewById(R.id.shelfTitle)).setText("Artis Terkini");
+        shelf.findViewById(R.id.shelfProgress).setVisibility(View.GONE);
+        RecyclerView rv = shelf.findViewById(R.id.shelfList);
+        rv.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+
+        LinearLayout cards = new LinearLayout(requireContext());
+        cards.setOrientation(LinearLayout.HORIZONTAL);
+
+        for (Store.RecentArtist ra : artists) {
+            View card = buildArtistCard(ra.name, ra.art);
+            cards.addView(card);
+        }
+
+        // Ganti RecyclerView dengan ScrollView berisi kad
+        rv.setVisibility(View.GONE);
+        android.widget.HorizontalScrollView hsv = new android.widget.HorizontalScrollView(requireContext());
+        hsv.setHorizontalScrollBarEnabled(false);
+        hsv.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        hsv.addView(cards);
+        LinearLayout.LayoutParams hsvLp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        hsv.setLayoutParams(hsvLp);
+        ((ViewGroup) rv.getParent()).addView(hsv);
+
+        parent.addView(shelf);
+    }
+
+    // ── Artist Spotlight — artis terkenal Melayu (rounded besar) ─
+    private static final String[][] SPOTLIGHT_ARTISTS = {
+        {"Yuna", "yuna malaysian singer"},
+        {"Hael Husaini", "hael husaini"},
+        {"Dato Sri Siti Nurhaliza", "siti nurhaliza"},
+        {"Faizal Tahir", "faizal tahir"},
+        {"Sheila Majid", "sheila majid"},
+        {"Dayang Nurfaizah", "dayang nurfaizah"},
+        {"Alif Satar", "alif satar"},
+        {"Nabila Razali", "nabila razali"},
+        {"Aina Abdul", "aina abdul"},
+        {"Khai Bahar", "khai bahar"},
+    };
+
+    private void buildArtistSpotlight(LinearLayout parent) {
+        View shelf = inflater.inflate(R.layout.view_shelf, parent, false);
+        ((TextView) shelf.findViewById(R.id.shelfTitle)).setText("Artist Spotlight");
+        shelf.findViewById(R.id.shelfProgress).setVisibility(View.GONE);
+        RecyclerView rv = shelf.findViewById(R.id.shelfList);
+        rv.setVisibility(View.GONE);
+
+        LinearLayout cards = new LinearLayout(requireContext());
+        cards.setOrientation(LinearLayout.HORIZONTAL);
+
+        android.widget.HorizontalScrollView hsv = new android.widget.HorizontalScrollView(requireContext());
+        hsv.setHorizontalScrollBarEnabled(false);
+        hsv.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        hsv.addView(cards);
+        LinearLayout.LayoutParams hsvLp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        hsv.setLayoutParams(hsvLp);
+        ((ViewGroup) rv.getParent()).addView(hsv);
+
+        parent.addView(shelf);
+
+        // Muat gambar artis dari carian
+        App.IO.execute(() -> {
+            for (String[] sa : SPOTLIGHT_ARTISTS) {
+                try {
+                    List<Track> res = YtMusic.search(sa[1]);
+                    if (res.isEmpty()) continue;
+                    final String name = sa[0];
+                    final String art = res.get(0).art;
+                    App.MAIN.post(() -> {
+                        if (!isAdded()) return;
+                        View card = buildArtistCard(name, art);
+                        cards.addView(card);
+                    });
+                } catch (Exception ignored) { }
+            }
+        });
+    }
+
+    // ── Artist For You — bubble artis Melayu terkenal masa kini ──
+    private static final String[][] ARTIST_FOR_YOU = {
+        {"Yuna"}, {"Hael Husaini"}, {"Dato Sri Siti Nurhaliza"},
+        {"Faizal Tahir"}, {"Alif Satar"}, {"Nabila Razali"},
+        {"Aina Abdul"}, {"Khai Bahar"}, {"Dayang Nurfaizah"},
+        {"Ismail Izzani"}, {"Naim Daniel"}, {"Syamel"},
+        {"Hafiz Suip"}, {"Ara Johari"}, {"Siti Nordiana"},
+        {"Ayda Jebat"}, {"Neelofa"}, {"Ernie Zakri"},
+        {"Tajul"}, {"Wany Hasrita"},
+    };
+
+    private void buildArtistForYou(LinearLayout parent) {
+        // Tajuk
+        TextView titleTv = new TextView(requireContext());
+        titleTv.setText("Artis Untuk Anda");
+        titleTv.setTextSize(18);
+        titleTv.setTextColor(Ui.attr(requireContext(), R.attr.mcText));
+        titleTv.setTypeface(null, android.graphics.Typeface.BOLD);
+        LinearLayout.LayoutParams titleLp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        titleLp.setMargins(Ui.dp(requireContext(), 16), Ui.dp(requireContext(), 20), 0, Ui.dp(requireContext(), 8));
+        titleTv.setLayoutParams(titleLp);
+        parent.addView(titleTv);
+
+        // Sub-tajuk
+        TextView subTv = new TextView(requireContext());
+        subTv.setText("Artis Melayu Terkenal Masa Kini");
+        subTv.setTextSize(13);
+        subTv.setTextColor(Ui.attr(requireContext(), R.attr.mcTextDim));
+        LinearLayout.LayoutParams subLp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        subLp.setMargins(Ui.dp(requireContext(), 16), 0, 0, Ui.dp(requireContext(), 10));
+        subTv.setLayoutParams(subLp);
+        parent.addView(subTv);
+
+        // Bubble chips — FlowLayout (wrap content)
+        android.widget.HorizontalScrollView hsv = new android.widget.HorizontalScrollView(requireContext());
+        hsv.setHorizontalScrollBarEnabled(false);
+        hsv.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        hsv.setPadding(Ui.dp(requireContext(), 16), 0, Ui.dp(requireContext(), 16), 0);
+        hsv.setClipToPadding(false);
+
+        // Wrap layout untuk bubbles — gunakan GridLayout
+        // Guna LinearLayout sahaja (scroll horizontal)
+        LinearLayout bubbles = new LinearLayout(requireContext());
+        bubbles.setOrientation(LinearLayout.HORIZONTAL);
+
+        for (String[] a : ARTIST_FOR_YOU) {
+            TextView chip = new TextView(requireContext());
+            chip.setText(a[0]);
+            chip.setTextSize(14);
+            chip.setTextColor(Ui.attr(requireContext(), R.attr.mcText));
+            int px8 = Ui.dp(requireContext(), 8);
+            int px16 = Ui.dp(requireContext(), 16);
+            chip.setPadding(px16, px8, px16, px8);
+
+            android.graphics.drawable.GradientDrawable bg = new android.graphics.drawable.GradientDrawable();
+            bg.setCornerRadius(Ui.dp(requireContext(), 20));
+            bg.setColor(Ui.attr(requireContext(), R.attr.mcSurface));
+            bg.setStroke(Ui.dp(requireContext(), 1), Ui.attr(requireContext(), R.attr.mcAccent) & 0x40FFFFFF | 0x40000000);
+            chip.setBackground(bg);
+
+            LinearLayout.LayoutParams clp = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            clp.setMarginEnd(Ui.dp(requireContext(), 8));
+            chip.setLayoutParams(clp);
+
+            String artistName = a[0];
+            chip.setOnClickListener(v -> {
+                android.content.Intent i = new android.content.Intent(getContext(), ArtistActivity.class);
+                i.putExtra(ArtistActivity.EXTRA_ARTIST, artistName);
+                startActivity(i);
+            });
+
+            bubbles.addView(chip);
+        }
+
+        hsv.addView(bubbles);
+        parent.addView(hsv);
+    }
+
+    /** Kad artis rounded besar — digunakan oleh Recent Artists & Artist Spotlight */
+    private View buildArtistCard(String name, String artUrl) {
+        LinearLayout card = new LinearLayout(requireContext());
+        card.setOrientation(LinearLayout.VERTICAL);
+        card.setGravity(android.view.Gravity.CENTER_HORIZONTAL);
+
+        int size = Ui.dp(requireContext(), 110);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.setMarginEnd(Ui.dp(requireContext(), 12));
+        card.setLayoutParams(lp);
+        card.setPadding(0, Ui.dp(requireContext(), 8), 0, Ui.dp(requireContext(), 8));
+
+        // Gambar bulat
+        ImageView img = new ImageView(requireContext());
+        LinearLayout.LayoutParams imgLp = new LinearLayout.LayoutParams(size, size);
+        img.setLayoutParams(imgLp);
+        img.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+        // Rounded corners
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            img.setClipToOutline(true);
+            img.setOutlineProvider(new android.view.ViewOutlineProvider() {
+                @Override
+                public void getOutline(View view, android.graphics.Outline outline) {
+                    outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), Ui.dp(requireContext(), 22));
+                }
+            });
+        }
+
+        if (artUrl != null && !artUrl.isEmpty()) {
+            com.bumptech.glide.Glide.with(this).load(artUrl).centerCrop().into(img);
+        } else {
+            img.setBackgroundColor(Ui.attr(requireContext(), R.attr.mcSurface));
+        }
+        card.addView(img);
+
+        // Nama
+        TextView nameTv = new TextView(requireContext());
+        nameTv.setText(name);
+        nameTv.setTextSize(13);
+        nameTv.setTextColor(Ui.attr(requireContext(), R.attr.mcText));
+        nameTv.setGravity(android.view.Gravity.CENTER);
+        nameTv.setMaxLines(2);
+        nameTv.setEllipsize(android.text.TextUtils.TruncateAt.END);
+        LinearLayout.LayoutParams nameLp = new LinearLayout.LayoutParams(size, ViewGroup.LayoutParams.WRAP_CONTENT);
+        nameLp.topMargin = Ui.dp(requireContext(), 6);
+        nameTv.setLayoutParams(nameLp);
+        card.addView(nameTv);
+
+        card.setOnClickListener(v -> {
+            android.content.Intent i = new android.content.Intent(getContext(), ArtistActivity.class);
+            i.putExtra(ArtistActivity.EXTRA_ARTIST, name);
+            i.putExtra(ArtistActivity.EXTRA_ART, artUrl);
+            startActivity(i);
+        });
+
+        return card;
     }
 
     private void addLoginCard(LinearLayout parent) {

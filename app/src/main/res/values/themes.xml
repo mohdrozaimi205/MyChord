@@ -626,6 +626,39 @@
         <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
     </style>
+    <style name="Theme.MyChord.Lastwave" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="mcStroke">@android:color/transparent</item>
+        <item name="mcBg">@color/t_lw_mcbg</item>
+        <item name="mcSurface">@color/t_lw_mcsurface</item>
+        <item name="mcSurface2">@color/t_lw_mcsurface2</item>
+        <item name="mcText">@color/t_lw_mctext</item>
+        <item name="mcTextDim">@color/t_lw_mctextdim</item>
+        <item name="mcAccent">@color/t_lw_mcaccent</item>
+        <item name="mcOnAccent">@color/t_lw_mconaccent</item>
+        <item name="colorPrimary">@color/t_lw_colorprimary</item>
+        <item name="colorOnPrimary">@color/t_lw_coloronprimary</item>
+        <item name="colorSecondary">@color/t_lw_colorsecondary</item>
+        <item name="colorPrimaryContainer">@color/t_lw_colorprimarycontainer</item>
+        <item name="colorOnPrimaryContainer">@color/t_lw_coloronprimarycontainer</item>
+        <item name="colorSecondaryContainer">@color/t_lw_colorsecondarycontainer</item>
+        <item name="colorOnSecondaryContainer">@color/t_lw_coloronsecondarycontainer</item>
+        <item name="colorSurface">@color/t_lw_colorsurface</item>
+        <item name="colorSurfaceContainer">@color/t_lw_colorsurfacecontainer</item>
+        <item name="colorSurfaceContainerHigh">@color/t_lw_colorsurfacecontainerhigh</item>
+        <item name="colorOnSurface">@color/t_lw_coloronsurface</item>
+        <item name="colorOnSurfaceVariant">@color/t_lw_coloronsurfacevariant</item>
+        <item name="colorOutline">@color/t_lw_coloroutline</item>
+        <item name="android:colorBackground">@color/t_lw_colorbackground</item>
+        <item name="android:windowBackground">@color/t_lw_windowbackground</item>
+        <item name="android:textColorPrimary">@color/t_lw_textcolorprimary</item>
+        <item name="android:textColorSecondary">@color/t_lw_textcolorsecondary</item>
+        <item name="android:statusBarColor">@color/t_lw_statusbarcolor</item>
+        <item name="android:navigationBarColor">@color/t_lw_navigationbarcolor</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
+    </style>
     <style name="Theme.MyChord.Player" parent="Theme.MyChord.Ember">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
