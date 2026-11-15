@@ -488,9 +488,9 @@ public class HomeFragment extends Fragment {
         parent.addView(shelf);
         App.IO.execute(() -> {
             try {
-                List<Track> r = loader.load();
+                List<Track> raw = loader.load();
                 // Tapis Hindi/India
-                r = DiscoverShelves.filterHindi(r);
+                final List<Track> r = DiscoverShelves.filterHindi(raw);
                 App.MAIN.post(() -> {
                     if (!isAdded()) return;
                     pb.setVisibility(View.GONE);
@@ -518,8 +518,8 @@ public class HomeFragment extends Fragment {
         parent.addView(shelf);
         App.IO.execute(() -> {
             try {
-                List<Track> r = loader.load();
-                r = DiscoverShelves.filterHindi(r);
+                List<Track> raw = loader.load();
+                final List<Track> r = DiscoverShelves.filterHindi(raw);
                 App.MAIN.post(() -> {
                     if (!isAdded()) return;
                     pb.setVisibility(View.GONE);
