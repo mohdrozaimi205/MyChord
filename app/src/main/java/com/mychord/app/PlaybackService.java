@@ -226,7 +226,7 @@ public class PlaybackService extends MediaSessionService {
                 // Kumpul ID sedia ada untuk elak duplikasi
                 Set<String> existing = new HashSet<>();
                 for (int i = 0; i < player.getMediaItemCount(); i++) {
-                    existing.add(player.getMediaItem(i).mediaId);
+                    existing.add(player.getMediaItemAt(i).mediaId);
                 }
                 // Juga elak lagu dari sejarah terkini
                 List<Track> hist = Store.history();

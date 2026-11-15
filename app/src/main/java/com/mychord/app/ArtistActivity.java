@@ -65,7 +65,7 @@ public class ArtistActivity extends BaseActivity {
         rv.setAdapter(adapter);
 
         // ── Mini player ──
-        MiniPlayer.setup(this, findViewById(R.id.mini));
+        setupMini();
 
         // ── Butang Play All & Shuffle ──
         findViewById(R.id.artistPlayAll).setOnClickListener(v -> {
@@ -121,6 +121,6 @@ public class ArtistActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MiniPlayer.setup(this, findViewById(R.id.mini));
+        setupMini();
     }
 }
