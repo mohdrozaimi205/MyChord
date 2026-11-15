@@ -221,18 +221,17 @@ public class PlaybackService extends MediaSessionService {
         if (t.mediaId == null || !t.mediaId.startsWith("yt:")) return;
 
         autoQueuing = true;
+        // Kumpul ID sedia ada di main thread (Media3 Player wajib main thread)
+        Set<String> existing = new HashSet<>();
+        for (int i = 0; i < count; i++) {
+            existing.add(player.getMediaItemAt(i).mediaId);
+        }
+        List<Track> hist = Store.history();
+        for (int i = 0; i < Math.min(hist.size(), 20); i++) {
+            existing.add(hist.get(i).mediaId);
+        }
         App.IO.execute(() -> {
             try {
-                // Kumpul ID sedia ada untuk elak duplikasi
-                Set<String> existing = new HashSet<>();
-                for (int i = 0; i < player.getMediaItemCount(); i++) {
-                    existing.add(player.getMediaItemAt(i).mediaId);
-                }
-                // Juga elak lagu dari sejarah terkini
-                List<Track> hist = Store.history();
-                for (int i = 0; i < Math.min(hist.size(), 20); i++) {
-                    existing.add(hist.get(i).mediaId);
-                }
 
                 // Cari berdasarkan artis + tajuk semasa
                 String query = t.artist + " " + t.title;
