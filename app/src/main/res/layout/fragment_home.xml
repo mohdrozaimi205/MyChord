@@ -9,6 +9,7 @@
         android:orientation="vertical"
         android:paddingBottom="16dp">
 
+        <!-- Header: Title + icons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -84,21 +85,12 @@
             </FrameLayout>
         </LinearLayout>
 
-        <GridLayout
-            android:id="@+id/tiles"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="14dp"
-            android:columnCount="2" />
-
-        <!-- Mood & Genre chips inline -->
+        <!-- 1. Mood filter chips at top (gaya LastWave) -->
         <HorizontalScrollView
             android:id="@+id/moodScroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="12dp"
             android:clipToPadding="false"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
@@ -111,6 +103,99 @@
                 android:orientation="horizontal" />
         </HorizontalScrollView>
 
+        <!-- 2. Date display -->
+        <TextView
+            android:id="@+id/homeDate"
+            style="@style/Txt.Overline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="14dp" />
+
+        <!-- 3. Made For You hero card -->
+        <LinearLayout
+            android:id="@+id/heroCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical" />
+
+        <!-- 4. Quick Access tiles -->
+        <GridLayout
+            android:id="@+id/tiles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="14dp"
+            android:columnCount="2" />
+
+        <!-- 5. My Genres chips -->
+        <TextView
+            android:id="@+id/genresLabel"
+            style="@style/Txt.Section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/home_my_genres" />
+
+        <TextView
+            android:id="@+id/genresSub"
+            style="@style/Txt.Dim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="2dp"
+            android:text="@string/home_my_genres_sub" />
+
+        <HorizontalScrollView
+            android:id="@+id/genreScroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:clipToPadding="false"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/genreChips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
+        <!-- 6. Mood & Genre landscape cards -->
+        <TextView
+            android:id="@+id/moodLandLabel"
+            style="@style/Txt.Section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/moods_title" />
+
+        <HorizontalScrollView
+            android:id="@+id/moodLandScroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:clipToPadding="false"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/moodLandCards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
+        <!-- 7. All shelves -->
         <LinearLayout
             android:id="@+id/shelves"
             android:layout_width="match_parent"

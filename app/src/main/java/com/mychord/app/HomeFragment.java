@@ -1,6 +1,8 @@
 package com.mychord.app;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +21,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class HomeFragment extends Fragment {
     interface Loader { List<Track> load() throws Exception; }
@@ -31,22 +37,61 @@ public class HomeFragment extends Fragment {
     private View recentShelf;
     private String builtFor = null;
 
-    /** Mood chips — emoji + label + carian */
-    private static final String[][] MOOD_CHIPS = {
-        {"🎉", "Riang", "upbeat happy party music"},
-        {"😢", "Sedih", "sad emotional ballads"},
-        {"🔥", "Tenaga", "energetic workout pump up"},
-        {"😌", "Tenang", "calm relaxing peaceful"},
-        {"💕", "Romantik", "romantic love songs"},
-        {"🌙", "Malam", "late night chill vibes"},
-        {"🏋️", "Senaman", "gym workout motivation"},
-        {"📚", "Fokus", "focus study concentration"},
-        {"🎸", "Rock", "rock music"},
-        {"🕌", "Nasyid", "nasyid islamic nasheed"},
-        {"🎧", "EDM", "edm electronic dance"},
-        {"🇲🇾", "Melayu", "lagu melayu popular terkini"},
-        {"🌏", "K-Pop", "kpop korean pop"},
-        {"🎵", "Indie", "indie alternative"},
+    /** Filter chips gaya LastWave — label + carian */
+    private static final String[][] FILTER_CHIPS = {
+        {"All", ""},
+        {"Relax", "relaxing calm peaceful chill"},
+        {"Energize", "energetic workout pump up"},
+        {"Feel good", "feel good happy upbeat"},
+        {"Workout", "gym workout motivation fitness"},
+        {"Indie", "indie alternative malaysia"},
+        {"Fokus", "focus study concentration"},
+        {"Romantik", "romantic love songs"},
+        {"Malam", "late night chill vibes"},
+        {"Nasyid", "nasyid islamic nasheed"},
+        {"K-Pop", "kpop korean pop"},
+        {"EDM", "edm electronic dance"},
+        {"Rock", "rock music"},
+    };
+
+    /** Genre chips */
+    private static final String[][] GENRE_CHIPS = {
+        {"Pop", "pop music popular"},
+        {"Rock", "rock music"},
+        {"Hip Hop", "hip hop rap"},
+        {"Indie", "indie alternative"},
+        {"R&B", "r&b soul"},
+        {"Dangdut", "dangdut melayu"},
+        {"Nasyid", "nasyid islamic"},
+        {"Jazz", "jazz music"},
+        {"Klasik", "classical music"},
+        {"EDM", "edm electronic dance"},
+        {"K-Pop", "kpop korean pop"},
+        {"Reggae", "reggae music"},
+    };
+
+    /** Mood landscape cards — emoji + label + warna + carian */
+    private static final Object[][] MOOD_CARDS = {
+        {"🎉", "Riang", 0xFFFF6B35, "upbeat happy party music"},
+        {"😢", "Sedih", 0xFF5B8DEF, "sad emotional ballads"},
+        {"🔥", "Tenaga", 0xFFE53935, "energetic workout pump up"},
+        {"😌", "Tenang", 0xFF43A047, "calm relaxing peaceful"},
+        {"💕", "Romantik", 0xFFEC407A, "romantic love songs"},
+        {"🌙", "Malam", 0xFF5C6BC0, "late night chill vibes"},
+        {"☀️", "Pagi", 0xFFFFA726, "morning fresh acoustic"},
+        {"🏋️", "Senaman", 0xFFFF7043, "gym workout motivation"},
+        {"📚", "Fokus", 0xFF26A69A, "focus study concentration"},
+        {"🎸", "Rock", 0xFF8D6E63, "rock music"},
+        {"🎤", "R&B", 0xFFAB47BC, "r&b soul"},
+        {"🎹", "Klasik", 0xFF78909C, "classical music"},
+        {"🎺", "Jazz", 0xFFD4A373, "jazz music"},
+        {"🕌", "Nasyid", 0xFF66BB6A, "nasyid islamic nasheed"},
+        {"🎧", "EDM", 0xFF00BCD4, "edm electronic dance"},
+        {"🇲🇾", "Melayu", 0xFF1565C0, "lagu melayu popular terkini"},
+        {"🌏", "K-Pop", 0xFFE040FB, "kpop korean pop"},
+        {"🎵", "Indie", 0xFF26C6DA, "indie alternative"},
+        {"🎭", "Soundtrack", 0xFF7E57C2, "ost soundtrack movie drama"},
+        {"☕", "Santai", 0xFF8D6E63, "coffeehouse acoustic cafe chill"},
     };
 
     @Nullable
@@ -63,8 +108,12 @@ public class HomeFragment extends Fragment {
             if (getActivity() instanceof MainActivity) ((MainActivity) getActivity()).selectTab(3);
         });
         refreshHeader();
+        buildFilterChips();
+        buildDateDisplay();
+        buildHeroCard();
         buildTiles();
-        buildMoodChips();
+        buildGenreChips();
+        buildMoodLandscape();
         buildShelves();
         return root;
     }
@@ -74,42 +123,184 @@ public class HomeFragment extends Fragment {
         return YtmAccount.loggedIn() + "|" + SpotifyAccount.loggedIn() + "|" + CustomAddons.signature();
     }
 
-    // ── Mood chips inline ───────────────────────────────────────
+    // ── 1. Filter chips di atas (gaya LastWave) ──────────────────
 
-    private void buildMoodChips() {
+    private void buildFilterChips() {
         LinearLayout chips = root.findViewById(R.id.moodChips);
         chips.removeAllViews();
 
-        // "Semua" chip — buka MoodsActivity penuh
-        TextView all = (TextView) inflater.inflate(R.layout.item_mood_chip, chips, false);
-        all.setText("🎶 " + getString(R.string.moods_title));
-        all.setOnClickListener(v -> startActivity(new Intent(getContext(), MoodsActivity.class)));
-        chips.addView(all);
+        for (int i = 0; i < FILTER_CHIPS.length; i++) {
+            String[] chip = FILTER_CHIPS[i];
+            TextView tv = (TextView) inflater.inflate(R.layout.item_mood_chip, chips, false);
+            tv.setText(chip[0]);
+            if (i == 0) {
+                // "All" chip — highlighted by default
+                tv.setBackgroundResource(R.drawable.bg_accent_pill);
+                tv.setTextColor(Ui.attr(requireContext(), R.attr.mcOnAccent));
+            }
+            String query = chip[1];
+            String label = chip[0];
+            if (query.isEmpty()) {
+                // All — just scroll to top
+                tv.setOnClickListener(v -> {
+                    root.findViewById(R.id.heroCard).requestFocus();
+                });
+            } else {
+                tv.setOnClickListener(v -> {
+                    Intent intent = new Intent(getContext(), ListActivity.class);
+                    intent.putExtra("mode", "search");
+                    intent.putExtra("query", query);
+                    intent.putExtra("title", label);
+                    startActivity(intent);
+                });
+            }
+            chips.addView(tv);
+        }
+    }
 
-        for (String[] mood : MOOD_CHIPS) {
-            TextView chip = (TextView) inflater.inflate(R.layout.item_mood_chip, chips, false);
-            chip.setText(mood[0] + " " + mood[1]);
-            String query = mood[2];
-            String label = mood[1];
-            chip.setOnClickListener(v -> {
+    // ── 2. Date display ──────────────────────────────────────────
+
+    private void buildDateDisplay() {
+        TextView dateView = root.findViewById(R.id.homeDate);
+        String locale = Prefs.lang().equals("en") ? "en" : "ms";
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d MMMM", new Locale(locale));
+        dateView.setText(sdf.format(new Date()).toUpperCase());
+    }
+
+    // ── 3. Made For You hero card ────────────────────────────────
+
+    private void buildHeroCard() {
+        LinearLayout hero = root.findViewById(R.id.heroCard);
+        hero.removeAllViews();
+
+        View card = inflater.inflate(R.layout.item_tile, hero, false);
+        ImageView iv = card.findViewById(R.id.tileIcon);
+        iv.setImageResource(R.drawable.ic_play);
+        Ui.tint(iv, Ui.attr(requireContext(), R.attr.mcOnAccent));
+        ((TextView) card.findViewById(R.id.tileTitle)).setText(R.string.home_hero_title);
+        ((TextView) card.findViewById(R.id.tileSub)).setText(R.string.home_hero_sub);
+
+        int height = Ui.dp(requireContext(), 100);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
+        card.setLayoutParams(lp);
+        android.graphics.drawable.GradientDrawable heroGrad = new android.graphics.drawable.GradientDrawable(
+                android.graphics.drawable.GradientDrawable.Orientation.TL_BR,
+                new int[]{Ui.attr(requireContext(), R.attr.mcAccent), Ui.attr(requireContext(), R.attr.mcSurface2)});
+        heroGrad.setCornerRadius(Ui.dp(requireContext(), 18));
+        card.setBackground(heroGrad);
+        card.setOnClickListener(v -> {
+            // Main radio / mix peribadi
+            App.IO.execute(() -> {
+                try {
+                    List<Track> mix;
+                    if (YtmAccount.loggedIn()) {
+                        mix = DiscoverShelves.ytmMixForYou();
+                    } else {
+                        mix = DiscoverShelves.algMyTerkini();
+                    }
+                    if (!mix.isEmpty()) App.MAIN.post(() -> {
+                        if (isAdded()) Nav.open(requireActivity(), mix, 0);
+                    });
+                } catch (Exception ignored) {}
+            });
+        });
+        hero.addView(card);
+    }
+
+    // ── 5. Genre chips ───────────────────────────────────────────
+
+    private void buildGenreChips() {
+        LinearLayout chips = root.findViewById(R.id.genreChips);
+        chips.removeAllViews();
+
+        for (String[] genre : GENRE_CHIPS) {
+            TextView tv = (TextView) inflater.inflate(R.layout.item_mood_chip, chips, false);
+            tv.setText(genre[0]);
+            String query = genre[1];
+            String label = genre[0];
+            tv.setOnClickListener(v -> {
                 Intent i = new Intent(getContext(), ListActivity.class);
                 i.putExtra("mode", "search");
                 i.putExtra("query", query);
                 i.putExtra("title", label);
                 startActivity(i);
             });
-            chips.addView(chip);
+            chips.addView(tv);
         }
     }
 
-    // ── Rak utama (shelves) ────────────────────────────────────
+    // ── 6. Mood & Genre landscape cards ──────────────────────────
+
+    private void buildMoodLandscape() {
+        LinearLayout container = root.findViewById(R.id.moodLandCards);
+        container.removeAllViews();
+
+        for (Object[] mood : MOOD_CARDS) {
+            String emoji = (String) mood[0];
+            String label = (String) mood[1];
+            int color = (int) mood[2];
+            String query = (String) mood[3];
+
+            LinearLayout card = new LinearLayout(requireContext());
+            card.setOrientation(LinearLayout.VERTICAL);
+            card.setGravity(android.view.Gravity.CENTER);
+            int w = Ui.dp(requireContext(), 130);
+            int h = Ui.dp(requireContext(), 80);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(w, h);
+            lp.setMarginEnd(Ui.dp(requireContext(), 10));
+            card.setLayoutParams(lp);
+            card.setPadding(Ui.dp(requireContext(), 12), Ui.dp(requireContext(), 8),
+                    Ui.dp(requireContext(), 12), Ui.dp(requireContext(), 8));
+
+            // Background rounded gradient
+            GradientDrawable gd = new GradientDrawable(
+                    GradientDrawable.Orientation.TL_BR,
+                    new int[]{color, darken(color, 0.3f)});
+            gd.setCornerRadius(Ui.dp(requireContext(), 14));
+            card.setBackground(gd);
+
+            // Emoji
+            TextView emojiTv = new TextView(requireContext());
+            emojiTv.setText(emoji);
+            emojiTv.setTextSize(24);
+            emojiTv.setGravity(android.view.Gravity.CENTER);
+            card.addView(emojiTv);
+
+            // Label
+            TextView labelTv = new TextView(requireContext());
+            labelTv.setText(label);
+            labelTv.setTextSize(13);
+            labelTv.setTextColor(Color.WHITE);
+            labelTv.setTypeface(null, android.graphics.Typeface.BOLD);
+            labelTv.setGravity(android.view.Gravity.CENTER);
+            card.addView(labelTv);
+
+            card.setOnClickListener(v -> {
+                Intent i = new Intent(getContext(), ListActivity.class);
+                i.putExtra("mode", "search");
+                i.putExtra("query", query);
+                i.putExtra("title", label);
+                startActivity(i);
+            });
+            container.addView(card);
+        }
+    }
+
+    private static int darken(int color, float factor) {
+        int r = (int) (Color.red(color) * (1 - factor));
+        int g = (int) (Color.green(color) * (1 - factor));
+        int b = (int) (Color.blue(color) * (1 - factor));
+        return Color.argb(Color.alpha(color), r, g, b);
+    }
+
+    // ── Rak utama (shelves) — susunan gaya LastWave ────────────
 
     private void buildShelves() {
         builtFor = state();
         LinearLayout shelves = root.findViewById(R.id.shelves);
         shelves.removeAllViews();
 
-        // ━━━━ QUICK ACCESS: Baru Dimainkan ━━━━
+        // ━━━━ Baru Dimainkan ━━━━
         recentShelf = inflater.inflate(R.layout.view_shelf, shelves, false);
         ((TextView) recentShelf.findViewById(R.id.shelfTitle)).setText(R.string.shelf_recent);
         recentShelf.findViewById(R.id.shelfProgress).setVisibility(View.GONE);
@@ -120,39 +311,50 @@ public class HomeFragment extends Fragment {
         shelves.addView(recentShelf);
         refreshRecent();
 
-        // ━━━━ QUICK ACCESS: Sambung Dengar / Jump Back In ━━━━
+        // ━━━━ 1. Discover New Music (horizontal large cards + badge DISCOVER) ━━━━
+        addShelf(shelves, getString(R.string.dis_discover_new), DiscoverShelves::discoverNewMusic, null);
+
+        // ━━━━ 2. Quick Picks — VERTICAL list (lagu melayu) ━━━━
+        if (YtmAccount.loggedIn()) {
+            addVerticalShelf(shelves, getString(R.string.dis_quick_picks), DiscoverShelves::ytmQuickPicks);
+        } else {
+            addVerticalShelf(shelves, getString(R.string.dis_quick_picks), DiscoverShelves::fallbackQuickPicks);
+        }
+
+        // ━━━━ 3. Because You Listen ━━━━
+        addShelf(shelves, getString(R.string.dis_because_you_listen), DiscoverShelves::becauseYouListen, null);
+
+        // ━━━━ 4. Sambung Dengar / Jump Back In ━━━━
         addShelf(shelves, getString(R.string.dis_jump_back), DiscoverShelves::jumpBackIn, null);
 
-        // ━━━━ Lagu dari akaun ━━━━
+        // ━━━━ 5. Lagu dari akaun ━━━━
         if (YtmAccount.loggedIn()) {
             addShelf(shelves, getString(R.string.acc_for_you), YtmAccount::home, ListActivity.MODE_YTM_HOME);
             addShelf(shelves, "YouTube Music • " + getString(R.string.tile_liked), YtmAccount::liked, ListActivity.MODE_YTM_LIKED);
-            addShelf(shelves, "YouTube Music • " + getString(R.string.acc_my_playlists), YtmAccount::playlists, ListActivity.MODE_YTM_LISTS);
         }
         if (SpotifyAccount.loggedIn()) {
             addShelf(shelves, "Spotify • " + getString(R.string.tile_liked), SpotifyAccount::liked, ListActivity.MODE_SP_LIKED);
-            addShelf(shelves, "Spotify • " + getString(R.string.acc_my_playlists), SpotifyAccount::playlists, ListActivity.MODE_SP_LISTS);
         }
         if (!YtmAccount.loggedIn() && !SpotifyAccount.loggedIn()) addLoginCard(shelves);
 
-        // Addon tambahan sendiri
+        // Addon sendiri
         for (JSONObject a : CustomAddons.all()) {
             addShelf(shelves, a.optString("name"), () -> CustomAddons.tracks(a), null);
         }
 
-        // ━━━━ 80% MALAYSIA — Lagu Terkini & Popular ━━━━
-        addShelf(shelves, getString(R.string.alg_my_terkini), DiscoverShelves::algMyTerkini, null);
+        // ━━━━ 80% MALAYSIA — Lagu Melayu Popular & Terkini ━━━━
         addShelf(shelves, getString(R.string.alg_my_popular), DiscoverShelves::algMyPopular, null);
+        addShelf(shelves, getString(R.string.alg_my_terkini), DiscoverShelves::algMyTerkini, null);
 
-        // ━━━━ DISCOVERY: Quick Picks ━━━━
+        // ━━━━ Lagu Melayu Baru (Daily Discover) ━━━━
         if (YtmAccount.loggedIn()) {
-            addShelf(shelves, getString(R.string.dis_quick_picks), DiscoverShelves::ytmQuickPicks, null);
-        } else {
-            addShelf(shelves, getString(R.string.dis_quick_picks), DiscoverShelves::fallbackQuickPicks, null);
+            addShelf(shelves, getString(R.string.dis_daily_discover), DiscoverShelves::ytmDailyDiscover, null);
         }
 
-        // ━━━━ DISCOVERY: Because You Listen ━━━━
-        addShelf(shelves, getString(R.string.dis_because_you_listen), DiscoverShelves::becauseYouListen, null);
+        // ━━━━ Lagu Artis Melayu Terhebat (Albums For You) ━━━━
+        if (YtmAccount.loggedIn()) {
+            addShelf(shelves, getString(R.string.dis_albums_for_you), DiscoverShelves::ytmAlbumsForYou, null);
+        }
 
         // ━━━━ 80% MALAYSIA — 90an & Klasik ━━━━
         addShelf(shelves, getString(R.string.alg_my_90an), DiscoverShelves::algMy90an, null);
@@ -165,14 +367,11 @@ public class HomeFragment extends Fragment {
             addShelf(shelves, getString(R.string.dis_listen_again), DiscoverShelves::fallbackListenAgain, null);
         }
 
-        // ━━━━ DISCOVERY: Discover New Music ━━━━
-        addShelf(shelves, getString(R.string.dis_discover_new), DiscoverShelves::discoverNewMusic, null);
-
         // ━━━━ 80% MALAYSIA — Nasyid, Indie, Rock, Dangdut ━━━━
         addShelf(shelves, getString(R.string.alg_my_nasyid), DiscoverShelves::algMyNasyid, null);
         addShelf(shelves, getString(R.string.alg_my_indie), DiscoverShelves::algMyIndie, null);
 
-        // ━━━━ DISCOVERY: Forgotten Favourites ━━━━
+        // ━━━━ Forgotten Favourites ━━━━
         if (YtmAccount.loggedIn()) {
             addShelf(shelves, getString(R.string.dis_forgotten_fav), DiscoverShelves::ytmForgottenFavourites, null);
         }
@@ -181,26 +380,32 @@ public class HomeFragment extends Fragment {
         addShelf(shelves, getString(R.string.alg_en_popular), DiscoverShelves::algEnPopular, null);
         addShelf(shelves, getString(R.string.alg_en_90s), DiscoverShelves::algEn90s, null);
 
-        // ━━━━ DISCOVERY: Albums For You ━━━━
-        if (YtmAccount.loggedIn()) {
-            addShelf(shelves, getString(R.string.dis_albums_for_you), DiscoverShelves::ytmAlbumsForYou, null);
-        }
-
-        // ━━━━ DISCOVERY: Artists Spotlight ━━━━
+        // ━━━━ Artist Spotlight ━━━━
         addShelf(shelves, getString(R.string.dis_artist_spotlight), DiscoverShelves::artistSpotlight, null);
 
         // ━━━━ 80% MALAYSIA — Rock Kapak & Dangdut ━━━━
         addShelf(shelves, getString(R.string.alg_my_rock), DiscoverShelves::algMyRock, null);
         addShelf(shelves, getString(R.string.alg_my_dangdut), DiscoverShelves::algMyDangdut, null);
 
-        // ━━━━ 5% SOUNDTRACK — mengikut negara (Malaysia dahulu) ━━━━
+        // ━━━━ Keluaran Baharu (70% MY 20% EN) ━━━━
+        if (YtmAccount.loggedIn()) {
+            addShelf(shelves, getString(R.string.dis_ytm_new_releases), DiscoverShelves::ytmNewReleases, null);
+        } else {
+            addShelf(shelves, getString(R.string.dis_ytm_new_releases), DiscoverShelves::fallbackNewReleases, null);
+        }
+
+        // ━━━━ Dari Komuniti (GPS location) ━━━━
+        if (YtmAccount.loggedIn()) {
+            addShelf(shelves, getString(R.string.dis_from_community), DiscoverShelves::ytmFromCommunity, null);
+        }
+
+        // ━━━━ 5% SOUNDTRACK ━━━━
         addShelf(shelves, getString(R.string.alg_ost_my), DiscoverShelves::algOstMy, null);
         addShelf(shelves, getString(R.string.alg_ost_kr), DiscoverShelves::algOstKr, null);
         addShelf(shelves, getString(R.string.alg_ost_jp), DiscoverShelves::algOstJp, null);
         addShelf(shelves, getString(R.string.alg_ost_hw), DiscoverShelves::algOstHw, null);
-        addShelf(shelves, getString(R.string.alg_ost_ind), DiscoverShelves::algOstInd, null);
 
-        // ━━━━ 5% RILEKS — Coffeehouse & Lofi ━━━━
+        // ━━━━ 5% RILEKS ━━━━
         addShelf(shelves, getString(R.string.alg_chill_coffee), DiscoverShelves::algChillCoffee, null);
         addShelf(shelves, getString(R.string.alg_chill_lofi), DiscoverShelves::algChillLofi, null);
 
@@ -211,16 +416,12 @@ public class HomeFragment extends Fragment {
 
         // ━━━━ YTM Discovery tambahan ━━━━
         if (YtmAccount.loggedIn()) {
-            addShelf(shelves, getString(R.string.dis_ytm_new_releases), DiscoverShelves::ytmNewReleases, null);
             addShelf(shelves, getString(R.string.dis_trending), DiscoverShelves::ytmTrending, null);
             addShelf(shelves, getString(R.string.dis_mix_for_you), DiscoverShelves::ytmMixForYou, null);
             addShelf(shelves, getString(R.string.dis_similar_to), DiscoverShelves::ytmSimilarTo, null);
             addShelf(shelves, getString(R.string.dis_fresh_old), DiscoverShelves::ytmFreshOldFavs, null);
-            addShelf(shelves, getString(R.string.dis_from_community), DiscoverShelves::ytmFromCommunity, null);
-            addShelf(shelves, getString(R.string.dis_daily_discover), DiscoverShelves::ytmDailyDiscover, null);
             addShelf(shelves, getString(R.string.dis_live_perf), DiscoverShelves::ytmLivePerformance, null);
         } else {
-            addShelf(shelves, getString(R.string.dis_ytm_new_releases), DiscoverShelves::fallbackNewReleases, null);
             addShelf(shelves, getString(R.string.dis_trending), DiscoverShelves::fallbackTrending, null);
             addShelf(shelves, getString(R.string.dis_live_perf), DiscoverShelves::fallbackLivePerformance, null);
         }
@@ -228,18 +429,12 @@ public class HomeFragment extends Fragment {
         // ━━━━ Spotify Discovery tambahan ━━━━
         if (SpotifyAccount.loggedIn()) {
             addShelf(shelves, "Spotify • " + getString(R.string.dis_popular_radio), DiscoverShelves::spPopularRadio, null);
-            addShelf(shelves, "Spotify • " + getString(R.string.dis_popular_artists), DiscoverShelves::spPopularArtists, null);
             addShelf(shelves, "Spotify • " + getString(R.string.dis_sp_new_releases), DiscoverShelves::spNewReleases, null);
-            addShelf(shelves, "Spotify • " + getString(R.string.dis_new_artists), DiscoverShelves::spNewArtists, null);
-            addShelf(shelves, "Spotify • " + getString(R.string.dis_popular_albums), DiscoverShelves::spPopularAlbums, null);
-            addShelf(shelves, "Spotify • " + getString(R.string.dis_listen_before_watch), DiscoverShelves::spListenBeforeWatch, null);
             addShelf(shelves, "Spotify • " + getString(R.string.dis_coffeehouse), DiscoverShelves::spCoffeehouse, null);
             addShelf(shelves, "Spotify • " + getString(R.string.dis_ost), DiscoverShelves::spOstSoundtrack, null);
-            addShelf(shelves, "Spotify • " + getString(R.string.dis_other_countries), DiscoverShelves::spOtherCountries, null);
         } else {
             addShelf(shelves, getString(R.string.dis_coffeehouse), DiscoverShelves::fallbackCoffeehouse, null);
             addShelf(shelves, getString(R.string.dis_ost), DiscoverShelves::fallbackOST, null);
-            addShelf(shelves, getString(R.string.dis_other_countries), DiscoverShelves::fallbackOtherCountries, null);
         }
     }
 
@@ -281,7 +476,7 @@ public class HomeFragment extends Fragment {
     private void addShelf(LinearLayout parent, String title, Loader loader, String moreMode) {
         View shelf = inflater.inflate(R.layout.view_shelf, parent, false);
         TextView tv = shelf.findViewById(R.id.shelfTitle);
-        tv.setText(moreMode != null ? title + "  ›" : title);
+        tv.setText(moreMode != null ? title + "  >" : title);
         if (moreMode != null) {
             tv.setOnClickListener(v -> startActivity(new Intent(getContext(), ListActivity.class).putExtra("mode", moreMode)));
         }
@@ -294,10 +489,42 @@ public class HomeFragment extends Fragment {
         App.IO.execute(() -> {
             try {
                 List<Track> r = loader.load();
+                // Tapis Hindi/India
+                r = DiscoverShelves.filterHindi(r);
                 App.MAIN.post(() -> {
                     if (!isAdded()) return;
                     pb.setVisibility(View.GONE);
                     ad.set(r.size() > 30 ? r.subList(0, 30) : r);
+                    if (r.isEmpty()) shelf.setVisibility(View.GONE);
+                });
+            } catch (Throwable e) {
+                App.MAIN.post(() -> { if (isAdded()) shelf.setVisibility(View.GONE); });
+            }
+        });
+    }
+
+    /** Rak VERTICAL — senarai menegak (thumbnail + tajuk + artis) gaya Quick Picks LastWave */
+    private void addVerticalShelf(LinearLayout parent, String title, Loader loader) {
+        View shelf = inflater.inflate(R.layout.view_shelf, parent, false);
+        ((TextView) shelf.findViewById(R.id.shelfTitle)).setText(title);
+        ProgressBar pb = shelf.findViewById(R.id.shelfProgress);
+        RecyclerView rv = shelf.findViewById(R.id.shelfList);
+        // VERTICAL layout — bukan horizontal
+        rv.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        rv.setNestedScrollingEnabled(false);
+        TrackAdapter ad = cardAdapter();
+        ad.setVerticalMode(true);
+        rv.setAdapter(ad);
+        parent.addView(shelf);
+        App.IO.execute(() -> {
+            try {
+                List<Track> r = loader.load();
+                r = DiscoverShelves.filterHindi(r);
+                App.MAIN.post(() -> {
+                    if (!isAdded()) return;
+                    pb.setVisibility(View.GONE);
+                    // Quick Picks — papar 10 sahaja dalam bentuk vertikal
+                    ad.set(r.size() > 10 ? r.subList(0, 10) : r);
                     if (r.isEmpty()) shelf.setVisibility(View.GONE);
                 });
             } catch (Throwable e) {
@@ -367,8 +594,12 @@ public class HomeFragment extends Fragment {
         if (root == null) return;
         refreshHeader();
         if (!state().equals(builtFor)) {
+            buildFilterChips();
+            buildDateDisplay();
+            buildHeroCard();
             buildTiles();
-            buildMoodChips();
+            buildGenreChips();
+            buildMoodLandscape();
             buildShelves();
         } else refreshRecent();
     }

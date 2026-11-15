@@ -27,11 +27,11 @@
     <!-- Discovery shelves — YTM -->
     <string name="dis_listen_again">Listen Again</string>
     <string name="dis_forgotten_fav">Forgotten Favourites</string>
-    <string name="dis_daily_discover">Daily Discover</string>
-    <string name="dis_albums_for_you">Albums For You</string>
+    <string name="dis_daily_discover">New Malay Music</string>
+    <string name="dis_albums_for_you">Best Malay Artists</string>
     <string name="dis_ytm_new_releases">New Releases</string>
-    <string name="dis_from_community">From The Community</string>
-    <string name="dis_quick_picks">Quick Picks</string>
+    <string name="dis_from_community">Music From Your Location</string>
+    <string name="dis_quick_picks">Popular Malay Songs</string>
     <string name="dis_similar_to">Similar To…</string>
     <string name="dis_trending">Trending For You</string>
     <string name="dis_mix_for_you">Mix For You</string>
@@ -306,11 +306,18 @@
     <string name="alg_ost_kr">🎬 K-Drama Soundtrack</string>
     <string name="alg_ost_jp">🎬 Anime Soundtrack</string>
     <string name="alg_ost_hw">🎬 Hollywood Soundtrack</string>
-    <string name="alg_ost_ind">🎬 Bollywood Soundtrack</string>
+    <string name="alg_ost_ind">🎬 International Soundtrack</string>
+    <string name="theme_glass">Glassmorphism</string>
 
     <!-- Algorithm shelves — 5% Rileks -->
     <string name="alg_chill_coffee">☕ Coffeehouse &amp; Chill</string>
     <string name="alg_chill_lofi">☕ Lofi &amp; Chill Beats</string>
+
+    <!-- Home new sections -->
+    <string name="home_hero_title">Made For You</string>
+    <string name="home_hero_sub">Your non-stop personal radio</string>
+    <string name="home_my_genres">My Genres</string>
+    <string name="home_my_genres_sub">Pick your favourite genres</string>
 
     <!-- Moods / Genre -->
     <string name="moods_title">Moods &amp; Genres</string>

@@ -22,6 +22,7 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.VH> {
     public final List<Track> items = new ArrayList<>();
     private final Listener l;
     private final boolean cards;
+    private boolean verticalMode = false;
 
     public TrackAdapter(Listener l) { this(l, false); }
 
@@ -29,6 +30,9 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.VH> {
         this.l = l;
         this.cards = cards;
     }
+
+    /** Mod vertikal — guna item_track walaupun ini card adapter */
+    public void setVerticalMode(boolean vertical) { this.verticalMode = vertical; }
 
     public void set(List<Track> list) {
         items.clear();
@@ -60,9 +64,10 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.VH> {
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        boolean useCard = cards && !verticalMode;
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(cards ? R.layout.item_card : R.layout.item_track, parent, false);
-        return new VH(v, cards);
+                .inflate(useCard ? R.layout.item_card : R.layout.item_track, parent, false);
+        return new VH(v, useCard);
     }
 
     @Override

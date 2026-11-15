@@ -27,11 +27,11 @@
     <!-- Discovery shelves — YTM -->
     <string name="dis_listen_again">Dengar Semula</string>
     <string name="dis_forgotten_fav">Kegemaran Terlupa</string>
-    <string name="dis_daily_discover">Penemuan Harian</string>
-    <string name="dis_albums_for_you">Album Untuk Anda</string>
+    <string name="dis_daily_discover">Lagu Melayu Baru</string>
+    <string name="dis_albums_for_you">Lagu Artis Melayu Terhebat</string>
     <string name="dis_ytm_new_releases">Keluaran Baharu</string>
-    <string name="dis_from_community">Dari Komuniti</string>
-    <string name="dis_quick_picks">Pilihan Pantas</string>
+    <string name="dis_from_community">Lagu Dari Lokasi Anda</string>
+    <string name="dis_quick_picks">Lagu Melayu Popular</string>
     <string name="dis_similar_to">Serupa Dengan…</string>
     <string name="dis_trending">Trending Untuk Anda</string>
     <string name="dis_mix_for_you">Campuran Untuk Anda</string>
@@ -117,6 +117,7 @@
     <string name="theme_ytm">Muzik Merah</string>
     <string name="theme_disney">Biru Ajaib</string>
     <string name="theme_prime">Sian Prima</string>
+    <string name="theme_glass">Glassmorphism</string>
     <string name="theme_locked">Pasang addon \"Pek Tema\" untuk buka tema ini</string>
     <string name="icon_ember">Bara</string>
     <string name="icon_lagun">Lagun</string>
@@ -306,11 +307,17 @@
     <string name="alg_ost_kr">🎬 Soundtrack Korea (K-Drama)</string>
     <string name="alg_ost_jp">🎬 Soundtrack Jepun (Anime)</string>
     <string name="alg_ost_hw">🎬 Soundtrack Hollywood</string>
-    <string name="alg_ost_ind">🎬 Soundtrack Bollywood</string>
+    <string name="alg_ost_ind">🎬 Soundtrack Antarabangsa</string>
 
     <!-- Algorithm shelves — 5% Rileks -->
     <string name="alg_chill_coffee">☕ Coffeehouse &amp; Santai</string>
     <string name="alg_chill_lofi">☕ Lofi &amp; Chill Beats</string>
+
+    <!-- Home new sections -->
+    <string name="home_hero_title">Campuran Untuk Anda</string>
+    <string name="home_hero_sub">Radio peribadi tanpa henti</string>
+    <string name="home_my_genres">Genre Saya</string>
+    <string name="home_my_genres_sub">Pilih genre kegemaran anda</string>
 
     <!-- Moods / Genre -->
     <string name="moods_title">Mood &amp; Genre</string>

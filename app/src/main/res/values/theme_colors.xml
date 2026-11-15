@@ -448,6 +448,34 @@
     <color name="t_disney_statusbarcolor">#040714</color>
     <color name="t_disney_navigationbarcolor">#0E1535</color>
 
+    <!-- Glassmorphism: iOS frosted glass with blue-white reflect -->
+    <color name="t_glass_mcbg">#00000000</color>
+    <color name="t_glass_mcsurface">#20FFFFFF</color>
+    <color name="t_glass_mcsurface2">#30FFFFFF</color>
+    <color name="t_glass_mctext">#FFFFFF</color>
+    <color name="t_glass_mctextdim">#C8D4E8</color>
+    <color name="t_glass_mcaccent">#7EB8FF</color>
+    <color name="t_glass_mconaccent">#0A1628</color>
+    <color name="t_glass_colorprimary">#7EB8FF</color>
+    <color name="t_glass_coloronprimary">#0A1628</color>
+    <color name="t_glass_colorsecondary">#7EB8FF</color>
+    <color name="t_glass_colorprimarycontainer">#30FFFFFF</color>
+    <color name="t_glass_coloronprimarycontainer">#FFFFFF</color>
+    <color name="t_glass_colorsecondarycontainer">#30FFFFFF</color>
+    <color name="t_glass_coloronsecondarycontainer">#FFFFFF</color>
+    <color name="t_glass_colorsurface">#1C1C2E</color>
+    <color name="t_glass_colorsurfacecontainer">#1C1C2E</color>
+    <color name="t_glass_colorsurfacecontainerhigh">#262640</color>
+    <color name="t_glass_coloronsurface">#FFFFFF</color>
+    <color name="t_glass_coloronsurfacevariant">#C8D4E8</color>
+    <color name="t_glass_coloroutline">#30FFFFFF</color>
+    <color name="t_glass_colorbackground">#1C1C2E</color>
+    <color name="t_glass_windowbackground">#1C1C2E</color>
+    <color name="t_glass_textcolorprimary">#FFFFFF</color>
+    <color name="t_glass_textcolorsecondary">#C8D4E8</color>
+    <color name="t_glass_statusbarcolor">#1C1C2E</color>
+    <color name="t_glass_navigationbarcolor">#1C1C2E</color>
+
     <!-- Amazon Prime-inspired: dark slate + teal-cyan -->
     <color name="t_prime_mcbg">#0F171E</color>
     <color name="t_prime_mcsurface">#1A242F</color>

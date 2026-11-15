@@ -32,6 +32,39 @@
         <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
     </style>
+    <style name="Theme.MyChord.Glass" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="mcStroke">#3CFFFFFF</item>
+        <item name="mcBg">@color/t_glass_mcbg</item>
+        <item name="mcSurface">@color/t_glass_mcsurface</item>
+        <item name="mcSurface2">@color/t_glass_mcsurface2</item>
+        <item name="mcText">@color/t_glass_mctext</item>
+        <item name="mcTextDim">@color/t_glass_mctextdim</item>
+        <item name="mcAccent">@color/t_glass_mcaccent</item>
+        <item name="mcOnAccent">@color/t_glass_mconaccent</item>
+        <item name="colorPrimary">@color/t_glass_colorprimary</item>
+        <item name="colorOnPrimary">@color/t_glass_coloronprimary</item>
+        <item name="colorSecondary">@color/t_glass_colorsecondary</item>
+        <item name="colorPrimaryContainer">@color/t_glass_colorprimarycontainer</item>
+        <item name="colorOnPrimaryContainer">@color/t_glass_coloronprimarycontainer</item>
+        <item name="colorSecondaryContainer">@color/t_glass_colorsecondarycontainer</item>
+        <item name="colorOnSecondaryContainer">@color/t_glass_coloronsecondarycontainer</item>
+        <item name="colorSurface">@color/t_glass_colorsurface</item>
+        <item name="colorSurfaceContainer">@color/t_glass_colorsurfacecontainer</item>
+        <item name="colorSurfaceContainerHigh">@color/t_glass_colorsurfacecontainerhigh</item>
+        <item name="colorOnSurface">@color/t_glass_coloronsurface</item>
+        <item name="colorOnSurfaceVariant">@color/t_glass_coloronsurfacevariant</item>
+        <item name="colorOutline">@color/t_glass_coloroutline</item>
+        <item name="android:colorBackground">@color/t_glass_colorbackground</item>
+        <item name="android:windowBackground">@drawable/bg_glass_ios</item>
+        <item name="android:textColorPrimary">@color/t_glass_textcolorprimary</item>
+        <item name="android:textColorSecondary">@color/t_glass_textcolorsecondary</item>
+        <item name="android:statusBarColor">@color/t_glass_statusbarcolor</item>
+        <item name="android:navigationBarColor">@color/t_glass_navigationbarcolor</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
+    </style>
     <style name="Theme.MyChord.Lagun" parent="Theme.Material3.Dark.NoActionBar">
         <item name="mcStroke">@android:color/transparent</item>
         <item name="mcBg">@color/t_lagun_mcbg</item>

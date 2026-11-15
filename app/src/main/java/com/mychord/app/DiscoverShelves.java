@@ -10,8 +10,36 @@ import java.util.List;
 /**
  * Rak penemuan (discovery shelves) — gaya YouTube Music & Spotify.
  * Semua kaedah berjalan di thread latar (IO).
+ * v1.0.18: fokus lagu melayu, tapis Hindi/India, guna algorithm YTM akaun.
  */
 public class DiscoverShelves {
+
+    // ─── Penapis Hindi/India ──────────────────────────────────────
+
+    /** Kata kunci untuk kenal lagu Hindi/India — tapis keluar */
+    private static final String[] HINDI_KEYWORDS = {
+        "hindi", "bollywood", "tamil", "telugu", "punjabi", "bhojpuri",
+        "kannada", "malayalam", "marathi", "bengali", "gujarati",
+        "rajasthani", "urdu song", "desi", "filmi", "tollywood",
+        "kollywood", "sandalwood"
+    };
+
+    /** Tapis keluar lagu dari India/Hindi/bahasa serupa */
+    public static List<Track> filterHindi(List<Track> tracks) {
+        if (tracks == null) return new ArrayList<>();
+        List<Track> filtered = new ArrayList<>();
+        for (Track t : tracks) {
+            String check = ((t.title != null ? t.title : "") + " " +
+                    (t.artist != null ? t.artist : "") + " " +
+                    (t.badge != null ? t.badge : "")).toLowerCase();
+            boolean isHindi = false;
+            for (String kw : HINDI_KEYWORDS) {
+                if (check.contains(kw)) { isHindi = true; break; }
+            }
+            if (!isHindi) filtered.add(t);
+        }
+        return filtered;
+    }
 
     // ─── YouTube Music discovery (via InnerTube browse) ─────────────
 
@@ -25,37 +53,54 @@ public class DiscoverShelves {
         return sectionByTitle(YtmAccount.browse("FEmusic_home"), "Forgotten favourites", "Kegemaran terlupa");
     }
 
-    /** Penemuan Harian / Daily Discover — cadangan harian baru */
+    /** Lagu Melayu Baru / Daily Discover — cadangan lagu melayu baru */
     public static List<Track> ytmDailyDiscover() throws Exception {
         List<Track> home = sectionByTitle(YtmAccount.browse("FEmusic_home"), "Discover Mix", "Mixed for you");
-        if (home.isEmpty()) home = YtMusic.search("discover weekly new music 2026");
-        return home;
+        if (home.isEmpty()) home = YtMusic.search("lagu melayu baru 2026 terkini popular");
+        return filterHindi(home);
     }
 
-    /** Album Untuk Anda / Albums For You */
+    /** Lagu Artis Melayu Terhebat / Albums For You */
     public static List<Track> ytmAlbumsForYou() throws Exception {
         List<Track> r = sectionByTitle(YtmAccount.browse("FEmusic_home"), "Recommended albums", "Albums for you");
-        if (r.isEmpty()) r = YtmAccount.parse(YtmAccount.browse("FEmusic_new_releases_albums"), true, true);
-        return r;
+        if (r.isEmpty()) r = YtMusic.search("artis melayu terhebat Siti Nurhaliza Yuna Faizal Tahir popular album");
+        return filterHindi(r);
     }
 
-    /** Keluaran Baharu / New Releases */
+    /** Keluaran Baharu / New Releases — 70% MY 20% EN */
     public static List<Track> ytmNewReleases() throws Exception {
-        return YtmAccount.parse(YtmAccount.browse("FEmusic_new_releases"), true, true);
+        List<Track> all = new ArrayList<>();
+        // 70% lagu melayu Malaysia
+        List<Track> my = YtMusic.search("lagu baru melayu malaysia 2026 keluaran terkini");
+        if (my.size() > 14) my = my.subList(0, 14);
+        all.addAll(my);
+        // 20% English
+        List<Track> en = YtMusic.search("new release english 2026 popular");
+        if (en.size() > 4) en = en.subList(0, 4);
+        all.addAll(en);
+        // 10% lain
+        List<Track> other = YtmAccount.parse(YtmAccount.browse("FEmusic_new_releases"), true, true);
+        other = filterHindi(other);
+        if (other.size() > 2) other = other.subList(0, 2);
+        all.addAll(other);
+        return all;
     }
 
-    /** Dari Komuniti / From The Community */
+    /** Dari Komuniti / From The Community — berdasarkan lokasi GPS */
     public static List<Track> ytmFromCommunity() throws Exception {
         List<Track> r = sectionByTitle(YtmAccount.browse("FEmusic_home"), "From the community", "Dari komuniti");
-        if (r.isEmpty()) r = YtMusic.search("trending music community playlist 2026");
-        return r;
+        if (r.isEmpty()) {
+            // Fallback: cari berdasarkan Malaysia (lokasi default)
+            r = YtMusic.search("trending lagu popular Malaysia komuniti 2026");
+        }
+        return filterHindi(r);
     }
 
-    /** Pilihan Pantas / Quick Picks */
+    /** Pilihan Pantas / Quick Picks — lagu melayu */
     public static List<Track> ytmQuickPicks() throws Exception {
         List<Track> r = sectionByTitle(YtmAccount.browse("FEmusic_home"), "Quick picks", "Pilihan pantas");
-        if (r.isEmpty()) r = YtMusic.search("quick picks popular songs");
-        return r;
+        if (r.isEmpty()) r = YtMusic.search("lagu melayu popular pilihan pantas trending");
+        return filterHindi(r);
     }
 
     /** Serupa Dengan / Similar To — berdasarkan lagu terakhir dimainkan */
@@ -65,90 +110,89 @@ public class DiscoverShelves {
             Track last = history.get(0);
             String q = (last.artist != null ? last.artist : "") + " " + (last.title != null ? last.title : "");
             List<Track> r = YtMusic.search(q.trim() + " similar");
-            // buang lagu yang sama
             r.removeIf(t -> t.mediaId.equals(last.mediaId));
-            return r;
+            return filterHindi(r);
         }
-        return YtMusic.search("recommended similar songs trending");
+        return filterHindi(YtMusic.search("lagu melayu serupa popular trending"));
     }
 
     /** Trending Untuk Anda / Trending For You */
     public static List<Track> ytmTrending() throws Exception {
-        return YtmAccount.parse(YtmAccount.browse("FEmusic_charts"), true, true);
+        return filterHindi(YtmAccount.parse(YtmAccount.browse("FEmusic_charts"), true, true));
     }
 
     /** Campuran Untuk Anda / Mix For You */
     public static List<Track> ytmMixForYou() throws Exception {
         List<Track> r = sectionByTitle(YtmAccount.browse("FEmusic_home"), "Mixed for you", "Campuran untuk anda");
-        if (r.isEmpty()) r = YtMusic.search("my mix playlist popular");
-        return r;
+        if (r.isEmpty()) r = YtMusic.search("lagu melayu campuran popular mix");
+        return filterHindi(r);
     }
 
     /** Cari Yang Segar & Lama / Find Fresh, Old Favourites */
     public static List<Track> ytmFreshOldFavs() throws Exception {
         List<Track> r = sectionByTitle(YtmAccount.browse("FEmusic_home"),
                 "Fresh new music", "Old favourites", "Segar", "Kegemaran lama");
-        if (r.isEmpty()) r = YtMusic.search("throwback hits classic favourites");
-        return r;
+        if (r.isEmpty()) r = YtMusic.search("throwback hits classic favourites melayu");
+        return filterHindi(r);
     }
 
     /** Persembahan Langsung / Live Performance */
     public static List<Track> ytmLivePerformance() throws Exception {
-        return YtMusic.search("live performance concert official");
+        return filterHindi(YtMusic.search("live performance concert official malaysia"));
     }
 
     // ─── Spotify discovery (via Spotify Browse / Search / Categories) ──
 
     /** Radio Popular / Popular Radio */
     public static List<Track> spPopularRadio() throws Exception {
-        return spCategoryPlaylists("radio", "Popular Radio");
+        return filterHindi(spCategoryPlaylists("radio", "Popular Radio"));
     }
 
     /** Artis Popular / Popular Artists */
     public static List<Track> spPopularArtists() throws Exception {
-        return spSearch("top artists popular 2026", "track");
+        return filterHindi(spSearch("top artists popular 2026", "track"));
     }
 
     /** Keluaran Baharu Spotify / New Releases */
     public static List<Track> spNewReleases() throws Exception {
-        return spFetchNewReleases();
+        return filterHindi(spFetchNewReleases());
     }
 
     /** Artis Baharu / New Artists */
     public static List<Track> spNewArtists() throws Exception {
-        return spSearch("new artist debut 2026", "track");
+        return filterHindi(spSearch("new artist debut 2026", "track"));
     }
 
     /** Album & Single Popular / Popular Albums And Singles */
     public static List<Track> spPopularAlbums() throws Exception {
-        return spSearch("top album single popular 2026", "track");
+        return filterHindi(spSearch("top album single popular 2026", "track"));
     }
 
     /** Dengar Sebelum Tonton / Listen Before You Watch */
     public static List<Track> spListenBeforeWatch() throws Exception {
-        return spSearch("movie soundtrack series 2026 official", "track");
+        return filterHindi(spSearch("movie soundtrack series 2026 official", "track"));
     }
 
     /** Coffeehouse */
     public static List<Track> spCoffeehouse() throws Exception {
         List<Track> r = spCategoryPlaylists("coffeehouse", "Coffeehouse");
         if (r.isEmpty()) r = spSearch("coffeehouse acoustic chill", "track");
-        return r;
+        return filterHindi(r);
     }
 
     /** OST / Soundtrack */
     public static List<Track> spOstSoundtrack() throws Exception {
-        return spSearch("official soundtrack OST movie drama 2026", "track");
+        return filterHindi(spSearch("official soundtrack OST movie drama 2026", "track"));
     }
 
     /** Negara Lain / Other Countries */
     public static List<Track> spOtherCountries() throws Exception {
-        return spSearch("top hits worldwide kpop jpop latin afrobeat", "track");
+        return filterHindi(spSearch("top hits worldwide kpop jpop latin afrobeat", "track"));
     }
 
     // ─── Discovery tambahan (gaya LastWave) ──────────────────────
 
-    /** Sambung Dengar / Jump Back In — 5 lagu terakhir dari sejarah */
+    /** Sambung Dengar / Jump Back In — 8 lagu terakhir dari sejarah */
     public static List<Track> jumpBackIn() throws Exception {
         List<Track> h = Store.history();
         return h.size() > 8 ? h.subList(0, 8) : h;
@@ -158,7 +202,6 @@ public class DiscoverShelves {
     public static List<Track> becauseYouListen() throws Exception {
         List<Track> history = Store.history();
         if (history.size() >= 3) {
-            // Ambil 3 artis berbeza dari sejarah
             java.util.LinkedHashSet<String> artists = new java.util.LinkedHashSet<>();
             for (Track t : history) {
                 if (t.artist != null && !t.artist.isEmpty()) {
@@ -174,53 +217,53 @@ public class DiscoverShelves {
                 out.addAll(r);
             }
             Collections.shuffle(out);
-            return out.size() > 20 ? out.subList(0, 20) : out;
+            return filterHindi(out.size() > 20 ? out.subList(0, 20) : out);
         }
-        return YtMusic.search("lagu popular pilihan khas");
+        return filterHindi(YtMusic.search("lagu popular pilihan khas melayu"));
     }
 
     /** Jelajah Lagu Baharu / Discover New Music */
     public static List<Track> discoverNewMusic() throws Exception {
-        List<Track> r = YtMusic.search("new music 2026 lagu baru trending");
+        List<Track> r = YtMusic.search("lagu baru 2026 melayu trending popular terkini");
         if (r.size() > 25) r = r.subList(0, 25);
-        return r;
+        return filterHindi(r);
     }
 
     /** Artis Pilihan / Artists Spotlight — berdasarkan sejarah + trending MY */
     public static List<Track> artistSpotlight() throws Exception {
         List<Track> history = Store.history();
-        String q = "popular malaysian artist spotlight 2026";
+        String q = "artis melayu popular terhebat Malaysia 2026";
         if (!history.isEmpty() && history.get(0).artist != null) {
-            q = history.get(0).artist.split(",")[0].trim() + " similar artists popular";
+            q = history.get(0).artist.split(",")[0].trim() + " similar artists popular melayu";
         }
-        return YtMusic.search(q);
+        return filterHindi(YtMusic.search(q));
     }
 
     // ─── Algorithm shelves — 80% Malaysia ──────────────────────
 
     public static List<Track> algMyTerkini() throws Exception {
-        return YtMusic.search("lagu melayu terkini 2026 popular chart malaysia");
+        return filterHindi(YtMusic.search("lagu melayu terkini 2026 popular chart malaysia"));
     }
     public static List<Track> algMyPopular() throws Exception {
-        return YtMusic.search("hits malaysia popular trending lagu melayu");
+        return filterHindi(YtMusic.search("lagu melayu popular trending hits malaysia"));
     }
     public static List<Track> algMy90an() throws Exception {
-        return YtMusic.search("lagu melayu 90an klasik nostalgia popular");
+        return filterHindi(YtMusic.search("lagu melayu 90an klasik nostalgia popular"));
     }
     public static List<Track> algMyNostalgia() throws Exception {
-        return YtMusic.search("lagu lama melayu 80an 70an nostalgia P Ramlee Sudirman");
+        return filterHindi(YtMusic.search("lagu lama melayu 80an 70an nostalgia P Ramlee Sudirman"));
     }
     public static List<Track> algMyNasyid() throws Exception {
-        return YtMusic.search("nasyid terbaik popular Raihan Maher Zain nasheed malaysia");
+        return filterHindi(YtMusic.search("nasyid terbaik popular Raihan Maher Zain nasheed malaysia"));
     }
     public static List<Track> algMyIndie() throws Exception {
-        return YtMusic.search("indie malaysia band lokal underground 2026");
+        return filterHindi(YtMusic.search("indie malaysia band lokal underground 2026"));
     }
     public static List<Track> algMyDangdut() throws Exception {
-        return YtMusic.search("dangdut melayu irama popular Malaysia Siti Nurhaliza Iklim");
+        return filterHindi(YtMusic.search("dangdut melayu irama popular Malaysia Siti Nurhaliza Iklim"));
     }
     public static List<Track> algMyRock() throws Exception {
-        return YtMusic.search("rock kapak malaysia Search Wings Xpdc Exists popular");
+        return filterHindi(YtMusic.search("rock kapak malaysia Search Wings Xpdc Exists popular"));
     }
 
     // ─── Algorithm shelves — 10% English ───────────────────────
@@ -246,9 +289,6 @@ public class DiscoverShelves {
     public static List<Track> algOstHw() throws Exception {
         return YtMusic.search("Hollywood movie soundtrack OST popular epic 2026");
     }
-    public static List<Track> algOstInd() throws Exception {
-        return YtMusic.search("Bollywood soundtrack OST Hindi popular romantic");
-    }
 
     // ─── Algorithm shelves — 5% Rileks ─────────────────────────
 
@@ -267,19 +307,19 @@ public class DiscoverShelves {
     }
 
     public static List<Track> fallbackQuickPicks() throws Exception {
-        return YtMusic.search("popular music quick picks trending");
+        return filterHindi(YtMusic.search("lagu melayu popular pilihan pantas trending"));
     }
 
     public static List<Track> fallbackNewReleases() throws Exception {
-        return YtMusic.search("new release music 2026");
+        return filterHindi(YtMusic.search("lagu baru melayu malaysia 2026 keluaran terkini"));
     }
 
     public static List<Track> fallbackTrending() throws Exception {
-        return YtMusic.search("trending music 2026 viral");
+        return filterHindi(YtMusic.search("trending lagu melayu 2026 viral popular"));
     }
 
     public static List<Track> fallbackLivePerformance() throws Exception {
-        return YtMusic.search("live performance concert official");
+        return filterHindi(YtMusic.search("live performance concert official malaysia"));
     }
 
     public static List<Track> fallbackCoffeehouse() throws Exception {
@@ -287,11 +327,11 @@ public class DiscoverShelves {
     }
 
     public static List<Track> fallbackOST() throws Exception {
-        return YtMusic.search("movie soundtrack OST drama 2026");
+        return YtMusic.search("movie soundtrack OST drama 2026 melayu");
     }
 
     public static List<Track> fallbackOtherCountries() throws Exception {
-        return YtMusic.search("kpop jpop latin afrobeat world music hits");
+        return filterHindi(YtMusic.search("kpop jpop latin afrobeat world music hits"));
     }
 
     // ─── Helper ─────────────────────────────────────────────────
@@ -320,7 +360,6 @@ public class DiscoverShelves {
 
     /** Spotify: cari trek */
     private static List<Track> spSearch(String query, String type) throws Exception {
-        // Guna token Spotify
         okhttp3.Request req = new okhttp3.Request.Builder()
                 .url("https://api.spotify.com/v1/search?q=" + java.net.URLEncoder.encode(query, "UTF-8")
                         + "&type=" + type + "&limit=30&market=MY")
@@ -409,7 +448,7 @@ public class DiscoverShelves {
         }
     }
 
-    /** Tukar JSONObject Spotify track → Track */
+    /** Tukar JSONObject Spotify track -> Track */
     private static Track spTrack(JSONObject t) {
         if (t == null || t.optString("name").isEmpty()) return null;
         StringBuilder artists = new StringBuilder();
