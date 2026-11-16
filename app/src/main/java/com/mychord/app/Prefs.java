@@ -22,7 +22,7 @@ public class Prefs {
     public static Set<String> getSet(String k) { return new HashSet<>(sp().getStringSet(k, new HashSet<>())); }
     public static void putSet(String k, Set<String> v) { sp().edit().putStringSet(k, new HashSet<>(v)).apply(); }
 
-    public static String theme() { return getS("theme", "ember"); }
+    public static String theme() { return getS("theme", "tubeawak"); }
     public static String icon() { return getS("icon", "ember"); }
     public static String lang() { return getS("lang", "ms"); }
 
