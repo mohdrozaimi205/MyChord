@@ -336,4 +336,32 @@
     <string name="backup_done">Sandaran berjaya disimpan</string>
     <string name="backup_restored">Berjaya dipulihkan: %s</string>
     <string name="backup_fail">Gagal: %s</string>
+    <!-- MyChord Hi-Fi Engine -->
+    <string name="hf_source">Sumber</string>
+    <string name="hf_quality">Kualiti</string>
+    <string name="hf_rate">Kadar sampel</string>
+    <string name="hf_bits">Kedalaman bit</string>
+    <string name="hf_channels">Saluran</string>
+    <string name="hf_output">Output</string>
+    <string name="hf_device">Peranti</string>
+    <string name="hf_effects">Kesan bunyi</string>
+    <string name="hf_bypass">Dimatikan (bunyi asli)</string>
+    <string name="hf_active">Aktif</string>
+    <string name="hf_src_local">Fail dalam telefon</string>
+    <string name="hf_src_link">Pautan stream</string>
+    <string name="hf_wired">Earphone berwayar</string>
+    <string name="hf_speaker">Pembesar suara telefon</string>
+    <string name="hf_yt_note">Nota: YouTube Music hanya beri audio lossy (Opus/AAC). MyChord tidak menukar label kepada FLAC palsu. Untuk lossless sebenar, mainkan fail FLAC/WAV dalam telefon atau radio FLAC.</string>
+    <string name="hf_pure">Mod Hi-Fi Tulen</string>
+    <string name="hf_pure_sub">Matikan semua EQ/kesan, guna laluan 32-bit float (FLAC 24-bit tidak dipotong) dan kualiti stream tertinggi.</string>
+    <string name="hf_pure_on">Mod Hi-Fi hidup. Tutup &amp; buka semula MyChord untuk aktifkan laluan 32-bit float.</string>
+    <string name="hf_pure_off">Mod Hi-Fi dimatikan. Kesan bunyi kembali aktif.</string>
+    <string name="hf_bp">Bit-perfect ke USB DAC</string>
+    <string name="hf_bp_sub">Android 14 ke atas + USB DAC. Hantar audio terus ke DAC tanpa diadun sistem. Jika tiada bunyi, matikan pilihan ini.</string>
+    <string name="hf_bp_old">Bit-perfect perlukan Android 14 ke atas.</string>
+    <string name="hf_bp_off">Bit-perfect dimatikan.</string>
+    <string name="hf_bp_nousb">Tiada USB DAC disambung. Pilihan disimpan — akan aktif bila DAC disambung dan lagu bertukar.</string>
+    <string name="hf_bp_unsupported">Telefon atau DAC ini tidak menyokong bit-perfect.</string>
+    <string name="hf_bp_on">Bit-perfect aktif • %s</string>
+    <string name="hf_close">Tutup</string>
 </resources>

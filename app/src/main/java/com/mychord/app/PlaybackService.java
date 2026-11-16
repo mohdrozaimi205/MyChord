@@ -108,7 +108,12 @@ public class PlaybackService extends MediaSessionService {
                 .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
                 .build();
 
-        player = new ExoPlayer.Builder(this)
+        // Hi-Fi: laluan 32-bit float supaya FLAC 24-bit tidak dipotong ke 16-bit
+        androidx.media3.exoplayer.DefaultRenderersFactory rf =
+                new androidx.media3.exoplayer.DefaultRenderersFactory(this)
+                        .setEnableAudioFloatOutput(HiFi.pureOn());
+
+        player = new ExoPlayer.Builder(this, rf)
                 .setMediaSourceFactory(new DefaultMediaSourceFactory(resolving))
                 .setAudioAttributes(attrs, true)
                 .setHandleAudioBecomingNoisy(true)
@@ -120,6 +125,8 @@ public class PlaybackService extends MediaSessionService {
                 .build();
 
         Effects.attach(this, player.getAudioSessionId());
+        player.addAnalyticsListener(HiFi.listener());
+        if (HiFi.bitPerfectOn()) HiFi.applyBitPerfect(this);
 
         player.addListener(new Player.Listener() {
             @Override
@@ -130,6 +137,7 @@ public class PlaybackService extends MediaSessionService {
             @Override
             public void onMediaItemTransition(@Nullable MediaItem item, int reason) {
                 retried = false;
+                HiFi.reset();
                 if (reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO) fadeInStart = System.currentTimeMillis();
                 if (item != null) Store.addHistory(Track.fromMediaItem(item));
                 NowPlayingWidget.refreshAll(PlaybackService.this);

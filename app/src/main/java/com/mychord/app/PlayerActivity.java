@@ -185,6 +185,7 @@ public class PlayerActivity extends BaseActivity implements Player.Listener {
             updateSleepChip();
         }
         addChip(chips, R.drawable.ic_hq, getString(R.string.q_chip), v -> qualityDialog());
+        addChip(chips, R.drawable.ic_eq, HiFi.pureOn() ? "Hi-Fi ●" : "Hi-Fi", v -> hifiDialog());
         View tg = addChip(chips, R.drawable.ic_together, ListenTogether.mode() == ListenTogether.OFF
                 ? getString(R.string.tg_title) : getString(R.string.tg_chip_on, ListenTogether.code()), v -> TogetherDialog.show(this, this::buildChips));
         addChip(chips, R.drawable.ic_share, getString(R.string.share_song), v -> shareSong());
@@ -212,6 +213,83 @@ public class PlayerActivity extends BaseActivity implements Player.Listener {
                     Toast.makeText(this, getString(R.string.q_switched, opts[w].split("  •")[0]), Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton(R.string.cancel, null).show();
+    }
+
+    /** Panel MyChord Hi-Fi Engine — maklumat sebenar dari stream + Mod Hi-Fi + bit-perfect */
+    private void hifiDialog() {
+        LinearLayout box = new LinearLayout(this);
+        box.setOrientation(LinearLayout.VERTICAL);
+        int pad = Ui.dp(this, 20);
+        box.setPadding(pad, Ui.dp(this, 8), pad, 0);
+
+        TextView info = new TextView(this);
+        info.setTextSize(14);
+        info.setLineSpacing(0, 1.25f);
+        info.setTypeface(android.graphics.Typeface.MONOSPACE);
+        box.addView(info);
+
+        com.google.android.material.materialswitch.MaterialSwitch pure =
+                new com.google.android.material.materialswitch.MaterialSwitch(this);
+        pure.setText(R.string.hf_pure);
+        pure.setChecked(HiFi.pureOn());
+        pure.setPadding(0, Ui.dp(this, 16), 0, 0);
+        box.addView(pure);
+        TextView pureSub = new TextView(this);
+        pureSub.setText(R.string.hf_pure_sub);
+        pureSub.setTextSize(12);
+        pureSub.setAlpha(0.7f);
+        box.addView(pureSub);
+
+        com.google.android.material.materialswitch.MaterialSwitch bp =
+                new com.google.android.material.materialswitch.MaterialSwitch(this);
+        bp.setText(R.string.hf_bp);
+        bp.setChecked(HiFi.bitPerfectOn());
+        bp.setPadding(0, Ui.dp(this, 12), 0, 0);
+        box.addView(bp);
+        TextView bpSub = new TextView(this);
+        bpSub.setText(R.string.hf_bp_sub);
+        bpSub.setTextSize(12);
+        bpSub.setAlpha(0.7f);
+        box.addView(bpSub);
+
+        android.widget.ScrollView sv = new android.widget.ScrollView(this);
+        sv.addView(box);
+
+        android.os.Handler h = new android.os.Handler(android.os.Looper.getMainLooper());
+        Runnable tick = new Runnable() {
+            @Override
+            public void run() {
+                MediaController c = PlayerHub.get();
+                String id = c != null && c.getCurrentMediaItem() != null ? c.getCurrentMediaItem().mediaId : null;
+                info.setText(HiFi.report(PlayerActivity.this, id));
+                h.postDelayed(this, 1000);
+            }
+        };
+
+        pure.setOnCheckedChangeListener((b, on) -> {
+            Prefs.putB("hifiPure", on);
+            Effects.applyAll();
+            if (on) {
+                Prefs.putI("qWifi", 2);
+                Prefs.putI("qData", 2);
+            }
+            buildChips();
+            Toast.makeText(this, on ? R.string.hf_pure_on : R.string.hf_pure_off, Toast.LENGTH_LONG).show();
+        });
+        bp.setOnCheckedChangeListener((b, on) -> {
+            Prefs.putB("hifiBitPerfect", on);
+            String msg = HiFi.applyBitPerfect(this);
+            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+        });
+
+        androidx.appcompat.app.AlertDialog d = new MaterialAlertDialogBuilder(this)
+                .setTitle("MyChord Hi-Fi Engine")
+                .setView(sv)
+                .setPositiveButton(R.string.hf_close, null)
+                .create();
+        d.setOnDismissListener(x -> h.removeCallbacksAndMessages(null));
+        d.show();
+        h.post(tick);
     }
 
     /** Muat semula lagu semasa pada kedudukan yang sama dengan kualiti baharu */

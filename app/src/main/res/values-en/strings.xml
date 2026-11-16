@@ -335,4 +335,32 @@
     <string name="backup_done">Backup saved successfully</string>
     <string name="backup_restored">Restored: %s</string>
     <string name="backup_fail">Failed: %s</string>
+    <!-- MyChord Hi-Fi Engine -->
+    <string name="hf_source">Source</string>
+    <string name="hf_quality">Quality</string>
+    <string name="hf_rate">Sample rate</string>
+    <string name="hf_bits">Bit depth</string>
+    <string name="hf_channels">Channels</string>
+    <string name="hf_output">Output</string>
+    <string name="hf_device">Device</string>
+    <string name="hf_effects">Sound effects</string>
+    <string name="hf_bypass">Off (pure sound)</string>
+    <string name="hf_active">Active</string>
+    <string name="hf_src_local">File on phone</string>
+    <string name="hf_src_link">Stream link</string>
+    <string name="hf_wired">Wired earphones</string>
+    <string name="hf_speaker">Phone speaker</string>
+    <string name="hf_yt_note">Note: YouTube Music only provides lossy audio (Opus/AAC). MyChord never shows a fake FLAC label. For true lossless, play FLAC/WAV files on your phone or FLAC radio.</string>
+    <string name="hf_pure">Pure Hi-Fi Mode</string>
+    <string name="hf_pure_sub">Turns off all EQ/effects, uses a 32-bit float path (24-bit FLAC is not truncated) and the highest stream quality.</string>
+    <string name="hf_pure_on">Hi-Fi mode on. Close &amp; reopen MyChord to enable the 32-bit float path.</string>
+    <string name="hf_pure_off">Hi-Fi mode off. Sound effects are active again.</string>
+    <string name="hf_bp">Bit-perfect to USB DAC</string>
+    <string name="hf_bp_sub">Android 14+ with a USB DAC. Sends audio straight to the DAC without system mixing. If there is no sound, turn this off.</string>
+    <string name="hf_bp_old">Bit-perfect needs Android 14 or newer.</string>
+    <string name="hf_bp_off">Bit-perfect off.</string>
+    <string name="hf_bp_nousb">No USB DAC connected. Setting saved — it will apply when a DAC is connected and the song changes.</string>
+    <string name="hf_bp_unsupported">This phone or DAC does not support bit-perfect.</string>
+    <string name="hf_bp_on">Bit-perfect on • %s</string>
+    <string name="hf_close">Close</string>
 </resources>

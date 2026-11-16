@@ -77,6 +77,14 @@ public class Effects {
         applyQualityAddons();
     }
 
+    /** Guna semula semua tetapan (selepas Mod Hi-Fi ditukar) */
+    public static void applyAll() {
+        applyQualityAddons();
+        applyBass();
+        applyVirt();
+        applyLoud();
+    }
+
     public static synchronized void release() {
         try { if (eq != null) eq.release(); } catch (Throwable ignored) { }
         try { if (bass != null) bass.release(); } catch (Throwable ignored) { }
@@ -152,6 +160,7 @@ public class Effects {
 
     public static void applyEq() {
         if (eq == null) return;
+        if (HiFi.pureOn()) { try { eq.setEnabled(false); } catch (Throwable ignored) { } return; }
         try {
             // Tanpa DynamicsProcessing (Android 8), AutoEq digabung terus ke Equalizer
             Profile p = (dp == null) ? currentProfile() : null;
@@ -171,6 +180,7 @@ public class Effects {
     public static void applyQualityAddons() {
         applyEq();
         if (dp == null || Build.VERSION.SDK_INT < 28) return;
+        if (HiFi.pureOn()) { try { dp.setEnabled(false); } catch (Throwable ignored) { } return; }
         try {
             Profile p = currentProfile();
             DynamicsProcessing.Eq pre = new DynamicsProcessing.Eq(true, true, 10);
@@ -214,7 +224,7 @@ public class Effects {
     public static void applyBass() {
         if (bass == null) return;
         try {
-            int s = Prefs.getI("bass", 0);
+            int s = HiFi.pureOn() ? 0 : Prefs.getI("bass", 0);
             bass.setStrength((short) s);
             bass.setEnabled(s > 0);
         } catch (Throwable ignored) { }
@@ -223,7 +233,7 @@ public class Effects {
     public static void applyVirt() {
         if (virt == null) return;
         try {
-            int s = Prefs.getI("virt", 0);
+            int s = HiFi.pureOn() ? 0 : Prefs.getI("virt", 0);
             virt.setStrength((short) s);
             virt.setEnabled(s > 0);
         } catch (Throwable ignored) { }
@@ -232,7 +242,7 @@ public class Effects {
     public static void applyLoud() {
         if (loud == null) return;
         try {
-            int g = Prefs.getI("loud", 0);
+            int g = HiFi.pureOn() ? 0 : Prefs.getI("loud", 0);
             loud.setTargetGain(g);
             loud.setEnabled(g > 0);
         } catch (Throwable ignored) { }
