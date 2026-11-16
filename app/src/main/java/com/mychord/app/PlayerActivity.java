@@ -233,7 +233,7 @@ public class PlayerActivity extends BaseActivity implements Player.Listener {
                 if (!filtered.isEmpty()) {
                     final List<Track> f = new ArrayList<>(filtered);
                     App.MAIN.post(() -> {
-                        if (!isFinishing()) PlayerHub.playList(f, 0);
+                        if (!isFinishing()) PlayerHub.playList(PlayerActivity.this, f, 0, false);
                     });
                 }
             } catch (Exception e) {

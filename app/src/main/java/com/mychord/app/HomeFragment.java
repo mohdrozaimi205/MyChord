@@ -87,7 +87,7 @@ public class HomeFragment extends Fragment {
         return YtmAccount.loggedIn() + "|" + SpotifyAccount.loggedIn() + "|" + CustomAddons.signature();
     }
 
-    // ── Account menu popup (gaya YTM) ────────────────────────────────────────
+    // ── Account menu popup (gaya YTM) ────────────────────────────
 
     private void showAccountMenu() {
         boolean ytm = YtmAccount.loggedIn();
@@ -127,7 +127,7 @@ public class HomeFragment extends Fragment {
                 .show();
     }
 
-    // ── Filter chips ─────────────────────────────────────────────────
+    // ── Filter chips ─────────────────────────────────────────────
 
     private void buildFilterChips() {
         LinearLayout chips = root.findViewById(R.id.chipRow);
@@ -153,7 +153,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    // ── Speed Dial: 2×2 artist grid ───────────────────────────────
+    // ── Speed Dial: 2×2 artist grid ─────────────────────────────
 
     private void buildSpeedDial() {
         GridLayout grid = root.findViewById(R.id.speedDial);
@@ -483,7 +483,12 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    // ── Lifecycle & rebuild ──────────────────────────────────────────
+    /** Dipanggil dari MainActivity selepas addon sync dsb. */
+    public void buildTiles() {
+        checkRebuild();
+    }
+
+    // ── Lifecycle & rebuild ──────────────────────────────────────
 
     private void checkRebuild() {
         if (root == null) return;
