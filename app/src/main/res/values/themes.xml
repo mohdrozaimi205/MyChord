@@ -1,700 +1,97 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Theme.MyChord.Ember" parent="Theme.Material3.Dark.NoActionBar">
+    <!-- ═══ TubeAwak / YourTube — YouTube Music dark theme ═══ -->
+    <style name="Theme.MyChord.TubeAwak" parent="Theme.Material3.Dark.NoActionBar">
         <item name="mcStroke">@android:color/transparent</item>
-        <item name="mcBg">@color/t_ember_mcbg</item>
-        <item name="mcSurface">@color/t_ember_mcsurface</item>
-        <item name="mcSurface2">@color/t_ember_mcsurface2</item>
-        <item name="mcText">@color/t_ember_mctext</item>
-        <item name="mcTextDim">@color/t_ember_mctextdim</item>
-        <item name="mcAccent">@color/t_ember_mcaccent</item>
-        <item name="mcOnAccent">@color/t_ember_mconaccent</item>
-        <item name="colorPrimary">@color/t_ember_colorprimary</item>
-        <item name="colorOnPrimary">@color/t_ember_coloronprimary</item>
-        <item name="colorSecondary">@color/t_ember_colorsecondary</item>
-        <item name="colorPrimaryContainer">@color/t_ember_colorprimarycontainer</item>
-        <item name="colorOnPrimaryContainer">@color/t_ember_coloronprimarycontainer</item>
-        <item name="colorSecondaryContainer">@color/t_ember_colorsecondarycontainer</item>
-        <item name="colorOnSecondaryContainer">@color/t_ember_coloronsecondarycontainer</item>
-        <item name="colorSurface">@color/t_ember_colorsurface</item>
-        <item name="colorSurfaceContainer">@color/t_ember_colorsurfacecontainer</item>
-        <item name="colorSurfaceContainerHigh">@color/t_ember_colorsurfacecontainerhigh</item>
-        <item name="colorOnSurface">@color/t_ember_coloronsurface</item>
-        <item name="colorOnSurfaceVariant">@color/t_ember_coloronsurfacevariant</item>
-        <item name="colorOutline">@color/t_ember_coloroutline</item>
-        <item name="android:colorBackground">@color/t_ember_colorbackground</item>
-        <item name="android:windowBackground">@color/t_ember_windowbackground</item>
-        <item name="android:textColorPrimary">@color/t_ember_textcolorprimary</item>
-        <item name="android:textColorSecondary">@color/t_ember_textcolorsecondary</item>
-        <item name="android:statusBarColor">@color/t_ember_statusbarcolor</item>
-        <item name="android:navigationBarColor">@color/t_ember_navigationbarcolor</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
+        <item name="mcBg">@color/t_tubeawak_mcbg</item>
+        <item name="mcSurface">@color/t_tubeawak_mcsurface</item>
+        <item name="mcSurface2">@color/t_tubeawak_mcsurface2</item>
+        <item name="mcText">@color/t_tubeawak_mctext</item>
+        <item name="mcTextDim">@color/t_tubeawak_mctextdim</item>
+        <item name="mcAccent">@color/t_tubeawak_mcaccent</item>
+        <item name="mcOnAccent">@color/t_tubeawak_mconaccent</item>
+        <item name="colorPrimary">@color/t_tubeawak_colorprimary</item>
+        <item name="colorOnPrimary">@color/t_tubeawak_coloronprimary</item>
+        <item name="colorSecondary">@color/t_tubeawak_colorsecondary</item>
+        <item name="colorPrimaryContainer">@color/t_tubeawak_colorprimarycontainer</item>
+        <item name="colorOnPrimaryContainer">@color/t_tubeawak_coloronprimarycontainer</item>
+        <item name="colorSecondaryContainer">@color/t_tubeawak_colorsecondarycontainer</item>
+        <item name="colorOnSecondaryContainer">@color/t_tubeawak_coloronsecondarycontainer</item>
+        <item name="colorSurface">@color/t_tubeawak_colorsurface</item>
+        <item name="colorSurfaceContainer">@color/t_tubeawak_colorsurfacecontainer</item>
+        <item name="colorSurfaceContainerHigh">@color/t_tubeawak_colorsurfacecontainerhigh</item>
+        <item name="colorOnSurface">@color/t_tubeawak_coloronsurface</item>
+        <item name="colorOnSurfaceVariant">@color/t_tubeawak_coloronsurfacevariant</item>
+        <item name="colorOutline">@color/t_tubeawak_coloroutline</item>
+        <item name="android:colorBackground">@color/t_tubeawak_colorbackground</item>
+        <item name="android:windowBackground">@color/t_tubeawak_windowbackground</item>
+        <item name="android:textColorPrimary">@color/t_tubeawak_textcolorprimary</item>
+        <item name="android:textColorSecondary">@color/t_tubeawak_textcolorsecondary</item>
+        <item name="android:statusBarColor">@color/t_tubeawak_statusbarcolor</item>
+        <item name="android:navigationBarColor">@color/t_tubeawak_navigationbarcolor</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
     </style>
-    <style name="Theme.MyChord.Glass" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="mcStroke">#3CFFFFFF</item>
-        <item name="mcBg">@color/t_glass_mcbg</item>
-        <item name="mcSurface">@color/t_glass_mcsurface</item>
-        <item name="mcSurface2">@color/t_glass_mcsurface2</item>
-        <item name="mcText">@color/t_glass_mctext</item>
-        <item name="mcTextDim">@color/t_glass_mctextdim</item>
-        <item name="mcAccent">@color/t_glass_mcaccent</item>
-        <item name="mcOnAccent">@color/t_glass_mconaccent</item>
-        <item name="colorPrimary">@color/t_glass_colorprimary</item>
-        <item name="colorOnPrimary">@color/t_glass_coloronprimary</item>
-        <item name="colorSecondary">@color/t_glass_colorsecondary</item>
-        <item name="colorPrimaryContainer">@color/t_glass_colorprimarycontainer</item>
-        <item name="colorOnPrimaryContainer">@color/t_glass_coloronprimarycontainer</item>
-        <item name="colorSecondaryContainer">@color/t_glass_colorsecondarycontainer</item>
-        <item name="colorOnSecondaryContainer">@color/t_glass_coloronsecondarycontainer</item>
-        <item name="colorSurface">@color/t_glass_colorsurface</item>
-        <item name="colorSurfaceContainer">@color/t_glass_colorsurfacecontainer</item>
-        <item name="colorSurfaceContainerHigh">@color/t_glass_colorsurfacecontainerhigh</item>
-        <item name="colorOnSurface">@color/t_glass_coloronsurface</item>
-        <item name="colorOnSurfaceVariant">@color/t_glass_coloronsurfacevariant</item>
-        <item name="colorOutline">@color/t_glass_coloroutline</item>
-        <item name="android:colorBackground">@color/t_glass_colorbackground</item>
-        <item name="android:windowBackground">@drawable/bg_glass_ios</item>
-        <item name="android:textColorPrimary">@color/t_glass_textcolorprimary</item>
-        <item name="android:textColorSecondary">@color/t_glass_textcolorsecondary</item>
-        <item name="android:statusBarColor">@color/t_glass_statusbarcolor</item>
-        <item name="android:navigationBarColor">@color/t_glass_navigationbarcolor</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
-    </style>
-    <style name="Theme.MyChord.Lagun" parent="Theme.Material3.Dark.NoActionBar">
+
+    <!-- ═══ SpotHijau / Spotgreen — Spotify theme ═══ -->
+    <style name="Theme.MyChord.SpotHijau" parent="Theme.Material3.Dark.NoActionBar">
         <item name="mcStroke">@android:color/transparent</item>
-        <item name="mcBg">@color/t_lagun_mcbg</item>
-        <item name="mcSurface">@color/t_lagun_mcsurface</item>
-        <item name="mcSurface2">@color/t_lagun_mcsurface2</item>
-        <item name="mcText">@color/t_lagun_mctext</item>
-        <item name="mcTextDim">@color/t_lagun_mctextdim</item>
-        <item name="mcAccent">@color/t_lagun_mcaccent</item>
-        <item name="mcOnAccent">@color/t_lagun_mconaccent</item>
-        <item name="colorPrimary">@color/t_lagun_colorprimary</item>
-        <item name="colorOnPrimary">@color/t_lagun_coloronprimary</item>
-        <item name="colorSecondary">@color/t_lagun_colorsecondary</item>
-        <item name="colorPrimaryContainer">@color/t_lagun_colorprimarycontainer</item>
-        <item name="colorOnPrimaryContainer">@color/t_lagun_coloronprimarycontainer</item>
-        <item name="colorSecondaryContainer">@color/t_lagun_colorsecondarycontainer</item>
-        <item name="colorOnSecondaryContainer">@color/t_lagun_coloronsecondarycontainer</item>
-        <item name="colorSurface">@color/t_lagun_colorsurface</item>
-        <item name="colorSurfaceContainer">@color/t_lagun_colorsurfacecontainer</item>
-        <item name="colorSurfaceContainerHigh">@color/t_lagun_colorsurfacecontainerhigh</item>
-        <item name="colorOnSurface">@color/t_lagun_coloronsurface</item>
-        <item name="colorOnSurfaceVariant">@color/t_lagun_coloronsurfacevariant</item>
-        <item name="colorOutline">@color/t_lagun_coloroutline</item>
-        <item name="android:colorBackground">@color/t_lagun_colorbackground</item>
-        <item name="android:windowBackground">@color/t_lagun_windowbackground</item>
-        <item name="android:textColorPrimary">@color/t_lagun_textcolorprimary</item>
-        <item name="android:textColorSecondary">@color/t_lagun_textcolorsecondary</item>
-        <item name="android:statusBarColor">@color/t_lagun_statusbarcolor</item>
-        <item name="android:navigationBarColor">@color/t_lagun_navigationbarcolor</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
+        <item name="mcBg">@color/t_spothijau_mcbg</item>
+        <item name="mcSurface">@color/t_spothijau_mcsurface</item>
+        <item name="mcSurface2">@color/t_spothijau_mcsurface2</item>
+        <item name="mcText">@color/t_spothijau_mctext</item>
+        <item name="mcTextDim">@color/t_spothijau_mctextdim</item>
+        <item name="mcAccent">@color/t_spothijau_mcaccent</item>
+        <item name="mcOnAccent">@color/t_spothijau_mconaccent</item>
+        <item name="colorPrimary">@color/t_spothijau_colorprimary</item>
+        <item name="colorOnPrimary">@color/t_spothijau_coloronprimary</item>
+        <item name="colorSecondary">@color/t_spothijau_colorsecondary</item>
+        <item name="colorPrimaryContainer">@color/t_spothijau_colorprimarycontainer</item>
+        <item name="colorOnPrimaryContainer">@color/t_spothijau_coloronprimarycontainer</item>
+        <item name="colorSecondaryContainer">@color/t_spothijau_colorsecondarycontainer</item>
+        <item name="colorOnSecondaryContainer">@color/t_spothijau_coloronsecondarycontainer</item>
+        <item name="colorSurface">@color/t_spothijau_colorsurface</item>
+        <item name="colorSurfaceContainer">@color/t_spothijau_colorsurfacecontainer</item>
+        <item name="colorSurfaceContainerHigh">@color/t_spothijau_colorsurfacecontainerhigh</item>
+        <item name="colorOnSurface">@color/t_spothijau_coloronsurface</item>
+        <item name="colorOnSurfaceVariant">@color/t_spothijau_coloronsurfacevariant</item>
+        <item name="colorOutline">@color/t_spothijau_coloroutline</item>
+        <item name="android:colorBackground">@color/t_spothijau_colorbackground</item>
+        <item name="android:windowBackground">@color/t_spothijau_windowbackground</item>
+        <item name="android:textColorPrimary">@color/t_spothijau_textcolorprimary</item>
+        <item name="android:textColorSecondary">@color/t_spothijau_textcolorsecondary</item>
+        <item name="android:statusBarColor">@color/t_spothijau_statusbarcolor</item>
+        <item name="android:navigationBarColor">@color/t_spothijau_navigationbarcolor</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
     </style>
-    <style name="Theme.MyChord.Malam" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="mcStroke">@android:color/transparent</item>
-        <item name="mcBg">@color/t_malam_mcbg</item>
-        <item name="mcSurface">@color/t_malam_mcsurface</item>
-        <item name="mcSurface2">@color/t_malam_mcsurface2</item>
-        <item name="mcText">@color/t_malam_mctext</item>
-        <item name="mcTextDim">@color/t_malam_mctextdim</item>
-        <item name="mcAccent">@color/t_malam_mcaccent</item>
-        <item name="mcOnAccent">@color/t_malam_mconaccent</item>
-        <item name="colorPrimary">@color/t_malam_colorprimary</item>
-        <item name="colorOnPrimary">@color/t_malam_coloronprimary</item>
-        <item name="colorSecondary">@color/t_malam_colorsecondary</item>
-        <item name="colorPrimaryContainer">@color/t_malam_colorprimarycontainer</item>
-        <item name="colorOnPrimaryContainer">@color/t_malam_coloronprimarycontainer</item>
-        <item name="colorSecondaryContainer">@color/t_malam_colorsecondarycontainer</item>
-        <item name="colorOnSecondaryContainer">@color/t_malam_coloronsecondarycontainer</item>
-        <item name="colorSurface">@color/t_malam_colorsurface</item>
-        <item name="colorSurfaceContainer">@color/t_malam_colorsurfacecontainer</item>
-        <item name="colorSurfaceContainerHigh">@color/t_malam_colorsurfacecontainerhigh</item>
-        <item name="colorOnSurface">@color/t_malam_coloronsurface</item>
-        <item name="colorOnSurfaceVariant">@color/t_malam_coloronsurfacevariant</item>
-        <item name="colorOutline">@color/t_malam_coloroutline</item>
-        <item name="android:colorBackground">@color/t_malam_colorbackground</item>
-        <item name="android:windowBackground">@color/t_malam_windowbackground</item>
-        <item name="android:textColorPrimary">@color/t_malam_textcolorprimary</item>
-        <item name="android:textColorSecondary">@color/t_malam_textcolorsecondary</item>
-        <item name="android:statusBarColor">@color/t_malam_statusbarcolor</item>
-        <item name="android:navigationBarColor">@color/t_malam_navigationbarcolor</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
-    </style>
-    <style name="Theme.MyChord.Matcha" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="mcStroke">@android:color/transparent</item>
-        <item name="mcBg">@color/t_matcha_mcbg</item>
-        <item name="mcSurface">@color/t_matcha_mcsurface</item>
-        <item name="mcSurface2">@color/t_matcha_mcsurface2</item>
-        <item name="mcText">@color/t_matcha_mctext</item>
-        <item name="mcTextDim">@color/t_matcha_mctextdim</item>
-        <item name="mcAccent">@color/t_matcha_mcaccent</item>
-        <item name="mcOnAccent">@color/t_matcha_mconaccent</item>
-        <item name="colorPrimary">@color/t_matcha_colorprimary</item>
-        <item name="colorOnPrimary">@color/t_matcha_coloronprimary</item>
-        <item name="colorSecondary">@color/t_matcha_colorsecondary</item>
-        <item name="colorPrimaryContainer">@color/t_matcha_colorprimarycontainer</item>
-        <item name="colorOnPrimaryContainer">@color/t_matcha_coloronprimarycontainer</item>
-        <item name="colorSecondaryContainer">@color/t_matcha_colorsecondarycontainer</item>
-        <item name="colorOnSecondaryContainer">@color/t_matcha_coloronsecondarycontainer</item>
-        <item name="colorSurface">@color/t_matcha_colorsurface</item>
-        <item name="colorSurfaceContainer">@color/t_matcha_colorsurfacecontainer</item>
-        <item name="colorSurfaceContainerHigh">@color/t_matcha_colorsurfacecontainerhigh</item>
-        <item name="colorOnSurface">@color/t_matcha_coloronsurface</item>
-        <item name="colorOnSurfaceVariant">@color/t_matcha_coloronsurfacevariant</item>
-        <item name="colorOutline">@color/t_matcha_coloroutline</item>
-        <item name="android:colorBackground">@color/t_matcha_colorbackground</item>
-        <item name="android:windowBackground">@color/t_matcha_windowbackground</item>
-        <item name="android:textColorPrimary">@color/t_matcha_textcolorprimary</item>
-        <item name="android:textColorSecondary">@color/t_matcha_textcolorsecondary</item>
-        <item name="android:statusBarColor">@color/t_matcha_statusbarcolor</item>
-        <item name="android:navigationBarColor">@color/t_matcha_navigationbarcolor</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
-    </style>
-    <style name="Theme.MyChord.Amoled" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="mcStroke">@android:color/transparent</item>
-        <item name="mcBg">@color/t_amoled_mcbg</item>
-        <item name="mcSurface">@color/t_amoled_mcsurface</item>
-        <item name="mcSurface2">@color/t_amoled_mcsurface2</item>
-        <item name="mcText">@color/t_amoled_mctext</item>
-        <item name="mcTextDim">@color/t_amoled_mctextdim</item>
-        <item name="mcAccent">@color/t_amoled_mcaccent</item>
-        <item name="mcOnAccent">@color/t_amoled_mconaccent</item>
-        <item name="colorPrimary">@color/t_amoled_colorprimary</item>
-        <item name="colorOnPrimary">@color/t_amoled_coloronprimary</item>
-        <item name="colorSecondary">@color/t_amoled_colorsecondary</item>
-        <item name="colorPrimaryContainer">@color/t_amoled_colorprimarycontainer</item>
-        <item name="colorOnPrimaryContainer">@color/t_amoled_coloronprimarycontainer</item>
-        <item name="colorSecondaryContainer">@color/t_amoled_colorsecondarycontainer</item>
-        <item name="colorOnSecondaryContainer">@color/t_amoled_coloronsecondarycontainer</item>
-        <item name="colorSurface">@color/t_amoled_colorsurface</item>
-        <item name="colorSurfaceContainer">@color/t_amoled_colorsurfacecontainer</item>
-        <item name="colorSurfaceContainerHigh">@color/t_amoled_colorsurfacecontainerhigh</item>
-        <item name="colorOnSurface">@color/t_amoled_coloronsurface</item>
-        <item name="colorOnSurfaceVariant">@color/t_amoled_coloronsurfacevariant</item>
-        <item name="colorOutline">@color/t_amoled_coloroutline</item>
-        <item name="android:colorBackground">@color/t_amoled_colorbackground</item>
-        <item name="android:windowBackground">@color/t_amoled_windowbackground</item>
-        <item name="android:textColorPrimary">@color/t_amoled_textcolorprimary</item>
-        <item name="android:textColorSecondary">@color/t_amoled_textcolorsecondary</item>
-        <item name="android:statusBarColor">@color/t_amoled_statusbarcolor</item>
-        <item name="android:navigationBarColor">@color/t_amoled_navigationbarcolor</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
-    </style>
-    <style name="Theme.MyChord.Kertas" parent="Theme.Material3.Light.NoActionBar">
-        <item name="mcStroke">@android:color/transparent</item>
-        <item name="mcBg">@color/t_kertas_mcbg</item>
-        <item name="mcSurface">@color/t_kertas_mcsurface</item>
-        <item name="mcSurface2">@color/t_kertas_mcsurface2</item>
-        <item name="mcText">@color/t_kertas_mctext</item>
-        <item name="mcTextDim">@color/t_kertas_mctextdim</item>
-        <item name="mcAccent">@color/t_kertas_mcaccent</item>
-        <item name="mcOnAccent">@color/t_kertas_mconaccent</item>
-        <item name="colorPrimary">@color/t_kertas_colorprimary</item>
-        <item name="colorOnPrimary">@color/t_kertas_coloronprimary</item>
-        <item name="colorSecondary">@color/t_kertas_colorsecondary</item>
-        <item name="colorPrimaryContainer">@color/t_kertas_colorprimarycontainer</item>
-        <item name="colorOnPrimaryContainer">@color/t_kertas_coloronprimarycontainer</item>
-        <item name="colorSecondaryContainer">@color/t_kertas_colorsecondarycontainer</item>
-        <item name="colorOnSecondaryContainer">@color/t_kertas_coloronsecondarycontainer</item>
-        <item name="colorSurface">@color/t_kertas_colorsurface</item>
-        <item name="colorSurfaceContainer">@color/t_kertas_colorsurfacecontainer</item>
-        <item name="colorSurfaceContainerHigh">@color/t_kertas_colorsurfacecontainerhigh</item>
-        <item name="colorOnSurface">@color/t_kertas_coloronsurface</item>
-        <item name="colorOnSurfaceVariant">@color/t_kertas_coloronsurfacevariant</item>
-        <item name="colorOutline">@color/t_kertas_coloroutline</item>
-        <item name="android:colorBackground">@color/t_kertas_colorbackground</item>
-        <item name="android:windowBackground">@color/t_kertas_windowbackground</item>
-        <item name="android:textColorPrimary">@color/t_kertas_textcolorprimary</item>
-        <item name="android:textColorSecondary">@color/t_kertas_textcolorsecondary</item>
-        <item name="android:statusBarColor">@color/t_kertas_statusbarcolor</item>
-        <item name="android:navigationBarColor">@color/t_kertas_navigationbarcolor</item>
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowLightNavigationBar">true</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
-    </style>
-    <style name="Theme.MyChord.Neon" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="mcStroke">@android:color/transparent</item>
-        <item name="mcBg">@color/t_neon_mcbg</item>
-        <item name="mcSurface">@color/t_neon_mcsurface</item>
-        <item name="mcSurface2">@color/t_neon_mcsurface2</item>
-        <item name="mcText">@color/t_neon_mctext</item>
-        <item name="mcTextDim">@color/t_neon_mctextdim</item>
-        <item name="mcAccent">@color/t_neon_mcaccent</item>
-        <item name="mcOnAccent">@color/t_neon_mconaccent</item>
-        <item name="colorPrimary">@color/t_neon_colorprimary</item>
-        <item name="colorOnPrimary">@color/t_neon_coloronprimary</item>
-        <item name="colorSecondary">@color/t_neon_colorsecondary</item>
-        <item name="colorPrimaryContainer">@color/t_neon_colorprimarycontainer</item>
-        <item name="colorOnPrimaryContainer">@color/t_neon_coloronprimarycontainer</item>
-        <item name="colorSecondaryContainer">@color/t_neon_colorsecondarycontainer</item>
-        <item name="colorOnSecondaryContainer">@color/t_neon_coloronsecondarycontainer</item>
-        <item name="colorSurface">@color/t_neon_colorsurface</item>
-        <item name="colorSurfaceContainer">@color/t_neon_colorsurfacecontainer</item>
-        <item name="colorSurfaceContainerHigh">@color/t_neon_colorsurfacecontainerhigh</item>
-        <item name="colorOnSurface">@color/t_neon_coloronsurface</item>
-        <item name="colorOnSurfaceVariant">@color/t_neon_coloronsurfacevariant</item>
-        <item name="colorOutline">@color/t_neon_coloroutline</item>
-        <item name="android:colorBackground">@color/t_neon_colorbackground</item>
-        <item name="android:windowBackground">@color/t_neon_windowbackground</item>
-        <item name="android:textColorPrimary">@color/t_neon_textcolorprimary</item>
-        <item name="android:textColorSecondary">@color/t_neon_textcolorsecondary</item>
-        <item name="android:statusBarColor">@color/t_neon_statusbarcolor</item>
-        <item name="android:navigationBarColor">@color/t_neon_navigationbarcolor</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
-    </style>
-    <style name="Theme.MyChord.Sakura" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="mcStroke">@android:color/transparent</item>
-        <item name="mcBg">@color/t_sakura_mcbg</item>
-        <item name="mcSurface">@color/t_sakura_mcsurface</item>
-        <item name="mcSurface2">@color/t_sakura_mcsurface2</item>
-        <item name="mcText">@color/t_sakura_mctext</item>
-        <item name="mcTextDim">@color/t_sakura_mctextdim</item>
-        <item name="mcAccent">@color/t_sakura_mcaccent</item>
-        <item name="mcOnAccent">@color/t_sakura_mconaccent</item>
-        <item name="colorPrimary">@color/t_sakura_colorprimary</item>
-        <item name="colorOnPrimary">@color/t_sakura_coloronprimary</item>
-        <item name="colorSecondary">@color/t_sakura_colorsecondary</item>
-        <item name="colorPrimaryContainer">@color/t_sakura_colorprimarycontainer</item>
-        <item name="colorOnPrimaryContainer">@color/t_sakura_coloronprimarycontainer</item>
-        <item name="colorSecondaryContainer">@color/t_sakura_colorsecondarycontainer</item>
-        <item name="colorOnSecondaryContainer">@color/t_sakura_coloronsecondarycontainer</item>
-        <item name="colorSurface">@color/t_sakura_colorsurface</item>
-        <item name="colorSurfaceContainer">@color/t_sakura_colorsurfacecontainer</item>
-        <item name="colorSurfaceContainerHigh">@color/t_sakura_colorsurfacecontainerhigh</item>
-        <item name="colorOnSurface">@color/t_sakura_coloronsurface</item>
-        <item name="colorOnSurfaceVariant">@color/t_sakura_coloronsurfacevariant</item>
-        <item name="colorOutline">@color/t_sakura_coloroutline</item>
-        <item name="android:colorBackground">@color/t_sakura_colorbackground</item>
-        <item name="android:windowBackground">@color/t_sakura_windowbackground</item>
-        <item name="android:textColorPrimary">@color/t_sakura_textcolorprimary</item>
-        <item name="android:textColorSecondary">@color/t_sakura_textcolorsecondary</item>
-        <item name="android:statusBarColor">@color/t_sakura_statusbarcolor</item>
-        <item name="android:navigationBarColor">@color/t_sakura_navigationbarcolor</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
-    </style>
-    <style name="Theme.MyChord.Laut" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="mcStroke">@android:color/transparent</item>
-        <item name="mcBg">@color/t_laut_mcbg</item>
-        <item name="mcSurface">@color/t_laut_mcsurface</item>
-        <item name="mcSurface2">@color/t_laut_mcsurface2</item>
-        <item name="mcText">@color/t_laut_mctext</item>
-        <item name="mcTextDim">@color/t_laut_mctextdim</item>
-        <item name="mcAccent">@color/t_laut_mcaccent</item>
-        <item name="mcOnAccent">@color/t_laut_mconaccent</item>
-        <item name="colorPrimary">@color/t_laut_colorprimary</item>
-        <item name="colorOnPrimary">@color/t_laut_coloronprimary</item>
-        <item name="colorSecondary">@color/t_laut_colorsecondary</item>
-        <item name="colorPrimaryContainer">@color/t_laut_colorprimarycontainer</item>
-        <item name="colorOnPrimaryContainer">@color/t_laut_coloronprimarycontainer</item>
-        <item name="colorSecondaryContainer">@color/t_laut_colorsecondarycontainer</item>
-        <item name="colorOnSecondaryContainer">@color/t_laut_coloronsecondarycontainer</item>
-        <item name="colorSurface">@color/t_laut_colorsurface</item>
-        <item name="colorSurfaceContainer">@color/t_laut_colorsurfacecontainer</item>
-        <item name="colorSurfaceContainerHigh">@color/t_laut_colorsurfacecontainerhigh</item>
-        <item name="colorOnSurface">@color/t_laut_coloronsurface</item>
-        <item name="colorOnSurfaceVariant">@color/t_laut_coloronsurfacevariant</item>
-        <item name="colorOutline">@color/t_laut_coloroutline</item>
-        <item name="android:colorBackground">@color/t_laut_colorbackground</item>
-        <item name="android:windowBackground">@color/t_laut_windowbackground</item>
-        <item name="android:textColorPrimary">@color/t_laut_textcolorprimary</item>
-        <item name="android:textColorSecondary">@color/t_laut_textcolorsecondary</item>
-        <item name="android:statusBarColor">@color/t_laut_statusbarcolor</item>
-        <item name="android:navigationBarColor">@color/t_laut_navigationbarcolor</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
-    </style>
-    <style name="Theme.MyChord.Kopi" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="mcStroke">@android:color/transparent</item>
-        <item name="mcBg">@color/t_kopi_mcbg</item>
-        <item name="mcSurface">@color/t_kopi_mcsurface</item>
-        <item name="mcSurface2">@color/t_kopi_mcsurface2</item>
-        <item name="mcText">@color/t_kopi_mctext</item>
-        <item name="mcTextDim">@color/t_kopi_mctextdim</item>
-        <item name="mcAccent">@color/t_kopi_mcaccent</item>
-        <item name="mcOnAccent">@color/t_kopi_mconaccent</item>
-        <item name="colorPrimary">@color/t_kopi_colorprimary</item>
-        <item name="colorOnPrimary">@color/t_kopi_coloronprimary</item>
-        <item name="colorSecondary">@color/t_kopi_colorsecondary</item>
-        <item name="colorPrimaryContainer">@color/t_kopi_colorprimarycontainer</item>
-        <item name="colorOnPrimaryContainer">@color/t_kopi_coloronprimarycontainer</item>
-        <item name="colorSecondaryContainer">@color/t_kopi_colorsecondarycontainer</item>
-        <item name="colorOnSecondaryContainer">@color/t_kopi_coloronsecondarycontainer</item>
-        <item name="colorSurface">@color/t_kopi_colorsurface</item>
-        <item name="colorSurfaceContainer">@color/t_kopi_colorsurfacecontainer</item>
-        <item name="colorSurfaceContainerHigh">@color/t_kopi_colorsurfacecontainerhigh</item>
-        <item name="colorOnSurface">@color/t_kopi_coloronsurface</item>
-        <item name="colorOnSurfaceVariant">@color/t_kopi_coloronsurfacevariant</item>
-        <item name="colorOutline">@color/t_kopi_coloroutline</item>
-        <item name="android:colorBackground">@color/t_kopi_colorbackground</item>
-        <item name="android:windowBackground">@color/t_kopi_windowbackground</item>
-        <item name="android:textColorPrimary">@color/t_kopi_textcolorprimary</item>
-        <item name="android:textColorSecondary">@color/t_kopi_textcolorsecondary</item>
-        <item name="android:statusBarColor">@color/t_kopi_statusbarcolor</item>
-        <item name="android:navigationBarColor">@color/t_kopi_navigationbarcolor</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
-    </style>
-    <style name="Theme.MyChord.Emas" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="mcStroke">@android:color/transparent</item>
-        <item name="mcBg">@color/t_emas_mcbg</item>
-        <item name="mcSurface">@color/t_emas_mcsurface</item>
-        <item name="mcSurface2">@color/t_emas_mcsurface2</item>
-        <item name="mcText">@color/t_emas_mctext</item>
-        <item name="mcTextDim">@color/t_emas_mctextdim</item>
-        <item name="mcAccent">@color/t_emas_mcaccent</item>
-        <item name="mcOnAccent">@color/t_emas_mconaccent</item>
-        <item name="colorPrimary">@color/t_emas_colorprimary</item>
-        <item name="colorOnPrimary">@color/t_emas_coloronprimary</item>
-        <item name="colorSecondary">@color/t_emas_colorsecondary</item>
-        <item name="colorPrimaryContainer">@color/t_emas_colorprimarycontainer</item>
-        <item name="colorOnPrimaryContainer">@color/t_emas_coloronprimarycontainer</item>
-        <item name="colorSecondaryContainer">@color/t_emas_colorsecondarycontainer</item>
-        <item name="colorOnSecondaryContainer">@color/t_emas_coloronsecondarycontainer</item>
-        <item name="colorSurface">@color/t_emas_colorsurface</item>
-        <item name="colorSurfaceContainer">@color/t_emas_colorsurfacecontainer</item>
-        <item name="colorSurfaceContainerHigh">@color/t_emas_colorsurfacecontainerhigh</item>
-        <item name="colorOnSurface">@color/t_emas_coloronsurface</item>
-        <item name="colorOnSurfaceVariant">@color/t_emas_coloronsurfacevariant</item>
-        <item name="colorOutline">@color/t_emas_coloroutline</item>
-        <item name="android:colorBackground">@color/t_emas_colorbackground</item>
-        <item name="android:windowBackground">@color/t_emas_windowbackground</item>
-        <item name="android:textColorPrimary">@color/t_emas_textcolorprimary</item>
-        <item name="android:textColorSecondary">@color/t_emas_textcolorsecondary</item>
-        <item name="android:statusBarColor">@color/t_emas_statusbarcolor</item>
-        <item name="android:navigationBarColor">@color/t_emas_navigationbarcolor</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
-    </style>
-    <style name="Theme.MyChord.Salji" parent="Theme.Material3.Light.NoActionBar">
-        <item name="mcStroke">@android:color/transparent</item>
-        <item name="mcBg">@color/t_salji_mcbg</item>
-        <item name="mcSurface">@color/t_salji_mcsurface</item>
-        <item name="mcSurface2">@color/t_salji_mcsurface2</item>
-        <item name="mcText">@color/t_salji_mctext</item>
-        <item name="mcTextDim">@color/t_salji_mctextdim</item>
-        <item name="mcAccent">@color/t_salji_mcaccent</item>
-        <item name="mcOnAccent">@color/t_salji_mconaccent</item>
-        <item name="colorPrimary">@color/t_salji_colorprimary</item>
-        <item name="colorOnPrimary">@color/t_salji_coloronprimary</item>
-        <item name="colorSecondary">@color/t_salji_colorsecondary</item>
-        <item name="colorPrimaryContainer">@color/t_salji_colorprimarycontainer</item>
-        <item name="colorOnPrimaryContainer">@color/t_salji_coloronprimarycontainer</item>
-        <item name="colorSecondaryContainer">@color/t_salji_colorsecondarycontainer</item>
-        <item name="colorOnSecondaryContainer">@color/t_salji_coloronsecondarycontainer</item>
-        <item name="colorSurface">@color/t_salji_colorsurface</item>
-        <item name="colorSurfaceContainer">@color/t_salji_colorsurfacecontainer</item>
-        <item name="colorSurfaceContainerHigh">@color/t_salji_colorsurfacecontainerhigh</item>
-        <item name="colorOnSurface">@color/t_salji_coloronsurface</item>
-        <item name="colorOnSurfaceVariant">@color/t_salji_coloronsurfacevariant</item>
-        <item name="colorOutline">@color/t_salji_coloroutline</item>
-        <item name="android:colorBackground">@color/t_salji_colorbackground</item>
-        <item name="android:windowBackground">@color/t_salji_windowbackground</item>
-        <item name="android:textColorPrimary">@color/t_salji_textcolorprimary</item>
-        <item name="android:textColorSecondary">@color/t_salji_textcolorsecondary</item>
-        <item name="android:statusBarColor">@color/t_salji_statusbarcolor</item>
-        <item name="android:navigationBarColor">@color/t_salji_navigationbarcolor</item>
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowLightNavigationBar">true</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
-    </style>
-    <style name="Theme.MyChord.Kaca" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="mcStroke">#47FFFFFF</item>
-        <item name="mcBg">@color/t_kaca_mcbg</item>
-        <item name="mcSurface">@color/t_kaca_mcsurface</item>
-        <item name="mcSurface2">@color/t_kaca_mcsurface2</item>
-        <item name="mcText">@color/t_kaca_mctext</item>
-        <item name="mcTextDim">@color/t_kaca_mctextdim</item>
-        <item name="mcAccent">@color/t_kaca_mcaccent</item>
-        <item name="mcOnAccent">@color/t_kaca_mconaccent</item>
-        <item name="colorPrimary">@color/t_kaca_colorprimary</item>
-        <item name="colorOnPrimary">@color/t_kaca_coloronprimary</item>
-        <item name="colorSecondary">@color/t_kaca_colorsecondary</item>
-        <item name="colorPrimaryContainer">@color/t_kaca_colorprimarycontainer</item>
-        <item name="colorOnPrimaryContainer">@color/t_kaca_coloronprimarycontainer</item>
-        <item name="colorSecondaryContainer">@color/t_kaca_colorsecondarycontainer</item>
-        <item name="colorOnSecondaryContainer">@color/t_kaca_coloronsecondarycontainer</item>
-        <item name="colorSurface">@color/t_kaca_colorsurface</item>
-        <item name="colorSurfaceContainer">@color/t_kaca_colorsurfacecontainer</item>
-        <item name="colorSurfaceContainerHigh">@color/t_kaca_colorsurfacecontainerhigh</item>
-        <item name="colorOnSurface">@color/t_kaca_coloronsurface</item>
-        <item name="colorOnSurfaceVariant">@color/t_kaca_coloronsurfacevariant</item>
-        <item name="colorOutline">@color/t_kaca_coloroutline</item>
-        <item name="android:colorBackground">@color/t_kaca_colorbackground</item>
-        <item name="android:windowBackground">@drawable/bg_glass_dark</item>
-        <item name="android:textColorPrimary">@color/t_kaca_textcolorprimary</item>
-        <item name="android:textColorSecondary">@color/t_kaca_textcolorsecondary</item>
-        <item name="android:statusBarColor">@color/t_kaca_statusbarcolor</item>
-        <item name="android:navigationBarColor">@color/t_kaca_navigationbarcolor</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
-    </style>
-    <style name="Theme.MyChord.KacaCerah" parent="Theme.Material3.Light.NoActionBar">
-        <item name="mcStroke">#CCFFFFFF</item>
-        <item name="mcBg">@color/t_kacacerah_mcbg</item>
-        <item name="mcSurface">@color/t_kacacerah_mcsurface</item>
-        <item name="mcSurface2">@color/t_kacacerah_mcsurface2</item>
-        <item name="mcText">@color/t_kacacerah_mctext</item>
-        <item name="mcTextDim">@color/t_kacacerah_mctextdim</item>
-        <item name="mcAccent">@color/t_kacacerah_mcaccent</item>
-        <item name="mcOnAccent">@color/t_kacacerah_mconaccent</item>
-        <item name="colorPrimary">@color/t_kacacerah_colorprimary</item>
-        <item name="colorOnPrimary">@color/t_kacacerah_coloronprimary</item>
-        <item name="colorSecondary">@color/t_kacacerah_colorsecondary</item>
-        <item name="colorPrimaryContainer">@color/t_kacacerah_colorprimarycontainer</item>
-        <item name="colorOnPrimaryContainer">@color/t_kacacerah_coloronprimarycontainer</item>
-        <item name="colorSecondaryContainer">@color/t_kacacerah_colorsecondarycontainer</item>
-        <item name="colorOnSecondaryContainer">@color/t_kacacerah_coloronsecondarycontainer</item>
-        <item name="colorSurface">@color/t_kacacerah_colorsurface</item>
-        <item name="colorSurfaceContainer">@color/t_kacacerah_colorsurfacecontainer</item>
-        <item name="colorSurfaceContainerHigh">@color/t_kacacerah_colorsurfacecontainerhigh</item>
-        <item name="colorOnSurface">@color/t_kacacerah_coloronsurface</item>
-        <item name="colorOnSurfaceVariant">@color/t_kacacerah_coloronsurfacevariant</item>
-        <item name="colorOutline">@color/t_kacacerah_coloroutline</item>
-        <item name="android:colorBackground">@color/t_kacacerah_colorbackground</item>
-        <item name="android:windowBackground">@drawable/bg_glass_light</item>
-        <item name="android:textColorPrimary">@color/t_kacacerah_textcolorprimary</item>
-        <item name="android:textColorSecondary">@color/t_kacacerah_textcolorsecondary</item>
-        <item name="android:statusBarColor">@color/t_kacacerah_statusbarcolor</item>
-        <item name="android:navigationBarColor">@color/t_kacacerah_navigationbarcolor</item>
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowLightNavigationBar">true</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
-    </style>
-    <style name="Theme.MyChord.Flix" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="mcStroke">@android:color/transparent</item>
-        <item name="mcBg">@color/t_flix_mcbg</item>
-        <item name="mcSurface">@color/t_flix_mcsurface</item>
-        <item name="mcSurface2">@color/t_flix_mcsurface2</item>
-        <item name="mcText">@color/t_flix_mctext</item>
-        <item name="mcTextDim">@color/t_flix_mctextdim</item>
-        <item name="mcAccent">@color/t_flix_mcaccent</item>
-        <item name="mcOnAccent">@color/t_flix_mconaccent</item>
-        <item name="colorPrimary">@color/t_flix_colorprimary</item>
-        <item name="colorOnPrimary">@color/t_flix_coloronprimary</item>
-        <item name="colorSecondary">@color/t_flix_colorsecondary</item>
-        <item name="colorPrimaryContainer">@color/t_flix_colorprimarycontainer</item>
-        <item name="colorOnPrimaryContainer">@color/t_flix_coloronprimarycontainer</item>
-        <item name="colorSecondaryContainer">@color/t_flix_colorsecondarycontainer</item>
-        <item name="colorOnSecondaryContainer">@color/t_flix_coloronsecondarycontainer</item>
-        <item name="colorSurface">@color/t_flix_colorsurface</item>
-        <item name="colorSurfaceContainer">@color/t_flix_colorsurfacecontainer</item>
-        <item name="colorSurfaceContainerHigh">@color/t_flix_colorsurfacecontainerhigh</item>
-        <item name="colorOnSurface">@color/t_flix_coloronsurface</item>
-        <item name="colorOnSurfaceVariant">@color/t_flix_coloronsurfacevariant</item>
-        <item name="colorOutline">@color/t_flix_coloroutline</item>
-        <item name="android:colorBackground">@color/t_flix_colorbackground</item>
-        <item name="android:windowBackground">@color/t_flix_windowbackground</item>
-        <item name="android:textColorPrimary">@color/t_flix_textcolorprimary</item>
-        <item name="android:textColorSecondary">@color/t_flix_textcolorsecondary</item>
-        <item name="android:statusBarColor">@color/t_flix_statusbarcolor</item>
-        <item name="android:navigationBarColor">@color/t_flix_navigationbarcolor</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
-    </style>
-    <style name="Theme.MyChord.Ytm" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="mcStroke">@android:color/transparent</item>
-        <item name="mcBg">@color/t_ytm_mcbg</item>
-        <item name="mcSurface">@color/t_ytm_mcsurface</item>
-        <item name="mcSurface2">@color/t_ytm_mcsurface2</item>
-        <item name="mcText">@color/t_ytm_mctext</item>
-        <item name="mcTextDim">@color/t_ytm_mctextdim</item>
-        <item name="mcAccent">@color/t_ytm_mcaccent</item>
-        <item name="mcOnAccent">@color/t_ytm_mconaccent</item>
-        <item name="colorPrimary">@color/t_ytm_colorprimary</item>
-        <item name="colorOnPrimary">@color/t_ytm_coloronprimary</item>
-        <item name="colorSecondary">@color/t_ytm_colorsecondary</item>
-        <item name="colorPrimaryContainer">@color/t_ytm_colorprimarycontainer</item>
-        <item name="colorOnPrimaryContainer">@color/t_ytm_coloronprimarycontainer</item>
-        <item name="colorSecondaryContainer">@color/t_ytm_colorsecondarycontainer</item>
-        <item name="colorOnSecondaryContainer">@color/t_ytm_coloronsecondarycontainer</item>
-        <item name="colorSurface">@color/t_ytm_colorsurface</item>
-        <item name="colorSurfaceContainer">@color/t_ytm_colorsurfacecontainer</item>
-        <item name="colorSurfaceContainerHigh">@color/t_ytm_colorsurfacecontainerhigh</item>
-        <item name="colorOnSurface">@color/t_ytm_coloronsurface</item>
-        <item name="colorOnSurfaceVariant">@color/t_ytm_coloronsurfacevariant</item>
-        <item name="colorOutline">@color/t_ytm_coloroutline</item>
-        <item name="android:colorBackground">@color/t_ytm_colorbackground</item>
-        <item name="android:windowBackground">@color/t_ytm_windowbackground</item>
-        <item name="android:textColorPrimary">@color/t_ytm_textcolorprimary</item>
-        <item name="android:textColorSecondary">@color/t_ytm_textcolorsecondary</item>
-        <item name="android:statusBarColor">@color/t_ytm_statusbarcolor</item>
-        <item name="android:navigationBarColor">@color/t_ytm_navigationbarcolor</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
-    </style>
-    <style name="Theme.MyChord.Disney" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="mcStroke">@android:color/transparent</item>
-        <item name="mcBg">@color/t_disney_mcbg</item>
-        <item name="mcSurface">@color/t_disney_mcsurface</item>
-        <item name="mcSurface2">@color/t_disney_mcsurface2</item>
-        <item name="mcText">@color/t_disney_mctext</item>
-        <item name="mcTextDim">@color/t_disney_mctextdim</item>
-        <item name="mcAccent">@color/t_disney_mcaccent</item>
-        <item name="mcOnAccent">@color/t_disney_mconaccent</item>
-        <item name="colorPrimary">@color/t_disney_colorprimary</item>
-        <item name="colorOnPrimary">@color/t_disney_coloronprimary</item>
-        <item name="colorSecondary">@color/t_disney_colorsecondary</item>
-        <item name="colorPrimaryContainer">@color/t_disney_colorprimarycontainer</item>
-        <item name="colorOnPrimaryContainer">@color/t_disney_coloronprimarycontainer</item>
-        <item name="colorSecondaryContainer">@color/t_disney_colorsecondarycontainer</item>
-        <item name="colorOnSecondaryContainer">@color/t_disney_coloronsecondarycontainer</item>
-        <item name="colorSurface">@color/t_disney_colorsurface</item>
-        <item name="colorSurfaceContainer">@color/t_disney_colorsurfacecontainer</item>
-        <item name="colorSurfaceContainerHigh">@color/t_disney_colorsurfacecontainerhigh</item>
-        <item name="colorOnSurface">@color/t_disney_coloronsurface</item>
-        <item name="colorOnSurfaceVariant">@color/t_disney_coloronsurfacevariant</item>
-        <item name="colorOutline">@color/t_disney_coloroutline</item>
-        <item name="android:colorBackground">@color/t_disney_colorbackground</item>
-        <item name="android:windowBackground">@color/t_disney_windowbackground</item>
-        <item name="android:textColorPrimary">@color/t_disney_textcolorprimary</item>
-        <item name="android:textColorSecondary">@color/t_disney_textcolorsecondary</item>
-        <item name="android:statusBarColor">@color/t_disney_statusbarcolor</item>
-        <item name="android:navigationBarColor">@color/t_disney_navigationbarcolor</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
-    </style>
-    <style name="Theme.MyChord.Prime" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="mcStroke">@android:color/transparent</item>
-        <item name="mcBg">@color/t_prime_mcbg</item>
-        <item name="mcSurface">@color/t_prime_mcsurface</item>
-        <item name="mcSurface2">@color/t_prime_mcsurface2</item>
-        <item name="mcText">@color/t_prime_mctext</item>
-        <item name="mcTextDim">@color/t_prime_mctextdim</item>
-        <item name="mcAccent">@color/t_prime_mcaccent</item>
-        <item name="mcOnAccent">@color/t_prime_mconaccent</item>
-        <item name="colorPrimary">@color/t_prime_colorprimary</item>
-        <item name="colorOnPrimary">@color/t_prime_coloronprimary</item>
-        <item name="colorSecondary">@color/t_prime_colorsecondary</item>
-        <item name="colorPrimaryContainer">@color/t_prime_colorprimarycontainer</item>
-        <item name="colorOnPrimaryContainer">@color/t_prime_coloronprimarycontainer</item>
-        <item name="colorSecondaryContainer">@color/t_prime_colorsecondarycontainer</item>
-        <item name="colorOnSecondaryContainer">@color/t_prime_coloronsecondarycontainer</item>
-        <item name="colorSurface">@color/t_prime_colorsurface</item>
-        <item name="colorSurfaceContainer">@color/t_prime_colorsurfacecontainer</item>
-        <item name="colorSurfaceContainerHigh">@color/t_prime_colorsurfacecontainerhigh</item>
-        <item name="colorOnSurface">@color/t_prime_coloronsurface</item>
-        <item name="colorOnSurfaceVariant">@color/t_prime_coloronsurfacevariant</item>
-        <item name="colorOutline">@color/t_prime_coloroutline</item>
-        <item name="android:colorBackground">@color/t_prime_colorbackground</item>
-        <item name="android:windowBackground">@color/t_prime_windowbackground</item>
-        <item name="android:textColorPrimary">@color/t_prime_textcolorprimary</item>
-        <item name="android:textColorSecondary">@color/t_prime_textcolorsecondary</item>
-        <item name="android:statusBarColor">@color/t_prime_statusbarcolor</item>
-        <item name="android:navigationBarColor">@color/t_prime_navigationbarcolor</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
-    </style>
-    <style name="Theme.MyChord.Lastwave" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="mcStroke">@android:color/transparent</item>
-        <item name="mcBg">@color/t_lw_mcbg</item>
-        <item name="mcSurface">@color/t_lw_mcsurface</item>
-        <item name="mcSurface2">@color/t_lw_mcsurface2</item>
-        <item name="mcText">@color/t_lw_mctext</item>
-        <item name="mcTextDim">@color/t_lw_mctextdim</item>
-        <item name="mcAccent">@color/t_lw_mcaccent</item>
-        <item name="mcOnAccent">@color/t_lw_mconaccent</item>
-        <item name="colorPrimary">@color/t_lw_colorprimary</item>
-        <item name="colorOnPrimary">@color/t_lw_coloronprimary</item>
-        <item name="colorSecondary">@color/t_lw_colorsecondary</item>
-        <item name="colorPrimaryContainer">@color/t_lw_colorprimarycontainer</item>
-        <item name="colorOnPrimaryContainer">@color/t_lw_coloronprimarycontainer</item>
-        <item name="colorSecondaryContainer">@color/t_lw_colorsecondarycontainer</item>
-        <item name="colorOnSecondaryContainer">@color/t_lw_coloronsecondarycontainer</item>
-        <item name="colorSurface">@color/t_lw_colorsurface</item>
-        <item name="colorSurfaceContainer">@color/t_lw_colorsurfacecontainer</item>
-        <item name="colorSurfaceContainerHigh">@color/t_lw_colorsurfacecontainerhigh</item>
-        <item name="colorOnSurface">@color/t_lw_coloronsurface</item>
-        <item name="colorOnSurfaceVariant">@color/t_lw_coloronsurfacevariant</item>
-        <item name="colorOutline">@color/t_lw_coloroutline</item>
-        <item name="android:colorBackground">@color/t_lw_colorbackground</item>
-        <item name="android:windowBackground">@color/t_lw_windowbackground</item>
-        <item name="android:textColorPrimary">@color/t_lw_textcolorprimary</item>
-        <item name="android:textColorSecondary">@color/t_lw_textcolorsecondary</item>
-        <item name="android:statusBarColor">@color/t_lw_statusbarcolor</item>
-        <item name="android:navigationBarColor">@color/t_lw_navigationbarcolor</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyChord.Dialog</item>
-    </style>
-    <style name="Theme.MyChord.Player" parent="Theme.MyChord.Ember">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-    </style>
-    <style name="ThemeOverlay.MyChord.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
-        <item name="colorSurface">?attr/mcSurface</item>
-        <item name="colorSurfaceContainerHigh">?attr/mcSurface</item>
-    </style>
-    <style name="Shape.Round12" parent=""><item name="cornerFamily">rounded</item><item name="cornerSize">12dp</item></style>
-    <style name="Shape.Round18" parent=""><item name="cornerFamily">rounded</item><item name="cornerSize">18dp</item></style>
-    <style name="Shape.Round28" parent=""><item name="cornerFamily">rounded</item><item name="cornerSize">28dp</item></style>
-    <style name="Shape.Circle" parent=""><item name="cornerFamily">rounded</item><item name="cornerSize">50%</item></style>
-    <style name="Txt.Overline" parent="">
-        <item name="android:textSize">11sp</item>
-        <item name="android:letterSpacing">0.18</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">?attr/mcAccent</item>
-    </style>
-    <style name="Txt.Huge" parent="">
-        <item name="android:textSize">32sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:letterSpacing">-0.02</item>
-        <item name="android:textColor">?attr/mcText</item>
-    </style>
-    <style name="Txt.Section" parent="">
-        <item name="android:textSize">19sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">?attr/mcText</item>
-    </style>
-    <style name="Txt.Body" parent="">
-        <item name="android:textSize">15sp</item>
-        <item name="android:textColor">?attr/mcText</item>
-    </style>
-    <style name="Txt.Dim" parent="">
-        <item name="android:textSize">13sp</item>
-        <item name="android:textColor">?attr/mcTextDim</item>
+
+    <!-- ═══ iosglass — iOS glassmorphism light theme ═══ -->
+    <style name="Theme.MyChord.IosGlass" parent="Theme.Material3.Light.NoActionBar">
+        <item name="mcStroke">#C6C6C8</item>
+        <item name="mcBg">@color/t_iosglass_mcbg</item>
+        <item name="mcSurface">@color/t_iosglass_mcsurface</item>
+        <item name="mcSurface2">@color/t_iosglass_mcsurface2</item>
+        <item name="mcText">@color/t_iosglass_mctext</item>
+        <item name="mcTextDim">@color/t_iosglass_mctextdim</item>
+        <item name="mcAccent">@color/t_iosglass_mcaccent</item>
+        <item name="mcOnAccent">@color/t_iosglass_mconaccent</item>
+        <item name="colorPrimary">@color/t_iosglass_colorprimary</item>
+        <item name="colorOnPrimary">@color/t_iosglass_coloronprimary</item>
+        <item name="colorSecondary">@color/t_iosglass_colorsecondary</item>
+        <item name="colorPrimaryContainer">@color/t_iosglass_colorprimarycontainer</item>
+        <item name="colorOnPrimaryContainer">@color/t_iosglass_coloronprimarycontainer</item>
+        <item name="colorSecondaryContainer">@color/t_iosglass_colorsecondarycontainer</item>
+        <item name="colorOnSecondaryContainer">@color/t_iosglass_coloronsecondarycontainer</item>
+        <item name="colorSurface">@color/t_iosglass_colorsurface</item>
+        <item name="colorSurfaceContainer">@color/t_iosglass_colorsurfacecontainer</item>
+        <item name="colorSurfaceContainerHigh">@color/t_iosglass_colorsurfacecontainerhigh</item>
+        <item name="colorOnSurface">@color/t_iosglass_coloronsurface</item>
+        <item name="colorOnSurfaceVariant">@color/t_iosglass_coloronsurfacevariant</item>
+        <item name="colorOutline">@color/t_iosglass_coloroutline</item>
+        <item name="android:colorBackground">@color/t_iosglass_colorbackground</item>
+        <item name="android:windowBackground">@color/t_iosglass_windowbackground</item>
+        <item name="android:textColorPrimary">@color/t_iosglass_textcolorprimary</item>
+        <item name="android:textColorSecondary">@color/t_iosglass_textcolorsecondary</item>
+        <item name="android:statusBarColor">@color/t_iosglass_statusbarcolor</item>
+        <item name="android:navigationBarColor">@color/t_iosglass_navigationbarcolor</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
     </style>
 </resources>
