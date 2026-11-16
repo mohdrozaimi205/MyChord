@@ -9,67 +9,64 @@
         android:orientation="vertical"
         android:paddingBottom="16dp">
 
-        <!-- Header: Title + icons -->
+        <!-- YTM-style Top Bar: Logo + Share + Search + Account -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
+            android:layout_height="56dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingStart="20dp"
-            android:paddingEnd="12dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="8dp">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/logoIcon"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_note" />
+
+            <TextView
+                android:id="@+id/logoText"
+                style="@style/Txt.Huge"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/greet"
-                    style="@style/Txt.Overline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    style="@style/Txt.Huge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="@string/home_title" />
-            </LinearLayout>
+                android:text="@string/app_name"
+                android:textSize="20sp" />
 
             <ImageButton
                 android:id="@+id/homeShare"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/bg_pill"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/share_app"
                 android:padding="10dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_share" />
 
             <ImageButton
-                android:id="@+id/homeRecognize"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/icon_preview_ember"
-                android:contentDescription="@string/rec_title"
-                android:elevation="4dp" />
+                android:id="@+id/homeSearch"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/search_hint"
+                android:padding="10dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_search" />
 
             <FrameLayout
                 android:id="@+id/homeProfile"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="8dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="4dp"
                 android:background="@drawable/bg_accent_circle"
                 android:foreground="?attr/selectableItemBackgroundBorderless">
 
                 <ImageView
                     android:id="@+id/homeProfileIcon"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_person" />
 
@@ -79,127 +76,47 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:textColor="?attr/mcOnAccent"
-                    android:textSize="17sp"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     android:visibility="gone" />
             </FrameLayout>
         </LinearLayout>
 
-        <!-- 1. Mood filter chips at top (gaya LastWave) -->
+        <!-- Filter chips -->
         <HorizontalScrollView
-            android:id="@+id/moodScroll"
+            android:id="@+id/chipScroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="4dp"
             android:clipToPadding="false"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:scrollbars="none">
 
             <LinearLayout
-                android:id="@+id/moodChips"
+                android:id="@+id/chipRow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" />
         </HorizontalScrollView>
 
-        <!-- 2. Date display -->
-        <TextView
-            android:id="@+id/homeDate"
-            style="@style/Txt.Overline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="14dp" />
-
-        <!-- 3. Made For You hero card -->
-        <LinearLayout
-            android:id="@+id/heroCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="vertical" />
-
-        <!-- 4. Quick Access tiles -->
+        <!-- Speed Dial: 2x2 artist quick-access grid -->
         <GridLayout
-            android:id="@+id/tiles"
+            android:id="@+id/speedDial"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="14dp"
-            android:columnCount="2" />
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:columnCount="2"
+            android:rowCount="2" />
 
-        <!-- 5. My Genres chips -->
-        <TextView
-            android:id="@+id/genresLabel"
-            style="@style/Txt.Section"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/home_my_genres" />
-
-        <TextView
-            android:id="@+id/genresSub"
-            style="@style/Txt.Dim"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="2dp"
-            android:text="@string/home_my_genres_sub" />
-
-        <HorizontalScrollView
-            android:id="@+id/genreScroll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:clipToPadding="false"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:scrollbars="none">
-
-            <LinearLayout
-                android:id="@+id/genreChips"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" />
-        </HorizontalScrollView>
-
-        <!-- 6. Mood & Genre landscape cards -->
-        <TextView
-            android:id="@+id/moodLandLabel"
-            style="@style/Txt.Section"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/moods_title" />
-
-        <HorizontalScrollView
-            android:id="@+id/moodLandScroll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:clipToPadding="false"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:scrollbars="none">
-
-            <LinearLayout
-                android:id="@+id/moodLandCards"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" />
-        </HorizontalScrollView>
-
-        <!-- 7. All shelves -->
+        <!-- All shelves -->
         <LinearLayout
             android:id="@+id/shelves"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:orientation="vertical" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

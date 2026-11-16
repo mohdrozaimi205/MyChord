@@ -49,6 +49,9 @@ public class PlayerActivity extends BaseActivity implements Player.Listener {
     private int lyricIndex = -1;
     private TextView sleepChipText;
 
+    // YTM action row buttons
+    private ImageButton lyricsActionBtn, saveBtn, shareActionBtn, downloadBtn, mixBtn;
+
     // Leret ke bawah untuk tutup
     private View sheet;
     private float downX, downY;
@@ -90,7 +93,7 @@ public class PlayerActivity extends BaseActivity implements Player.Listener {
         Ui.tint(playBtn, Ui.attr(this, R.attr.mcOnAccent));
         title.setSelected(true);
 
-        // Klik nama artis → buka halaman artis
+        // Klik nama artis → buka halaman artis (maks 50 lagu)
         artistTv.setOnClickListener(v -> {
             MediaController c = PlayerHub.get();
             if (c == null || c.getCurrentMediaItem() == null) return;
@@ -156,6 +159,25 @@ public class PlayerActivity extends BaseActivity implements Player.Listener {
             YtmAccount.syncLike(cur, Store.toggleLike(cur));
             refreshLike();
         });
+
+        // ── YTM Action row buttons ──────────────────────────────────
+        lyricsActionBtn = findViewById(R.id.pLyricsBtn);
+        saveBtn = findViewById(R.id.pSave);
+        shareActionBtn = findViewById(R.id.pShareBtn);
+        downloadBtn = findViewById(R.id.pDownload);
+        mixBtn = findViewById(R.id.pMix);
+
+        lyricsActionBtn.setOnClickListener(v -> {
+            if (AddonManager.installed("lyrics")) toggleLyrics();
+            else Toast.makeText(this, R.string.set_addons, Toast.LENGTH_SHORT).show();
+        });
+        lyricsActionBtn.setAlpha(AddonManager.installed("lyrics") ? 1f : 0.35f);
+        saveBtn.setOnClickListener(v -> saveDialog());
+        shareActionBtn.setOnClickListener(v -> shareSong());
+        downloadBtn.setOnClickListener(v ->
+                Toast.makeText(this, "Muat turun akan datang", Toast.LENGTH_SHORT).show());
+        mixBtn.setOnClickListener(v -> startMix());
+
         seek.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) { dragging = true; }
@@ -174,10 +196,60 @@ public class PlayerActivity extends BaseActivity implements Player.Listener {
         buildChips();
     }
 
+    // ── YTM Action row: save dialog ─────────────────────────────────
+
+    private void saveDialog() {
+        MediaController c = PlayerHub.get();
+        if (c == null || c.getCurrentMediaItem() == null) return;
+        Track cur = Track.fromMediaItem(c.getCurrentMediaItem());
+        String[] items = {getString(R.string.tile_liked), getString(R.string.queue)};
+        new MaterialAlertDialogBuilder(this)
+                .setItems(items, (d, w) -> {
+                    if (w == 0) {
+                        if (!Store.isLiked(cur.mediaId)) {
+                            YtmAccount.syncLike(cur, Store.toggleLike(cur));
+                            refreshLike();
+                        }
+                        Toast.makeText(this, "♥", Toast.LENGTH_SHORT).show();
+                    } else {
+                        c.addMediaItem(c.getCurrentMediaItemIndex() + 1, cur.toMediaItem());
+                        Toast.makeText(this, getString(R.string.queue) + " +1", Toast.LENGTH_SHORT).show();
+                    }
+                }).show();
+    }
+
+    // ── YTM Action row: start mix from current song ────────────────
+
+    private void startMix() {
+        MediaController c = PlayerHub.get();
+        if (c == null || c.getCurrentMediaItem() == null) return;
+        Track cur = Track.fromMediaItem(c.getCurrentMediaItem());
+        Toast.makeText(this, "Mix ♫", Toast.LENGTH_SHORT).show();
+        App.IO.execute(() -> {
+            try {
+                List<Track> similar = YtMusic.search(cur.title + " " + cur.artist);
+                List<Track> filtered = DiscoverShelves.filterHindi(similar);
+                if (filtered.size() > 30) filtered = filtered.subList(0, 30);
+                if (!filtered.isEmpty()) {
+                    final List<Track> f = new ArrayList<>(filtered);
+                    App.MAIN.post(() -> {
+                        if (!isFinishing()) PlayerHub.playList(f, 0);
+                    });
+                }
+            } catch (Exception e) {
+                App.MAIN.post(() -> {
+                    if (!isFinishing())
+                        Toast.makeText(this, "Mix tidak tersedia", Toast.LENGTH_SHORT).show();
+                });
+            }
+        });
+    }
+
+    // ── Bottom chips ────────────────────────────────────────────────
+
     private void buildChips() {
         LinearLayout chips = findViewById(R.id.pChips);
         chips.removeAllViews();
-        if (AddonManager.installed("lyrics")) addChip(chips, R.drawable.ic_lyrics, getString(R.string.lyrics), v -> toggleLyrics());
         addChip(chips, R.drawable.ic_eq, getString(R.string.effects), v -> startActivity(new Intent(this, EffectsActivity.class)));
         if (AddonManager.installed("sleep")) {
             View c = addChip(chips, R.drawable.ic_timer, getString(R.string.sleep), v -> sleepDialog());
@@ -186,9 +258,8 @@ public class PlayerActivity extends BaseActivity implements Player.Listener {
         }
         addChip(chips, R.drawable.ic_hq, getString(R.string.q_chip), v -> qualityDialog());
         addChip(chips, R.drawable.ic_eq, HiFi.pureOn() ? "Hi-Fi ●" : "Hi-Fi", v -> hifiDialog());
-        View tg = addChip(chips, R.drawable.ic_together, ListenTogether.mode() == ListenTogether.OFF
+        addChip(chips, R.drawable.ic_together, ListenTogether.mode() == ListenTogether.OFF
                 ? getString(R.string.tg_title) : getString(R.string.tg_chip_on, ListenTogether.code()), v -> TogetherDialog.show(this, this::buildChips));
-        addChip(chips, R.drawable.ic_share, getString(R.string.share_song), v -> shareSong());
         addChip(chips, R.drawable.ic_queue, getString(R.string.queue), v -> showQueue());
     }
 
@@ -598,6 +669,9 @@ public class PlayerActivity extends BaseActivity implements Player.Listener {
     protected void onResume() {
         super.onResume();
         buildChips();
+        // Kemas kini keadaan butang lirik
+        if (lyricsActionBtn != null)
+            lyricsActionBtn.setAlpha(AddonManager.installed("lyrics") ? 1f : 0.35f);
     }
 
     @Override

@@ -199,16 +199,9 @@ public class SettingsFragment extends Fragment {
                 ring.setStroke(Ui.dp(requireContext(), 2), accent);
                 v.findViewById(R.id.swatchFrame).setBackground(ring);
             }
-            boolean locked = ThemeUtil.locked(id);
-            ImageView lock = v.findViewById(R.id.swatchLock);
-            lock.setVisibility(locked ? View.VISIBLE : View.GONE);
-            Ui.tint(lock, accent);
+            v.findViewById(R.id.swatchLock).setVisibility(View.GONE);
             ((TextView) v.findViewById(R.id.swatchName)).setText(ThemeUtil.NAMES[i]);
             v.setOnClickListener(x -> {
-                if (locked) {
-                    Toast.makeText(getContext(), R.string.theme_locked, Toast.LENGTH_LONG).show();
-                    return;
-                }
                 if (id.equals(Prefs.theme())) return;
                 Prefs.putS("theme", id);
                 requireActivity().recreate();
