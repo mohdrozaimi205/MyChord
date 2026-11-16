@@ -95,26 +95,47 @@
         <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
     </style>
 
-    <!-- ═══ Player — fullscreen dark overlay theme for PlayerActivity ═══ -->
-    <style name="Theme.MyChord.Player" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="mcStroke">@android:color/transparent</item>
-        <item name="mcBg">#FF000000</item>
-        <item name="mcSurface">#FF212121</item>
-        <item name="mcSurface2">#FF2C2C2C</item>
-        <item name="mcText">#FFFFFFFF</item>
-        <item name="mcTextDim">#B3FFFFFF</item>
-        <item name="mcAccent">@color/t_tubeawak_mcaccent</item>
-        <item name="mcOnAccent">@color/t_tubeawak_mconaccent</item>
-        <item name="colorPrimary">@color/t_tubeawak_colorprimary</item>
-        <item name="colorOnPrimary">@color/t_tubeawak_coloronprimary</item>
-        <item name="colorSecondary">@color/t_tubeawak_colorsecondary</item>
-        <item name="colorSurface">#FF000000</item>
-        <item name="colorOnSurface">#FFFFFFFF</item>
-        <item name="colorOnSurfaceVariant">#B3FFFFFF</item>
-        <item name="android:colorBackground">#FF000000</item>
-        <item name="android:windowBackground">@android:color/black</item>
-        <item name="android:statusBarColor">#FF000000</item>
-        <item name="android:navigationBarColor">#FF000000</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
+    <!-- ═══ Player — translucent overlay for PlayerActivity ═══ -->
+    <style name="Theme.MyChord.Player" parent="Theme.MyChord.TubeAwak">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <!-- ═══ Shape overlays for ShapeableImageView ═══ -->
+    <style name="Shape.Round12" parent=""><item name="cornerFamily">rounded</item><item name="cornerSize">12dp</item></style>
+    <style name="Shape.Round18" parent=""><item name="cornerFamily">rounded</item><item name="cornerSize">18dp</item></style>
+    <style name="Shape.Round28" parent=""><item name="cornerFamily">rounded</item><item name="cornerSize">28dp</item></style>
+    <style name="Shape.Circle" parent=""><item name="cornerFamily">rounded</item><item name="cornerSize">50%</item></style>
+
+    <!-- ═══ Reusable text styles ═══ -->
+    <style name="Txt.Overline" parent="">
+        <item name="android:textSize">11sp</item>
+        <item name="android:letterSpacing">0.18</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?attr/mcAccent</item>
+    </style>
+
+    <style name="Txt.Huge" parent="">
+        <item name="android:textSize">32sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:textColor">?attr/mcText</item>
+    </style>
+
+    <style name="Txt.Section" parent="">
+        <item name="android:textSize">19sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?attr/mcText</item>
+    </style>
+
+    <style name="Txt.Body" parent="">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">?attr/mcText</item>
+    </style>
+
+    <style name="Txt.Dim" parent="">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">?attr/mcTextDim</item>
     </style>
 </resources>
