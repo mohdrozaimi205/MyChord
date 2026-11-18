@@ -1,122 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
+    <!-- YTM-style Top Bar: Logo + Share + Search + Account (FIXED — tak scroll) -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="16dp">
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="8dp">
 
-        <!-- YTM-style Top Bar: Logo + Share + Search + Account -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="16dp"
-            android:paddingEnd="8dp">
+        <ImageView
+            android:id="@+id/logoIcon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_note" />
+
+        <TextView
+            android:id="@+id/logoText"
+            style="@style/Txt.Huge"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="@string/app_name"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/homeShare"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/share_app"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_share" />
+
+        <ImageButton
+            android:id="@+id/homeSearch"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/search_hint"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_search" />
+
+        <FrameLayout
+            android:id="@+id/homeProfile"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/bg_accent_circle"
+            android:foreground="?attr/selectableItemBackgroundBorderless">
 
             <ImageView
-                android:id="@+id/logoIcon"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_note" />
+                android:id="@+id/homeProfileIcon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_person" />
 
             <TextView
-                android:id="@+id/logoText"
-                style="@style/Txt.Huge"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:text="@string/app_name"
-                android:textSize="20sp" />
-
-            <ImageButton
-                android:id="@+id/homeShare"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/share_app"
-                android:padding="10dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_share" />
-
-            <ImageButton
-                android:id="@+id/homeSearch"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/search_hint"
-                android:padding="10dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_search" />
-
-            <FrameLayout
-                android:id="@+id/homeProfile"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginStart="4dp"
-                android:background="@drawable/bg_accent_circle"
-                android:foreground="?attr/selectableItemBackgroundBorderless">
-
-                <ImageView
-                    android:id="@+id/homeProfileIcon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_person" />
-
-                <TextView
-                    android:id="@+id/homeProfileLetter"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textColor="?attr/mcOnAccent"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
-            </FrameLayout>
-        </LinearLayout>
-
-        <!-- Filter chips -->
-        <HorizontalScrollView
-            android:id="@+id/chipScroll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:clipToPadding="false"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:scrollbars="none">
-
-            <LinearLayout
-                android:id="@+id/chipRow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" />
-        </HorizontalScrollView>
-
-        <!-- Speed Dial: 2x2 artist quick-access grid -->
-        <GridLayout
-            android:id="@+id/speedDial"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="12dp"
-            android:columnCount="2"
-            android:rowCount="2" />
-
-        <!-- All shelves -->
-        <LinearLayout
-            android:id="@+id/shelves"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="vertical" />
+                android:id="@+id/homeProfileLetter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="?attr/mcOnAccent"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </FrameLayout>
     </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+
+    <!-- Filter chips (FIXED — tak scroll) -->
+    <HorizontalScrollView
+        android:id="@+id/chipScroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:clipToPadding="false"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/chipRow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
+    </HorizontalScrollView>
+
+    <!-- Scrollable content: Speed Dial + semua rak -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="16dp">
+
+            <!-- Speed Dial: 2x2 artist quick-access grid -->
+            <GridLayout
+                android:id="@+id/speedDial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:columnCount="2"
+                android:rowCount="2" />
+
+            <!-- All shelves -->
+            <LinearLayout
+                android:id="@+id/shelves"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>
