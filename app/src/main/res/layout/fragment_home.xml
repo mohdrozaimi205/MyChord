@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <!-- YTM-style Top Bar: Logo + Share + Search + Account (FIXED — tak scroll) -->
@@ -97,6 +98,7 @@
 
     <!-- Scrollable content: Speed Dial + semua rak -->
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/homeScroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">

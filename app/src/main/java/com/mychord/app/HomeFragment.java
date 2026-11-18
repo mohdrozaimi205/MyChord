@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -175,7 +176,10 @@ public class HomeFragment extends Fragment {
             String query = chip[1];
             String label = chip[0];
             if (query.isEmpty()) {
-                tv.setOnClickListener(v -> root.scrollTo(0, 0));
+                tv.setOnClickListener(v -> {
+                    NestedScrollView scroll = root.findViewById(R.id.homeScroll);
+                    if (scroll != null) scroll.smoothScrollTo(0, 0);
+                });
             } else {
                 tv.setOnClickListener(v -> startActivity(new Intent(getContext(), ListActivity.class)
                         .putExtra("mode", "search").putExtra("query", query).putExtra("title", label)));
