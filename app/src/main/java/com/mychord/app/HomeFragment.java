@@ -26,7 +26,7 @@ import java.util.List;
 
 /**
  * Home screen — gaya YouTube Music 100%.
- * Top bar: Logo, Share, Search, Account.
+ * Top bar: Logo, Share, Sound Search (kenal lagu), Account.
  * Speed Dial artis (2 col portrait, 4 col landscape), 10+ rak YTM.
  */
 public class HomeFragment extends Fragment {
@@ -77,9 +77,11 @@ public class HomeFragment extends Fragment {
         Ui.tint(logoIcon, Ui.attr(requireContext(), R.attr.mcAccent));
 
         root.findViewById(R.id.homeShare).setOnClickListener(v -> ShareUtil.shareApp(requireActivity()));
-        root.findViewById(R.id.homeSearch).setOnClickListener(v -> {
-            if (getActivity() instanceof MainActivity) ((MainActivity) getActivity()).selectTab(1);
-        });
+
+        // Sound Search — buka RecognizeActivity (kenal lagu gaya Google/Shazam)
+        root.findViewById(R.id.homeSoundSearch).setOnClickListener(v ->
+                startActivity(new Intent(getContext(), RecognizeActivity.class)));
+
         root.findViewById(R.id.homeProfile).setOnClickListener(v -> showAccountMenu());
 
         refreshHeader();
@@ -94,7 +96,7 @@ public class HomeFragment extends Fragment {
         return YtmAccount.loggedIn() + "|" + SpotifyAccount.loggedIn() + "|" + CustomAddons.signature();
     }
 
-    // ── Account menu popup (gaya YTM) ────────────────────────────
+    // ── Account menu popup (gaya YTM) ─────────────────────────────────────────
 
     private void showAccountMenu() {
         boolean ytm = YtmAccount.loggedIn();
@@ -159,7 +161,7 @@ public class HomeFragment extends Fragment {
                 .show();
     }
 
-    // ── Filter chips ─────────────────────────────────────────────
+    // ── Filter chips ─────────────────────────────────────────────────────
 
     private void buildFilterChips() {
         LinearLayout chips = root.findViewById(R.id.chipRow);
@@ -188,7 +190,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    // ── Speed Dial: responsive artist grid ──────────────────────
+    // ── Speed Dial: responsive artist grid ──────────────────────────────
 
     private int speedDialColumns() {
         boolean landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
@@ -305,7 +307,7 @@ public class HomeFragment extends Fragment {
         grid.addView(item);
     }
 
-    // ── Main shelves — 10+ rak gaya YouTube Music ────────────────
+    // ── Main shelves — 10+ rak gaya YouTube Music ────────────────────
 
     private void buildShelves() {
         builtFor = state();
@@ -427,7 +429,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    // ── Shelf helpers ────────────────────────────────────────────
+    // ── Shelf helpers ────────────────────────────────────────────────────
 
     private TrackAdapter cardAdapter() {
         final TrackAdapter[] ref = new TrackAdapter[1];
@@ -568,7 +570,7 @@ public class HomeFragment extends Fragment {
         parent.addView(card);
     }
 
-    // ── Header ───────────────────────────────────────────────────
+    // ── Header ───────────────────────────────────────────────────────
 
     private void refreshHeader() {
         if (root == null) return;
@@ -592,7 +594,7 @@ public class HomeFragment extends Fragment {
         checkRebuild();
     }
 
-    // ── Lifecycle & rebuild ──────────────────────────────────────
+    // ── Lifecycle & rebuild ──────────────────────────────────────────────
 
     private void checkRebuild() {
         if (root == null) return;

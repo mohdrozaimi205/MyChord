@@ -5,7 +5,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <!-- YTM-style Top Bar: Logo + Share + Search + Account (FIXED — tak scroll) -->
+    <!-- YTM-style Top Bar: Logo + Share + Sound Search + Account (FIXED — tak scroll) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -42,14 +42,14 @@
             android:src="@drawable/ic_share" />
 
         <ImageButton
-            android:id="@+id/homeSearch"
+            android:id="@+id/homeSoundSearch"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/search_hint"
+            android:contentDescription="@string/rec_title"
             android:padding="10dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_search" />
+            android:src="@drawable/ic_mic" />
 
         <FrameLayout
             android:id="@+id/homeProfile"
