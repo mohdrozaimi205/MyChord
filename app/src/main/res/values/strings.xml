@@ -140,7 +140,7 @@
     <string name="sp_control">Kawal app Spotify</string>
     <string name="sp_open">Buka Spotify</string>
     <string name="sp_grant">Benarkan akses (untuk lihat lagu semasa)</string>
-    <string name="sp_grant_note">Cari "MyChord" dalam senarai dan hidupkan.</string>
+    <string name="sp_grant_note">Cari \"MyChord\" dalam senarai dan hidupkan.</string>
     <string name="sp_not_installed">App Spotify tidak dipasang</string>
     <string name="sp_idle">Spotify tidak bermain</string>
     <string name="sp_import">Import senarai main Spotify</string>
@@ -264,7 +264,7 @@
     <string name="widget_desc">Tunjuk lagu sedang dimainkan dengan butang kawalan</string>
     <string name="widget_name">Sedang Dimainkan</string>
 
-    <!-- Quick Access & Discovery -->
+    <!-- Quick Access &amp; Discovery -->
     <string name="dis_quick_access">Akses Pantas</string>
     <string name="dis_jump_back">Sambung Dengar</string>
     <string name="dis_because_you_listen">Kerana Anda Dengar</string>
@@ -346,4 +346,18 @@
     <string name="hf_bp_unsupported">Telefon atau DAC ini tidak menyokong bit-perfect.</string>
     <string name="hf_bp_on">Bit-perfect aktif • %s</string>
     <string name="hf_close">Tutup</string>
+
+    <!-- TrackMenu 3-dot menu tambahan -->
+    <string name="menu_share">Kongsi</string>
+    <string name="menu_start_mix">Mulakan mix</string>
+    <string name="menu_pin_speed_dial">Pin ke Speed Dial</string>
+    <string name="menu_not_interested">Tak berminat</string>
+    <string name="menu_not_interested_done">Dibuang dari cadangan</string>
+    <string name="menu_pinned_speed_dial">%s dipin ke Speed Dial</string>
+
+    <!-- Home enhancements -->
+    <string name="menu_downloads">Muat turun</string>
+    <string name="dis_from_library">Dari Pustaka Anda</string>
+    <string name="dis_fresh_find">Penemuan Segar</string>
+    <string name="dis_pop_hits">Pop Hits</string>
 </resources>

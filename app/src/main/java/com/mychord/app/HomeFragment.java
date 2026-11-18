@@ -1,6 +1,7 @@
 package com.mychord.app;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,9 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Home screen — gaya YouTube Music.
+ * Home screen — gaya YouTube Music 100%.
  * Top bar: Logo, Share, Search, Account.
- * Speed Dial 2×2 artis, 10 rak YTM, akaun, addon, podcast & radio.
+ * Speed Dial artis (2 col portrait, 4 col landscape), 10+ rak YTM.
  */
 public class HomeFragment extends Fragment {
     interface Loader { List<Track> load() throws Exception; }
@@ -57,6 +58,11 @@ public class HomeFragment extends Fragment {
         {"Yuna", "yuna malaysian singer"},
         {"Hael Husaini", "hael husaini"},
         {"Faizal Tahir", "faizal tahir"},
+        {"Aina Abdul", "aina abdul"},
+        {"Ismail Izzani", "ismail izzani"},
+        {"Ara Johari", "ara johari"},
+        {"Juliette", "juliette malaysian singer"},
+        {"Naim Daniel", "naim daniel"},
     };
 
     @Nullable
@@ -96,24 +102,49 @@ public class HomeFragment extends Fragment {
         List<String> items = new ArrayList<>();
         List<Runnable> actions = new ArrayList<>();
 
+        // Akaun YouTube Music
         if (ytm) {
             String n = YtmAccount.name();
             items.add("YouTube Music • " + (n != null && !n.isEmpty() ? n : "✓"));
             actions.add(() -> {});
         }
+        // Akaun Spotify
         if (sp) {
             String n = SpotifyAccount.name();
             items.add("Spotify • " + (n != null && !n.isEmpty() ? n : "✓"));
             actions.add(() -> {});
         }
 
+        // Kegemaran / Liked
         items.add(getString(R.string.tile_liked));
         actions.add(() -> startActivity(new Intent(getContext(), ListActivity.class)
                 .putExtra("mode", ListActivity.MODE_LIKED)));
 
+        // Sejarah / History
         items.add(getString(R.string.lib_history));
         actions.add(() -> startActivity(new Intent(getContext(), ListActivity.class)
                 .putExtra("mode", ListActivity.MODE_HISTORY)));
+
+        // Muat turun / Downloads (lagu tempatan)
+        items.add(getString(R.string.menu_downloads));
+        actions.add(() -> startActivity(new Intent(getContext(), ListActivity.class)
+                .putExtra("mode", ListActivity.MODE_LOCAL)));
+
+        // Senarai main / Playlists
+        items.add(getString(R.string.lib_playlists));
+        actions.add(() -> {
+            if (getActivity() instanceof MainActivity) ((MainActivity) getActivity()).selectTab(2);
+        });
+
+        // Mood & Genre
+        items.add(getString(R.string.set_moods));
+        actions.add(() -> startActivity(new Intent(getContext(), MoodsActivity.class)));
+
+        // Tetapan / Settings
+        items.add(getString(R.string.tab_settings));
+        actions.add(() -> {
+            if (getActivity() instanceof MainActivity) ((MainActivity) getActivity()).selectTab(3);
+        });
 
         if (!ytm && !sp) {
             items.add(getString(R.string.home_login_title));
@@ -153,22 +184,38 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    // ── Speed Dial: 2×2 artist grid ─────────────────────────────
+    // ── Speed Dial: responsive artist grid ──────────────────────
+
+    private int speedDialColumns() {
+        boolean landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        return landscape ? 4 : 2;
+    }
+
+    private int speedDialRows() {
+        boolean landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        return landscape ? 2 : 3;
+    }
 
     private void buildSpeedDial() {
         GridLayout grid = root.findViewById(R.id.speedDial);
         grid.removeAllViews();
 
+        int cols = speedDialColumns();
+        int rows = speedDialRows();
+        int maxItems = cols * rows;
+        grid.setColumnCount(cols);
+        grid.setRowCount(rows);
+
         List<Store.RecentArtist> recent = Store.recentArtists();
         List<String[]> artists = new ArrayList<>(); // {name, artUrl, searchQuery}
 
         for (Store.RecentArtist ra : recent) {
-            if (artists.size() >= 4) break;
+            if (artists.size() >= maxItems) break;
             artists.add(new String[]{ra.name, ra.art, null});
         }
 
         int di = 0;
-        while (artists.size() < 4 && di < DEFAULT_SPEED_DIAL.length) {
+        while (artists.size() < maxItems && di < DEFAULT_SPEED_DIAL.length) {
             String defName = DEFAULT_SPEED_DIAL[di][0];
             boolean dup = false;
             for (String[] a : artists) if (a[0].equals(defName)) { dup = true; break; }
@@ -177,11 +224,11 @@ public class HomeFragment extends Fragment {
         }
 
         for (String[] a : artists) {
-            addSpeedDialItem(grid, a[0], a[1], a[2]);
+            addSpeedDialItem(grid, a[0], a[1], a[2], cols);
         }
     }
 
-    private void addSpeedDialItem(GridLayout grid, String name, String artUrl, String searchQuery) {
+    private void addSpeedDialItem(GridLayout grid, String name, String artUrl, String searchQuery, int cols) {
         LinearLayout item = new LinearLayout(requireContext());
         item.setOrientation(LinearLayout.HORIZONTAL);
         item.setGravity(android.view.Gravity.CENTER_VERTICAL);
@@ -214,7 +261,6 @@ public class HomeFragment extends Fragment {
             com.bumptech.glide.Glide.with(this).load(artUrl).centerCrop().into(img);
         } else {
             img.setBackgroundColor(Ui.attr(requireContext(), R.attr.mcSurface2));
-            // Muat gambar async jika ada query carian
             if (searchQuery != null) {
                 App.IO.execute(() -> {
                     try {
@@ -255,7 +301,7 @@ public class HomeFragment extends Fragment {
         grid.addView(item);
     }
 
-    // ── Main shelves — 10 rak gaya YouTube Music ─────────────────
+    // ── Main shelves — 10+ rak gaya YouTube Music ────────────────
 
     private void buildShelves() {
         builtFor = state();
@@ -280,15 +326,15 @@ public class HomeFragment extends Fragment {
             addShelf(shelves, getString(R.string.dis_forgotten_fav), DiscoverShelves::fallbackListenAgain, null);
         }
 
-        // ━━━━ 2. Quick Picks / Pilihan Pantas — VERTICAL (4 baris + 3-dot) ━━━━
+        // ━━━━ 2. Quick Picks / Pilihan Pantas — VERTICAL (4 baris + 3-dot + Play All) ━━━━
         if (YtmAccount.loggedIn()) {
-            addVerticalShelf(shelves, getString(R.string.dis_quick_picks), DiscoverShelves::ytmQuickPicks);
+            addVerticalShelfWithPlayAll(shelves, getString(R.string.dis_quick_picks), DiscoverShelves::ytmQuickPicks);
         } else {
-            addVerticalShelf(shelves, getString(R.string.dis_quick_picks), DiscoverShelves::fallbackQuickPicks);
+            addVerticalShelfWithPlayAll(shelves, getString(R.string.dis_quick_picks), DiscoverShelves::fallbackQuickPicks);
         }
 
         // ━━━━ 3. Cover & Remixed ━━━━
-        addShelf(shelves, "Cover & Remixed",
+        addVerticalShelfWithPlayAll(shelves, "Cover & Remixed",
                 () -> {
                     if (YtmAccount.loggedIn()) {
                         List<Track> r = DiscoverShelves.ytmFreshOldFavs();
@@ -296,7 +342,7 @@ public class HomeFragment extends Fragment {
                     }
                     return DiscoverShelves.filterHindi(
                             YtMusic.search("cover lagu melayu popular remix acoustic 2026"));
-                }, null);
+                });
 
         // ━━━━ 4. Trending Songs / Lagu Trending ━━━━
         if (YtmAccount.loggedIn()) {
@@ -305,8 +351,16 @@ public class HomeFragment extends Fragment {
             addShelf(shelves, getString(R.string.dis_trending), DiscoverShelves::fallbackTrending, null);
         }
 
-        // ━━━━ 5. Take It Easy / Santai ━━━━
+        // ━━━━ 5. Take It Easy / From Your Library ━━━━
         addShelf(shelves, "Take It Easy", DiscoverShelves::algChillCoffee, null);
+
+        // ━━━━ 5b. From Your Library / Dari Pustaka Anda ━━━━
+        addShelf(shelves, getString(R.string.dis_from_library), () -> {
+            List<Track> liked = Store.liked();
+            if (liked.size() > 20) liked = liked.subList(0, 20);
+            java.util.Collections.shuffle(liked);
+            return liked;
+        }, ListActivity.MODE_LIKED);
 
         // ━━━━ 6. Long Listening / Dengaran Panjang ━━━━
         addShelf(shelves, "Long Listening", DiscoverShelves::algMyNostalgia, null);
@@ -328,7 +382,14 @@ public class HomeFragment extends Fragment {
             addShelf(shelves, getString(R.string.dis_ytm_new_releases), DiscoverShelves::fallbackNewReleases, null);
         }
 
-        // ━━━━ Lagu Melayu Popular ━━━━
+        // ━━━━ 10. Fresh Find / Penemuan Segar ━━━━
+        addShelf(shelves, getString(R.string.dis_fresh_find), DiscoverShelves::discoverNewMusic, null);
+
+        // ━━━━ 11. Pop Hits ━━━━
+        addShelf(shelves, getString(R.string.dis_pop_hits), () ->
+                DiscoverShelves.filterHindi(YtMusic.search("pop hits 2026 trending popular Malaysia english")), null);
+
+        // ━━━━ Lagu Melayu Popular & Terkini ━━━━
         addShelf(shelves, getString(R.string.alg_my_popular), DiscoverShelves::algMyPopular, null);
         addShelf(shelves, getString(R.string.alg_my_terkini), DiscoverShelves::algMyTerkini, null);
 
@@ -414,8 +475,8 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    /** Rak VERTICAL — senarai menegak (thumbnail + tajuk + artis) gaya Quick Picks YTM */
-    private void addVerticalShelf(LinearLayout parent, String title, Loader loader) {
+    /** Rak VERTICAL — senarai menegak gaya Quick Picks YTM + butang Play All */
+    private void addVerticalShelfWithPlayAll(LinearLayout parent, String title, Loader loader) {
         View shelf = inflater.inflate(R.layout.view_shelf, parent, false);
         ((TextView) shelf.findViewById(R.id.shelfTitle)).setText(title);
         ProgressBar pb = shelf.findViewById(R.id.shelfProgress);
@@ -434,13 +495,52 @@ public class HomeFragment extends Fragment {
                     if (!isAdded()) return;
                     pb.setVisibility(View.GONE);
                     // Quick Picks — 4 baris sahaja
-                    ad.set(r.size() > 4 ? r.subList(0, 4) : r);
-                    if (r.isEmpty()) shelf.setVisibility(View.GONE);
+                    final List<Track> display = r.size() > 4 ? r.subList(0, 4) : r;
+                    ad.set(display);
+                    if (r.isEmpty()) {
+                        shelf.setVisibility(View.GONE);
+                    } else {
+                        // Butang "Main Semua / Play All"
+                        addPlayAllButton(shelf, r);
+                    }
                 });
             } catch (Throwable e) {
                 App.MAIN.post(() -> { if (isAdded()) shelf.setVisibility(View.GONE); });
             }
         });
+    }
+
+    /** Tambah butang "Main Semua" di bahagian atas rak */
+    private void addPlayAllButton(View shelf, List<Track> tracks) {
+        // Cari parent LinearLayout shelf dan tambah butang selepas tajuk
+        ViewGroup shelfRoot = (ViewGroup) shelf;
+        // Cari title textview dan tambah butang selepasnya
+        TextView titleView = shelf.findViewById(R.id.shelfTitle);
+        if (titleView == null || titleView.getParent() == null) return;
+
+        ViewGroup titleParent = (ViewGroup) titleView.getParent();
+
+        // Semak jika sudah ada butang play all
+        if (titleParent.findViewWithTag("playAllBtn") != null) return;
+
+        TextView playAll = new TextView(requireContext());
+        playAll.setTag("playAllBtn");
+        playAll.setText(R.string.play_all);
+        playAll.setTextColor(Ui.attr(requireContext(), R.attr.mcAccent));
+        playAll.setTextSize(13);
+        playAll.setTypeface(null, android.graphics.Typeface.BOLD);
+        playAll.setPadding(Ui.dp(requireContext(), 8), Ui.dp(requireContext(), 4),
+                Ui.dp(requireContext(), 16), Ui.dp(requireContext(), 4));
+        playAll.setOnClickListener(v -> {
+            if (!tracks.isEmpty()) {
+                PlayerHub.playList(requireActivity(), new ArrayList<>(tracks), 0, false);
+            }
+        });
+
+        // Tambah di sebelah kanan tajuk (jika LinearLayout horizontal)
+        if (titleParent instanceof LinearLayout) {
+            titleParent.addView(playAll);
+        }
     }
 
     private void addLoginCard(LinearLayout parent) {
@@ -512,6 +612,13 @@ public class HomeFragment extends Fragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) checkRebuild();
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Rebuild Speed Dial apabila orientasi berubah
+        buildSpeedDial();
     }
 
     private void refreshRecent() {
