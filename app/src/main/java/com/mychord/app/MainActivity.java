@@ -56,6 +56,16 @@ public class MainActivity extends BaseActivity {
             AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("ms"));
         }
         setContentView(R.layout.activity_main);
+
+        // Glassmorphism: tambah latar refleksi air untuk tema iosglass
+        if (ThemeUtil.isGlass()) {
+            android.widget.FrameLayout content = findViewById(R.id.content);
+            GlassWaterView water = new GlassWaterView(this);
+            content.addView(water, 0, new android.widget.FrameLayout.LayoutParams(
+                    android.widget.FrameLayout.LayoutParams.MATCH_PARENT,
+                    android.widget.FrameLayout.LayoutParams.MATCH_PARENT));
+        }
+
         setupMini();
         PlayerHub.connect(this);
 

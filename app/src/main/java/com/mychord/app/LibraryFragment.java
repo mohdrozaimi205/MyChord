@@ -32,8 +32,6 @@ public class LibraryFragment extends Fragment {
                 x -> open(ListActivity.MODE_HISTORY, null)));
         rows.addView(row(inf, rows, R.drawable.ic_phone, getString(R.string.tile_local), getString(R.string.tile_local_sub),
                 x -> open(ListActivity.MODE_LOCAL, null)));
-        rows.addView(row(inf, rows, R.drawable.ic_link, getString(R.string.lib_import_spotify), null,
-                x -> startActivity(new Intent(getContext(), SpotifyActivity.class))));
         playlistsBox = v.findViewById(R.id.libPlaylists);
         v.findViewById(R.id.libAdd).setOnClickListener(x -> newPlaylist());
         ImageView add = v.findViewById(R.id.libAdd);
@@ -101,16 +99,7 @@ public class LibraryFragment extends Fragment {
             box.addView(row(inf, box, R.drawable.ic_remote, getString(R.string.login_yt), getString(R.string.acc_login_sub),
                     x -> startActivity(new Intent(getContext(), LoginActivity.class).putExtra("service", LoginActivity.YT))));
         }
-        if (SpotifyAccount.loggedIn()) {
-            String n = SpotifyAccount.name();
-            box.addView(row(inf, box, R.drawable.ic_heart_fill, getString(R.string.tile_liked), "Spotify" + (n.isEmpty() ? "" : " • " + n),
-                    x -> open(ListActivity.MODE_SP_LIKED, null)));
-            box.addView(row(inf, box, R.drawable.ic_queue, getString(R.string.acc_my_playlists), "Spotify",
-                    x -> open(ListActivity.MODE_SP_LISTS, null)));
-        } else {
-            box.addView(row(inf, box, R.drawable.ic_link, getString(R.string.login_sp), getString(R.string.acc_login_sub),
-                    x -> startActivity(new Intent(getContext(), LoginActivity.class).putExtra("service", LoginActivity.SP))));
-        }
+        // Spotify login dibuang — hanya YouTube Music
     }
 
     private void refresh() {

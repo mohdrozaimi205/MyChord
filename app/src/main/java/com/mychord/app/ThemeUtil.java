@@ -14,7 +14,7 @@ public class ThemeUtil {
     public static final int[][] COLORS = {
             {0xFF030303, 0xFFFF0000},
             {0xFF121212, 0xFF1DB954},
-            {0xFFE8E8ED, 0xFF007AFF}};
+            {0xFFF0F4FF, 0xFF007AFF}};
 
     public static int style() {
         String t = Prefs.theme();

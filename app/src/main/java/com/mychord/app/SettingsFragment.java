@@ -71,14 +71,13 @@ public class SettingsFragment extends Fragment {
             AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(l));
         });
 
-        setupQuality(root.findViewById(R.id.qWifi), new int[]{R.id.qWifi0, R.id.qWifi1, R.id.qWifi2}, "qWifi", Prefs.qWifi());
-        setupQuality(root.findViewById(R.id.qData), new int[]{R.id.qData0, R.id.qData1, R.id.qData2}, "qData", Prefs.qData());
+        setupQuality(root.findViewById(R.id.qWifi), new int[]{R.id.qWifi0, R.id.qWifi1, R.id.qWifi2, R.id.qWifi3}, "qWifi", Prefs.qWifi());
+        setupQuality(root.findViewById(R.id.qData), new int[]{R.id.qData0, R.id.qData1, R.id.qData2, R.id.qData3}, "qData", Prefs.qData());
 
         buildAccounts();
         LinearLayout more = root.findViewById(R.id.moreRows);
         addRow(inf, more, R.drawable.ic_eq, R.string.set_effects, EffectsActivity.class);
         addRow(inf, more, R.drawable.ic_addon, R.string.set_addons, AddonsActivity.class);
-        addRow(inf, more, R.drawable.ic_link, R.string.set_spotify, SpotifyActivity.class);
         addRow(inf, more, R.drawable.ic_note, R.string.set_moods, MoodsActivity.class);
 
         // Sandaran & Pulih
@@ -115,11 +114,20 @@ public class SettingsFragment extends Fragment {
     }
 
     private void setupQuality(ChipGroup g, int[] ids, String key, int value) {
-        g.check(ids[Math.max(0, Math.min(2, value))]);
+        g.check(ids[Math.max(0, Math.min(ids.length - 1, value))]);
         g.setOnCheckedStateChangeListener((group, checked) -> {
             if (checked.isEmpty()) return;
             int id = checked.get(0);
-            for (int i = 0; i < 3; i++) if (ids[i] == id) Prefs.putI(key, i);
+            for (int i = 0; i < ids.length; i++) {
+                if (ids[i] == id) {
+                    Prefs.putI(key, i);
+                    // Lossless (3): auto-aktifkan Hi-Fi Pure mode
+                    if (i == 3 && !HiFi.pureOn()) {
+                        Prefs.putB("hifiPure", true);
+                        Toast.makeText(getContext(), R.string.q_hifi_on, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
             Resolver.clear();
         });
     }
@@ -140,7 +148,6 @@ public class SettingsFragment extends Fragment {
         box.removeAllViews();
         LayoutInflater inf = LayoutInflater.from(getContext());
         accountRow(inf, box, R.drawable.ic_remote, "YouTube Music", YtmAccount.loggedIn(), YtmAccount.name(), LoginActivity.YT);
-        accountRow(inf, box, R.drawable.ic_link, "Spotify", SpotifyAccount.loggedIn(), SpotifyAccount.name(), LoginActivity.SP);
     }
 
     private void accountRow(LayoutInflater inf, LinearLayout parent, int icon, String title, boolean on, String name, String service) {

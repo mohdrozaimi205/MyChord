@@ -56,10 +56,10 @@
     <color name="t_spothijau_statusbarcolor">#121212</color>
     <color name="t_spothijau_navigationbarcolor">#121212</color>
 
-    <!-- ═══ iosglass — iOS glassmorphism colors ═══ -->
-    <color name="t_iosglass_mcbg">#F2F2F7</color>
-    <color name="t_iosglass_mcsurface">#C0FFFFFF</color>
-    <color name="t_iosglass_mcsurface2">#99FFFFFF</color>
+    <!-- ═══ iosglass — iOS glassmorphism with water reflection ═══ -->
+    <color name="t_iosglass_mcbg">#00000000</color><!-- transparent — GlassWaterView di belakang -->
+    <color name="t_iosglass_mcsurface">#B0FFFFFF</color><!-- frosted glass surface -->
+    <color name="t_iosglass_mcsurface2">#80FFFFFF</color><!-- lighter frosted -->
     <color name="t_iosglass_mctext">#1C1C1E</color>
     <color name="t_iosglass_mctextdim">#8E8E93</color>
     <color name="t_iosglass_mcaccent">#007AFF</color>
@@ -67,20 +67,20 @@
     <color name="t_iosglass_colorprimary">#007AFF</color>
     <color name="t_iosglass_coloronprimary">#FFFFFF</color>
     <color name="t_iosglass_colorsecondary">#007AFF</color>
-    <color name="t_iosglass_colorprimarycontainer">#99FFFFFF</color>
+    <color name="t_iosglass_colorprimarycontainer">#80FFFFFF</color>
     <color name="t_iosglass_coloronprimarycontainer">#1C1C1E</color>
-    <color name="t_iosglass_colorsecondarycontainer">#99FFFFFF</color>
+    <color name="t_iosglass_colorsecondarycontainer">#80FFFFFF</color>
     <color name="t_iosglass_coloronsecondarycontainer">#1C1C1E</color>
-    <color name="t_iosglass_colorsurface">#FFFFFFFF</color>
-    <color name="t_iosglass_colorsurfacecontainer">#FFFFFFFF</color>
-    <color name="t_iosglass_colorsurfacecontainerhigh">#F2F2F7</color>
+    <color name="t_iosglass_colorsurface">#D0FFFFFF</color>
+    <color name="t_iosglass_colorsurfacecontainer">#C0FFFFFF</color>
+    <color name="t_iosglass_colorsurfacecontainerhigh">#B0F0F4FF</color>
     <color name="t_iosglass_coloronsurface">#1C1C1E</color>
     <color name="t_iosglass_coloronsurfacevariant">#8E8E93</color>
-    <color name="t_iosglass_coloroutline">#C6C6C8</color>
-    <color name="t_iosglass_colorbackground">#F2F2F7</color>
-    <color name="t_iosglass_windowbackground">#F2F2F7</color>
+    <color name="t_iosglass_coloroutline">#40007AFF</color><!-- subtle blue outline -->
+    <color name="t_iosglass_colorbackground">#F0F4FF</color>
+    <color name="t_iosglass_windowbackground">#F0F4FF</color>
     <color name="t_iosglass_textcolorprimary">#1C1C1E</color>
     <color name="t_iosglass_textcolorsecondary">#8E8E93</color>
-    <color name="t_iosglass_statusbarcolor">#F2F2F7</color>
-    <color name="t_iosglass_navigationbarcolor">#F2F2F7</color>
+    <color name="t_iosglass_statusbarcolor">#00000000</color><!-- transparent status bar -->
+    <color name="t_iosglass_navigationbarcolor">#D0F0F4FF</color>
 </resources>

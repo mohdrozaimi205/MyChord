@@ -8,9 +8,41 @@
 
     <include android:id="@+id/top" layout="@layout/view_topbar" />
 
+    <!-- Mode toggle: Dengar Muzik / Nyanyi & Humming -->
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/recModeGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/modeShazam"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/rec_mode_listen"
+            app:chipIcon="@drawable/ic_note"
+            app:chipIconSize="18dp" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/modeHum"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rec_mode_hum"
+            app:chipIcon="@drawable/ic_mic"
+            app:chipIconSize="18dp" />
+    </com.google.android.material.chip.ChipGroup>
+
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp">
+        android:layout_height="220dp">
 
         <View
             android:id="@+id/recPulse"
@@ -39,6 +71,7 @@
         android:text="@string/rec_listening" />
 
     <TextView
+        android:id="@+id/recNote"
         style="@style/Txt.Dim"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -116,6 +149,30 @@
                 app:iconTint="?attr/mcText" />
         </LinearLayout>
     </LinearLayout>
+
+    <!-- Hasil carian humming (senarai lagu dari YTM) -->
+    <LinearLayout
+        android:id="@+id/recHumResults"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            style="@style/Txt.Overline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rec_hum_results" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recHumList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0"
+        android:visibility="gone" />
 
     <TextView
         style="@style/Txt.Overline"

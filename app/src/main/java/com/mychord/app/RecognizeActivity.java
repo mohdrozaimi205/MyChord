@@ -2,11 +2,15 @@ package com.mychord.app;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +22,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.chip.Chip;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -25,18 +31,29 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/** Kenal lagu yang sedang dimainkan di sekeliling (macam Shazam). */
+/**
+ * Kenal lagu melalui dua mod:
+ * 1) Dengar Muzik — Shazam fingerprint (muzik sekeliling)
+ * 2) Nyanyi/Humming — rakam nyanyian/humming, cuba Shazam dulu,
+ *    lalu Speech-to-Text → cari lirik di YouTube Music
+ */
 public class RecognizeActivity extends BaseActivity {
     private static final int RATE = 16000;
-    private static final int[] ASK_AT = {4, 7, 10, 13};
+    private static final int[] ASK_AT_SHAZAM = {4, 7, 10, 13};
+    private static final int[] ASK_AT_HUM = {5, 10, 15, 20};
 
-    private View pulse, resultCard;
-    private TextView status, rTitle, rArtist;
+    private View pulse, resultCard, humResultsHeader;
+    private TextView status, rTitle, rArtist, noteText;
     private ImageView rArt;
     private volatile boolean listening = false;
     private Thread worker;
     private Track found;
-    private TrackAdapter histAdapter;
+    private TrackAdapter histAdapter, humAdapter;
+    private RecyclerView humList;
+
+    private boolean humMode = false;
+    private SpeechRecognizer speechRecognizer;
+    private String lastSpeechText = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,10 +62,19 @@ public class RecognizeActivity extends BaseActivity {
         setupTop(getString(R.string.rec_title));
         pulse = findViewById(R.id.recPulse);
         status = findViewById(R.id.recStatus);
+        noteText = findViewById(R.id.recNote);
         resultCard = findViewById(R.id.recResult);
         rTitle = findViewById(R.id.recSongTitle);
         rArtist = findViewById(R.id.recSongArtist);
         rArt = findViewById(R.id.recSongArt);
+        humResultsHeader = findViewById(R.id.recHumResults);
+        humList = findViewById(R.id.recHumList);
+
+        // Mode toggle
+        Chip modeShazam = findViewById(R.id.modeShazam);
+        Chip modeHum = findViewById(R.id.modeHum);
+        modeShazam.setOnClickListener(v -> switchMode(false));
+        modeHum.setOnClickListener(v -> switchMode(true));
 
         findViewById(R.id.recButton).setBackgroundResource(IconSwitcher.preview());
         findViewById(R.id.recButton).setOnClickListener(v -> {
@@ -63,6 +89,7 @@ public class RecognizeActivity extends BaseActivity {
             Toast.makeText(this, R.string.rec_saved, Toast.LENGTH_SHORT).show();
         });
 
+        // Senarai sejarah
         RecyclerView rv = findViewById(R.id.recHistory);
         rv.setLayoutManager(new LinearLayoutManager(this));
         histAdapter = new TrackAdapter(new TrackAdapter.Listener() {
@@ -74,8 +101,30 @@ public class RecognizeActivity extends BaseActivity {
         });
         rv.setAdapter(histAdapter);
         histAdapter.set(history());
+
+        // Senarai hasil humming
+        humList.setLayoutManager(new LinearLayoutManager(this));
+        humAdapter = new TrackAdapter(new TrackAdapter.Listener() {
+            @Override
+            public void onClick(int pos) { Nav.open(RecognizeActivity.this, humAdapter.items, pos); }
+
+            @Override
+            public void onMore(View anchor, int pos) { TrackMenu.show(RecognizeActivity.this, anchor, humAdapter.items.get(pos), null); }
+        });
+        humList.setAdapter(humAdapter);
+
         setupMini();
         start();
+    }
+
+    private void switchMode(boolean hum) {
+        if (listening) stop();
+        humMode = hum;
+        resultCard.setVisibility(View.GONE);
+        humResultsHeader.setVisibility(View.GONE);
+        humList.setVisibility(View.GONE);
+        noteText.setText(hum ? R.string.rec_note_hum : R.string.rec_note);
+        status.setText(R.string.rec_tap);
     }
 
     private void start() {
@@ -83,10 +132,18 @@ public class RecognizeActivity extends BaseActivity {
             requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, 21);
             return;
         }
-        // Jeda MyChord supaya mikrofon tak dengar lagu sendiri dengan kuat (pengguna boleh main dari telefon lain)
         resultCard.setVisibility(View.GONE);
+        humResultsHeader.setVisibility(View.GONE);
+        humList.setVisibility(View.GONE);
         listening = true;
-        status.setText(R.string.rec_listening);
+        status.setText(humMode ? R.string.rec_listening_hum : R.string.rec_listening);
+        lastSpeechText = "";
+
+        if (humMode) {
+            // Mulakan Speech-to-Text serentak dengan rakaman Shazam
+            startSpeechRecognizer();
+        }
+
         worker = new Thread(this::listen, "recognize");
         worker.start();
     }
@@ -95,6 +152,7 @@ public class RecognizeActivity extends BaseActivity {
         listening = false;
         status.setText(R.string.rec_tap);
         pulse.animate().scaleX(1f).scaleY(1f).setDuration(200).start();
+        stopSpeechRecognizer();
     }
 
     @SuppressLint("MissingPermission")
@@ -116,6 +174,7 @@ public class RecognizeActivity extends BaseActivity {
         Signature sig = new Signature();
         short[] buf = new short[RATE / 10];
         int asked = 0;
+        int[] askAt = humMode ? ASK_AT_HUM : ASK_AT_SHAZAM;
         Shazam.Song song = null;
         try {
             rec.startRecording();
@@ -133,11 +192,11 @@ public class RecognizeActivity extends BaseActivity {
                     pulse.setScaleY(sc);
                 });
                 float secs = sig.durationMs() / 1000f;
-                if (asked < ASK_AT.length && secs >= ASK_AT[asked]) {
+                if (asked < askAt.length && secs >= askAt[asked]) {
                     asked++;
                     try { song = Shazam.lookup(sig.encode(), sig.durationMs()); } catch (Exception ignored) { }
                     if (song != null) break;
-                    if (asked == ASK_AT.length) break;
+                    if (asked == askAt.length) break;
                 }
             }
         } catch (Exception e) {
@@ -151,8 +210,122 @@ public class RecognizeActivity extends BaseActivity {
         ui(() -> {
             listening = false;
             pulse.animate().scaleX(1f).scaleY(1f).setDuration(200).start();
-            if (s != null) show(s);
-            else if (wasListening) status.setText(R.string.rec_not_found);
+            stopSpeechRecognizer();
+            if (s != null) {
+                show(s);
+            } else if (wasListening && humMode) {
+                // Shazam tak jumpa — cuba cari via teks nyanyian
+                trySearchByVoice();
+            } else if (wasListening) {
+                status.setText(R.string.rec_not_found);
+            }
+        });
+    }
+
+    // ── Speech-to-Text (Android bawaan) untuk tangkap lirik nyanyian ──
+
+    private void startSpeechRecognizer() {
+        if (!SpeechRecognizer.isRecognitionAvailable(this)) return;
+        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+        speechRecognizer.setRecognitionListener(new RecognitionListener() {
+            @Override public void onReadyForSpeech(Bundle params) { }
+            @Override public void onBeginningOfSpeech() { }
+            @Override public void onRmsChanged(float rmsdB) { }
+            @Override public void onBufferReceived(byte[] buffer) { }
+            @Override public void onEndOfSpeech() { }
+            @Override public void onError(int error) {
+                // Restart jika masih mendengar (timeout dsb)
+                if (listening && humMode) {
+                    try { restartSpeech(); } catch (Exception ignored) { }
+                }
+            }
+            @Override
+            public void onResults(Bundle results) {
+                ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                if (matches != null && !matches.isEmpty()) {
+                    String text = matches.get(0);
+                    if (text.length() > lastSpeechText.length()) lastSpeechText = text;
+                }
+                if (listening && humMode) {
+                    try { restartSpeech(); } catch (Exception ignored) { }
+                }
+            }
+            @Override
+            public void onPartialResults(Bundle partial) {
+                ArrayList<String> matches = partial.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                if (matches != null && !matches.isEmpty()) {
+                    String text = matches.get(0);
+                    if (text.length() > lastSpeechText.length()) lastSpeechText = text;
+                }
+            }
+            @Override public void onEvent(int eventType, Bundle params) { }
+        });
+        startSpeechIntent();
+    }
+
+    private void startSpeechIntent() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
+        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
+        intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 10000);
+        intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 5000);
+        try { speechRecognizer.startListening(intent); } catch (Exception ignored) { }
+    }
+
+    private void restartSpeech() {
+        if (speechRecognizer != null && listening && humMode) {
+            try { speechRecognizer.cancel(); } catch (Exception ignored) { }
+            startSpeechIntent();
+        }
+    }
+
+    private void stopSpeechRecognizer() {
+        if (speechRecognizer != null) {
+            try { speechRecognizer.stopListening(); } catch (Exception ignored) { }
+            try { speechRecognizer.cancel(); } catch (Exception ignored) { }
+            try { speechRecognizer.destroy(); } catch (Exception ignored) { }
+            speechRecognizer = null;
+        }
+    }
+
+    private void trySearchByVoice() {
+        String query = lastSpeechText.trim();
+        if (query.isEmpty()) {
+            status.setText(R.string.rec_hum_no_text);
+            return;
+        }
+        status.setText(getString(R.string.rec_hum_searching, query));
+
+        App.IO.execute(() -> {
+            try {
+                List<Track> results = YtMusic.search(query);
+                results = DiscoverShelves.filterHindi(results);
+                List<Track> top = results.size() > 10 ? results.subList(0, 10) : results;
+                ui(() -> {
+                    if (top.isEmpty()) {
+                        status.setText(R.string.rec_not_found);
+                        return;
+                    }
+                    status.setText(R.string.rec_hum_found);
+                    humResultsHeader.setVisibility(View.VISIBLE);
+                    humList.setVisibility(View.VISIBLE);
+                    // Beri ruang untuk senarai
+                    humList.getLayoutParams().height = 0;
+                    ((android.widget.LinearLayout.LayoutParams) humList.getLayoutParams()).weight = 1;
+                    humList.requestLayout();
+                    humAdapter.set(top);
+                    // Simpan lagu pertama ke sejarah
+                    if (!top.isEmpty()) {
+                        Track first = top.get(0);
+                        first.badge = "NYANYI";
+                        remember(first);
+                        histAdapter.set(history());
+                    }
+                });
+            } catch (Exception e) {
+                ui(() -> status.setText(R.string.rec_not_found));
+            }
         });
     }
 
@@ -166,7 +339,6 @@ public class RecognizeActivity extends BaseActivity {
         resultCard.setVisibility(View.VISIBLE);
         remember(found);
         histAdapter.set(history());
-        // Terus main versi YouTube Music bila tekan "Dengar"
     }
 
     private void ui(Runnable r) { App.MAIN.post(() -> { if (!isFinishing()) r.run(); }); }
@@ -202,6 +374,7 @@ public class RecognizeActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         listening = false;
+        stopSpeechRecognizer();
         super.onDestroy();
     }
 }

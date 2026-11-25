@@ -65,7 +65,7 @@ public class YtMusic {
         return u == null ? "" : u;
     }
 
-    /** quality: 0 = jimat, 1 = biasa, 2 = tertinggi */
+    /** quality: 0 = jimat, 1 = biasa, 2 = tertinggi, 3 = lossless (maks bitrate + Hi-Fi) */
     public static Resolved resolve(String videoId, int quality) throws Exception {
         StreamInfo info = StreamInfo.getInfo(ServiceList.YouTube, "https://www.youtube.com/watch?v=" + videoId);
         List<AudioStream> ok = new ArrayList<>();
@@ -83,7 +83,7 @@ public class YtMusic {
         AudioStream pick = ok.get(0);
         for (AudioStream a : ok) {
             int b = kbps(a), pb = kbps(pick);
-            if (quality >= 2 && b > pb) pick = a;
+            if (quality >= 2 && b > pb) pick = a;  // quality 2 & 3: pilih bitrate tertinggi
             else if (quality <= 0 && b < pb) pick = a;
             else if (quality == 1 && Math.abs(b - 128) < Math.abs(pb - 128)) pick = a;
         }
